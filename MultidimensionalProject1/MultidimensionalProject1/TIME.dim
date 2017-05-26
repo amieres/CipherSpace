@@ -1,0 +1,369 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="20bb5e41-a3a9-4ce2-b948-8344305b06a9" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>TIME</ID>
+  <Name>TIME</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+      <Value>
+        <dds xmlns="">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="2" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-1653" scrolltop="-5279" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="7938" y="15558" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+            <font>
+              <ddsxmlobjectstreamwrapper binary="010000009001b0300100065461686f6d61" />
+            </font>
+            <mouseicon>
+              <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+            </mouseicon>
+          </diagram>
+          <layoutmanager>
+            <ddsxmlobj />
+          </layoutmanager>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.3" tooltip="DIM_DTE" left="20" top="-5186" logicalid="1" controlid="1" masterid="0" hint1="0" hint2="0" width="4593" height="15224" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="000c0000f1110000783b0000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_DIM_DTE" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+        </dds>
+      </Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>-1653</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>-5279</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>20</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>-5186</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ARDiagramLayout</Name>
+      <Value>
+        <DiagramLayout ZoomPercent="100" ViewPortX="0" ViewPortY="0" xmlns="">
+          <Shapes NodeWidth="187">
+            <Shape Id="DTE KEY" Expanded="true">
+              <Attributes>
+                <Attribute Id="DTE KEY" />
+              </Attributes>
+              <Position x="20" y="20" />
+            </Shape>
+            <Shape Id="HCTO FISC PER NUM" Expanded="false">
+              <Attributes>
+                <Attribute Id="HCTO FISC PER NUM" />
+              </Attributes>
+              <Position x="258" y="20" />
+            </Shape>
+            <Shape Id="HCTO FISC QTR NUM" Expanded="false">
+              <Attributes>
+                <Attribute Id="HCTO FISC QTR NUM" />
+              </Attributes>
+              <Position x="497" y="20" />
+            </Shape>
+            <Shape Id="HCTO FISC YR" Expanded="false">
+              <Attributes>
+                <Attribute Id="HCTO FISC YR" />
+              </Attributes>
+              <Position x="736" y="20" />
+            </Shape>
+            <Shape Id="CAL MTH NUM" Expanded="false">
+              <Attributes>
+                <Attribute Id="CAL MTH NUM" />
+              </Attributes>
+              <Position x="258" y="69" />
+            </Shape>
+            <Shape Id="CAL QTR NUM" Expanded="false">
+              <Attributes>
+                <Attribute Id="CAL QTR NUM" />
+              </Attributes>
+              <Position x="497" y="69" />
+            </Shape>
+            <Shape Id="CAL YR" Expanded="false">
+              <Attributes>
+                <Attribute Id="CAL YR" />
+              </Attributes>
+              <Position x="736" y="69" />
+            </Shape>
+          </Shapes>
+        </DiagramLayout>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="605004d1-ee22-4b67-9be3-3db2cb874bcb">
+    <DataSourceViewID>AR Datamart</DataSourceViewID>
+  </Source>
+  <ErrorConfiguration dwd:design-time-name="ae68846e-4e33-419a-a4f6-293a2714ba4f">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="3c7d4eca-a4f9-488c-8fad-d25e546e8f91">
+      <ID>DTE KEY</ID>
+      <Name>DTE KEY</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="f08ffcc2-957e-479d-b583-7dbf90a97abd">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="c004ab3b-d058-4400-88c8-6f3afbb96756">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>DTE_KEY</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="de6c85a5-e82c-4f55-97d5-b0f0f0375be3">
+          <AttributeID>CAL MTH NUM</AttributeID>
+          <Name>CAL MTH NUM</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="c8b9e6cd-6bcb-4f2d-a95e-f5e7874035ef">
+          <AttributeID>HCTO FISC PER NUM</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>HCTO FISC PER NUM</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="59107ac2-d4c9-4249-a7ce-691e8ae4192a">
+      <ID>CAL MTH NUM</ID>
+      <Name>CAL MTH NUM</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="5f4df81d-47bc-4a85-8e2e-13d0b456834e">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="fd9efaa6-5fd3-42b8-8520-5ae23be2c78b">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>CAL_MTH_NUM</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="c29bd18e-7681-406c-a69e-4b4bf5a07214">
+        <DataType>WChar</DataType>
+        <DataSize>15</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="f8bb7f8c-3862-4c75-ad74-81a599862353">
+          <TableID>dbo_DIM_DTE</TableID>
+          <ColumnID>CAL_MTH</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="80a54d01-88ab-4ad0-954d-f69d54d79dc3">
+          <AttributeID>CAL QTR NUM</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>CAL QTR NUM</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="144f88be-ec50-4630-b227-37f5cf6480f2">
+      <ID>CAL QTR NUM</ID>
+      <Name>CAL QTR NUM</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="d05fe13c-b3ba-4e06-9aff-d681573caece">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="261baf5b-5f65-4521-8d5e-326e23c9ff68">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>CAL_QTR_NUM</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="98fd32a3-1884-4b61-8ea6-88129216d64f">
+        <DataType>WChar</DataType>
+        <DataSize>15</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="388f3568-a992-4367-806f-1ef9ed7e18a5">
+          <TableID>dbo_DIM_DTE</TableID>
+          <ColumnID>CAL_QTR</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="18763297-d3d6-444a-b767-30a8cb51c65c">
+          <AttributeID>CAL YR</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>CAL YR</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="18ae951c-a280-45a1-836e-dbcb89552db9">
+      <ID>CAL YR</ID>
+      <Name>CAL YR</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="0901892e-0755-43ed-9f6f-54c6c4db5236">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="f4b07f6a-99d3-4d25-8c24-1195789cb581">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>CAL_YR</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="a1252611-a74e-4e57-ba88-c84f6600c86d">
+      <ID>HCTO FISC YR</ID>
+      <Name>HCTO FISC YR</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="a3372141-87ab-4490-95da-85e6155fc45c">
+          <DataType>WChar</DataType>
+          <DataSize>15</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="db71aa69-534d-4da3-b380-4152aaed0dd5">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>HCTO_FISC_YR</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="0bca4d3f-010b-4ef6-a812-dba81006e01f">
+      <ID>HCTO FISC QTR NUM</ID>
+      <Name>HCTO FISC QTR NUM</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="f9f8b663-e985-4be0-ba2b-67507868ae85">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="3219c5c1-55c6-4ad8-8af6-cc12fcc032b6">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>HCTO_FISC_QTR_NUM</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="14f136df-7e29-4461-8961-001189346b19">
+        <DataType>WChar</DataType>
+        <DataSize>15</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="4c069576-fcfe-4f36-a1d6-188c4cabc9ec">
+          <TableID>dbo_DIM_DTE</TableID>
+          <ColumnID>HCTO_FISC_QTR</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="8049737c-6c74-4647-8eca-032cf9db841d">
+          <AttributeID>HCTO FISC YR</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>HCTO FISC YR</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="50173d6d-2fab-4f56-94d4-d18904e8d3ff">
+      <ID>HCTO FISC PER NUM</ID>
+      <Name>HCTO FISC PER NUM</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="6b917c42-d009-414d-b318-f642508e1b28">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="1f9febe1-4141-4a26-954c-2b7bae3eb907">
+            <TableID>dbo_DIM_DTE</TableID>
+            <ColumnID>HCTO_FISC_PER_NUM</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="e119569f-b902-4199-beed-bc6a374d7439">
+        <DataType>WChar</DataType>
+        <DataSize>15</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="e8380d2e-8f29-4c5a-819e-26c86f2a4d83">
+          <TableID>dbo_DIM_DTE</TableID>
+          <ColumnID>HCTO_FISC_PER</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="d5f22246-f535-42f1-ba82-95123466a586">
+          <AttributeID>HCTO FISC QTR NUM</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>HCTO FISC QTR NUM</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <Hierarchies>
+    <Hierarchy dwd:design-time-name="a8969517-0e04-47b8-b007-175dd62d132b">
+      <ID>Hierarchy</ID>
+      <Name>Calendar</Name>
+      <Levels>
+        <Level dwd:design-time-name="8c7938aa-e429-4a66-8e76-efd8475f8bbc">
+          <ID>CAL YR</ID>
+          <Name>CAL YR</Name>
+          <SourceAttributeID>CAL YR</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="93e8a371-8a13-44bd-9c0b-39746cd19134">
+          <ID>CAL QTR NUM</ID>
+          <Name>CAL QTR NUM</Name>
+          <SourceAttributeID>CAL QTR NUM</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="79d1ba4b-9813-43c2-9a03-0816b6c16e12">
+          <ID>CAL MTH NUM</ID>
+          <Name>CAL MTH NUM</Name>
+          <SourceAttributeID>CAL MTH NUM</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+    <Hierarchy dwd:design-time-name="327f770e-c763-4860-9a94-d8011eb29787">
+      <ID>Hierarchy 1</ID>
+      <Name>Fiscal</Name>
+      <Levels>
+        <Level dwd:design-time-name="1d682ad9-c1a1-42c0-9c05-539c47511bfa">
+          <ID>HCTO FISC YR</ID>
+          <Name>HCTO FISC YR</Name>
+          <SourceAttributeID>HCTO FISC YR</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="7f244a9d-4ff6-4372-8312-876c55bc7d98">
+          <ID>HCTO FISC QTR NUM</ID>
+          <Name>HCTO FISC QTR NUM</Name>
+          <SourceAttributeID>HCTO FISC QTR NUM</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="c64f0c60-beaa-4607-8bce-18a10dab24fb">
+          <ID>HCTO FISC PER NUM</ID>
+          <Name>HCTO FISC PER NUM</Name>
+          <SourceAttributeID>HCTO FISC PER NUM</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+  </Hierarchies>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>

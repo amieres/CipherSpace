@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      The Tutorial  Getting started with FsLab parameters will be replaced with the
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Tutorial  Getting started with FsLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
+    <script src="styles/tips.js" type="text/javascript"></script>
+    
+<style type="text/css">
+  .grid {
+    font-size:11pt;
+    font-family:sans-serif;
+    color:black;
+  }
+
+  .grid ::-webkit-scrollbar  {
+    width:6px;
+    height:6px;
+    background:transparent;
+  }
+
+  .grid ::-webkit-scrollbar-track {
+    background:transparent;
+  }
+
+  .grid ::-webkit-scrollbar-thumb {
+    border-radius:3px;
+    background-color:#c1c1c1;
+  }
+
+  .grid .faded {
+    color:#a0a0a0;
+  }
+
+  .grid tr {
+    background-color: #fdfdfd;
+  }
+
+  .grid tbody tr:nth-child(odd) {
+    background-color: #f4f4f4;
+  }
+
+  .grid thead tr {
+    background: #fdfdfd;
+  }
+
+  .grid table {
+    top:0px;
+    left:0px;
+    width:100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  .grid td, .grid th {
+    border-bottom:1px solid #a0a0a0;
+    padding:4px 10px 4px 10px;
+    min-width:50px;
+  }
+
+  .grid thead th {
+    border-bottom:3px solid #a0a0a0;
+  }
+
+  .grid th {
+    padding:4px 20px 4px 10px;
+    text-align:left;
+    font-weight:bold;
+  }
+
+  .live-grid {
+    position:relative;
+    overflow:hidden;
+  }
+
+  .live-grid .scroller {
+    overflow-y: scroll;
+    position:absolute;
+    width:100%;
+  }
+
+  .live-grid table {
+    position:absolute;
+  }
+</style>
+
+<script type="text/javascript">
+  function setupGrid(id, viewHeight, serviceUrl) {
+
+    // Create table with given column names & specified number of empty rows
+    function createRows(rowCount, columns) {
+      var head = $(id + " .head").empty();
+      $("<th />").html("#").appendTo(head);
+      for (var i = 0; i < columns.length; i++) {
+        $("<th />").html(columns[i]).appendTo(head);
+      }
+
+      var rows = [];
+      var body = $(id + " .body").empty();
+      for (var i = 0; i < rowCount; i++) {
+        var row = { columns: [] };
+        var tr = $("<tr />").appendTo(body);
+        var th = $("<th />").html("&nbsp;").appendTo(tr);
+        for (var j = 0; j < columns.length; j++) {
+          row.columns.push($("<td />").html("&nbsp;").appendTo(tr));
+        }
+        row.key = th;
+        row.tr = tr;
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    // Once we receive meta-data about the grid from the servier, 
+    // we create the grid, set height of scrollbar and register 
+    // scroll event to update the data on change
+    function initialize(meta) {
+      var rowHeight = $(id + " tbody tr").height() - 1; // Magic constant
+      var thHeight = $(id + " thead tr").height() + 2; // Magic constant 
+      var totalRows = meta.rows;
+      var viewCount = Math.ceil((viewHeight - thHeight) / rowHeight - 1);
+      var tableHeight = rowHeight * Math.min(viewCount, totalRows);
+
+      // Resize and report new size to FSI container (if defined)
+      $(id + " .spacer").css("min-height", (rowHeight * totalRows) + "px");
+      $(id).height(tableHeight + thHeight);
+      $(id + " .scroller").css("margin-top", thHeight + "px");
+      $(id + " .scroller").height(tableHeight);
+      if (window.fsiResizeContent) window.fsiResizeContent();
+
+      // Create table rows of the view
+      var rows = createRows(viewCount, meta.columns);
+      
+      // Update that gets triggered once the current one is done
+      var nextUpdate = null;
+
+      // Update the displayed data on scroll
+      function update(offset) {
+        nextUpdate = offset;
+        for (var i = 0; i < viewCount; i++) {
+          rows[i].tr.show();
+          rows[i].key.addClass("faded");
+          for (var j = 0; j < rows[i].columns.length; j++)
+            rows[i].columns[j].addClass("faded");
+        }
+
+        $.ajax({ url: serviceUrl + "/rows/" + offset + "?count=" + viewCount }).done(function (res) {
+          var data = JSON.parse(res);
+          for (var i = 0; i < viewCount; i++) {
+            var point = data[i];
+            if (point == null) rows[i].tr.hide();
+            else {
+              rows[i].tr.show();
+              rows[i].key.removeClass("faded").html(point.key);
+              for (var j = 0; j < rows[i].columns.length; j++)
+                rows[i].columns[j].removeClass("faded").html(point.columns[j]);
+            }
+          }
+          if (nextUpdate != null && nextUpdate != offset) {
+            console.log("Next: {0}", nextUpdate);
+            update(nextUpdate);
+          }
+          nextUpdate = null;
+        });
+      }
+
+      // Setup scroll handler & call to load first block of data
+      $(id + " .scroller").on("scroll", function () {
+        var offset = Math.ceil($(id + " .scroller").scrollTop() / rowHeight);
+        if (nextUpdate == null)
+          update(offset);
+        else
+          nextUpdate = offset;
+      });
+      update(0);
+    }
+
+    $.ajax({ url: serviceUrl + "/metadata" }).done(function (res) {
+      initialize(JSON.parse(res));
+    });
+  }
+</script>
+<script type="text/javascript">
+      $(function () { setupGrid("#fslab-grid-14468-1", 500, "http://localhost:8785/0"); });
+    </script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1.1",
+      { packages: ["corechart", "annotationchart", "calendar",
+          "gauge", "geochart", "map", "sankey", "table", "timeline", "treemap"] })
+    $(function() { if (window.fsiResizeContent) window.fsiResizeContent($("body").height() + 10); });
+  </script>
+    <script language="javascript" type="text/javascript">
+      function init()
+      {
+        try {
+          websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/websocket");
+          websocket.onmessage = function(evt) { location.reload(); };
+        } catch (e) { /* silently ignore lack of websockets */ }
+      }
+      window.addEventListener("load", init, false);
+    </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fslab.org">fslab.org</a></li>
+          <li><a href="http://fsharp.github.io/FSharp.Data/">F# Data</a></li>
+          <li><a href="http://bluemountaincapital.github.io/Deedle">Deedle</a></li>
+          <li><a href="http://bluemountaincapital.github.io/FSharpRProvider">R Provider</a></li>
+          <li><a href="http://tahahachana.github.io/XPlot/">XPlot</a></li>
+          <li><a href="http://www.mathdotnet.com/">Math.Net</a></li>
+        </ul>
+        <h3 class="muted">Journal</h3>
+      </div>
+      <hr />
+      <div class="row" style="margin-top:30px">
+        <div class="span1"></div>
+        <div class="span10" id="main">
+          <h1>Tutorial <em>Getting started with FsLab</em></h1>
+<img src="/img/carousel/cc.png" style="width:180px;float:right;margin:0px 5% 20px 3%" />
+<p>In this tutorial, you'll learn how to get started with FsLab. This walkthrough will not give
+you detailed information about the FsLab libraries. For that, refer to the individual libraries
+(see the "Documentation" tab in the navigation bar), but it quickly demonstrates how FsLab
+simplifies the three phases of a typical data science workflow:</p>
+<ul>
+<li><strong>Access data</strong> in a safe and easy way with type providers</li>
+<li><strong>Analyze data</strong> using powerful series and data frame libraries</li>
+<li><strong>Visualize results</strong> produce elegant charts and reports</li>
+</ul>
+<hr />
+<h2>Introduction</h2>
+<p>The demo shows all the typical steps of a data science cycle and you'll see how FsLab
+helps with each of them. The example compares university enrollment in the
+European Union and the Czech Republic - we'll start by getting data about the countries
+from the World Bank, then we'll do a simple exploratory data analysis and we'll
+finish with a little visualization.</p>
+<h2>Accessing data with type providers</h2>
+<p>First, you need to <a href="/download">download the FsLab template or package</a>. Then, we
+reference the libraries that we need. Here, we use <code>FSharp.Data</code> for data access,
+<code>Deedle</code> for interactive data exploration and <code>XPlot</code> for visualization:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#load</span> <span class="s">&quot;packages/FsLab/FsLab.fsx&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Next, we connect to the World Bank and access the indicators for the European Union and
+Czech Republic. When doing this yourself, change the names to your country and a region
+or country nearby!</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">FSharp</span><span class="o">.</span><span class="i">Data</span>
+
+<span class="k">let</span> <span class="i">wb</span> <span class="o">=</span> <span class="i">WorldBankData</span><span class="o">.</span><span class="i">GetDataContext</span>()
+<span class="k">let</span> <span class="i">cz</span> <span class="o">=</span> <span class="i">wb</span><span class="o">.</span><span class="i">Countries</span><span class="o">.</span><span class="i">``Czech Republic``</span><span class="o">.</span><span class="i">Indicators</span>
+<span class="k">let</span> <span class="i">eu</span> <span class="o">=</span> <span class="i">wb</span><span class="o">.</span><span class="i">Countries</span><span class="o">.</span><span class="i">``European Union``</span><span class="o">.</span><span class="i">Indicators</span>
+</code></pre></td>
+</tr>
+</table>
+<p>When using advanced F# editor (Xamarin, Visual Studio, Emacs with F# mode etc.),
+you'll get auto-completion after typing <code>wb.Countries.</code> - this is the type provider magic that
+makes it easy to access external data sources.</p>
+<h2>Interactive data exploration</h2>
+<p>Just like we can easily find countries and regions, we can easily get interesting indicators
+about them. To compare university enrollment in Czech Republic and European Union, we just pick
+the relevant indicator and use the <code>series</code> function to create a Deedle time-series:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Deedle</span>
+
+<span class="k">let</span> <span class="i">czschool</span> <span class="o">=</span> <span class="i">series</span> <span class="i">cz</span><span class="o">.</span><span class="i">``Gross enrolment ratio, tertiary, both sexes (%)``</span>
+<span class="k">let</span> <span class="i">euschool</span> <span class="o">=</span> <span class="i">series</span> <span class="i">eu</span><span class="o">.</span><span class="i">``Gross enrolment ratio, tertiary, both sexes (%)``</span>
+</code></pre></td>
+</tr>
+</table>
+<p>When using Deedle, you can apply numerical operations to an entire time-series. Here, we
+calculate the difference between CZ and EU data. Deedle automatically aligns the time-series
+and matches corresponding years, so you do not have to worry about aligning data from multiple
+sources. We then pick the 5 years with largest differences:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">abs</span> (<span class="i">czschool</span> <span class="o">-</span> <span class="i">euschool</span>)
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">sort</span>
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">rev</span>
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">take</span> <span class="n">5</span>
+</code></pre></td>
+</tr>
+</table>
+<div class="fslab-html-output"><div class="grid live-grid" id="fslab-grid-14468-1">
+  <table>
+    <thead>
+      <tr class="head"><th>#</th><th>&nbsp;</th></tr>
+    </thead>
+    <tbody class="body">
+      <tr><th>&nbsp;</th><td>&nbsp;</td></tr>
+    </tbody>
+  </table>
+  <div class="scroller">
+    <div class="spacer"></div>
+  </div>
+</div>
+</div>
+<p>With the FsLab journal template, you can easily embed the results of a computation into a
+report. In fact, this page has been generated using exactly that mechanism!</p>
+<h2>Visualizing results</h2>
+<p>As a final step, we're going to create a chart that shows the two time series
+side-by-side. The following example uses the XPlot chart library which is a wrapper over GoogleCharts.
+When used in F# Interactive, this opens a web page with the chart,
+but we can also embed it into this page, just like the table above:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">XPlot</span><span class="o">.</span><span class="i">GoogleCharts</span>
+
+<span class="i">Frame</span>([<span class="s">&quot;CZ&quot;</span>; <span class="s">&quot;EU&quot;</span>], [<span class="i">czschool</span> ; <span class="i">euschool</span>])
+<span class="o">|&gt;</span> <span class="i">Frame</span><span class="o">.</span><span class="i">filterRows</span> (<span class="k">fun</span> <span class="i">year</span> <span class="i">s</span> <span class="k">-&gt;</span> <span class="i">year</span> <span class="o">&gt;</span><span class="o">=</span> <span class="n">1985</span>)
+<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">Line</span>
+<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">WithLegend</span> <span class="k">true</span>
+<span class="o">|&gt;</span> <span class="i">Chart</span><span class="o">.</span><span class="i">WithTitle</span> <span class="s">&quot;University enrollment in Czech Republic and European Union&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<div class="fslab-html-output"><script type="text/javascript">
+    google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = new google.visualization.DataTable({"cols": [{"type": "number" ,"id": "Key" ,"label": "Key" }, {"type": "number" ,"id": "CZ" ,"label": "CZ" }, {"type": "number" ,"id": "EU" ,"label": "EU" }], "rows" : [{"c" : [{"v": 1985}, {"v": 16.32968}, {"v": 25.0451908111572}]}, {"c" : [{"v": 1986}, {"v": 16.15713}, {"v": 25.5440692901611}]}, {"c" : [{"v": 1987}, {"v": 16.46445}, {"v": 25.9467792510986}]}, {"c" : [{"v": 1988}, {"v": 16.49795}, {"v": 26.657169342041}]}, {"c" : [{"v": 1989}, {"v": 16.31852}, {"v": 27.7654209136963}]}, {"c" : [{"v": 1990}, {"v": 16.16942}, {"v": 28.9287796020508}]}, {"c" : [{"v": 1991}, {"v": 16.07747}, {"v": 30.7308406829834}]}, {"c" : [{"v": 1992}, {"v": 14.59228}, {"v": 32.5434417724609}]}, {"c" : [{"v": 1993}, {"v": 14.4095}, {"v": 35.2811584472656}]}, {"c" : [{"v": 1994}, {"v": 19.43223}, {"v": 38.4533882141113}]}, {"c" : [{"v": 1995}, {"v": 20.61908}, {"v": 40.4755706787109}]}, {"c" : [{"v": 1996}, {"v": 21.55574}, {"v": 42.532829284668}]}, {"c" : [{"v": 1997}, {"v": 23.29134}, {"v": 44.8322601318359}]}, {"c" : [{"v": 1998}, {"v": 23.79812}, {"v": 46.0958099365234}]}, {"c" : [{"v": 1999}, {"v": 25.53906}, {"v": 48.3513984680176}]}, {"c" : [{"v": 2000}, {"v": 28.42177}, {"v": 50.0371704101563}]}, {"c" : [{"v": 2001}, {"v": 30.05195}, {"v": 52.2929992675781}]}, {"c" : [{"v": 2002}, {"v": 34.52165}, {"v": 54.3510894775391}]}, {"c" : [{"v": 2003}, {"v": 37.09241}, {"v": 56.4288215637207}]}, {"c" : [{"v": 2004}, {"v": 43.825}, {"v": 58.0808715820313}]}, {"c" : [{"v": 2005}, {"v": 48.44059}, {"v": 59.6695289611816}]}, {"c" : [{"v": 2006}, {"v": 50.22109}, {"v": 60.8649711608887}]}, {"c" : [{"v": 2007}, {"v": 54.25681}, {"v": 61.6489105224609}]}, {"c" : [{"v": 2008}, {"v": 58.14141}, {"v": 62.6208381652832}]}, {"c" : [{"v": 2009}, {"v": 61.14726}, {"v": 63.9502487182617}]}, {"c" : [{"v": 2010}, {"v": 64.01898}, {"v": 65.4932479858398}]}, {"c" : [{"v": 2011}, {"v": 65.64874}, {"v": 66.5380172729492}]}, {"c" : [{"v": 2012}, {"v": 65.86197}, {"v": 66.7660903930664}]}, {"c" : [{"v": 2013}, {"v": 65.37744}, {"v": 66.6064910888672}]}, {"c" : [{"v": 2014}, {"v": 66.01726}, {"v": 67.7147674560547}]}]});
+
+                var options = {"backgroundColor":{"fill":"transparent"},"chartArea":{"backgroundColor":{"fill":"#f4f4f4"}},"colors":["#1f77b4","#aec7e8","#ff7f0e","#ffbb78","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5","#8c564b","#c49c94","#e377c2","#f7b6d2","#7f7f7f","#c7c7c7","#bcbd22","#dbdb8d","#17becf","#9edae5"],"hAxis":{"baselineColor":"#fdfdfd","gridlines":{"color":"#fdfdfd"},"textStyle":{"color":"black"}},"legend":{"position":"right","textStyle":{"color":"black"}},"title":"University enrollment in Czech Republic and European Union","titleTextStyle":{"color":"black"},"vAxis":{"baselineColor":"#fdfdfd","gridlines":{"color":"#fdfdfd"},"textStyle":{"color":"black"}},"datalessRegionColor":"#fdfdfd"} 
+
+                var chart = new google.visualization.LineChart(document.getElementById('8f791afa-7590-49ff-b5ec-bd30632553ad'));
+                chart.draw(data, options);
+            }
+</script>
+<div id="8f791afa-7590-49ff-b5ec-bd30632553ad" style="width: 800px; height: 450px;"></div></div>
+<h2>Summary</h2>
+<p>This short article demonstrated how to get started with FsLab and we also looked
+at a demo that shows how FsLab simplifies the three tasks of working with data.</p>
+<ul>
+<li>
+<p>Type providers make it easier to access data and help you avoid issues
+by integrating external data (like the World Bank) into the language and
+into your editor.</p>
+</li>
+<li>
+<p>The Deedle library provides rich and easy-to-use tools for interactive data
+exploration using data frame, series and time-series (and it can also integrate
+with R).</p>
+</li>
+<li>
+<p>FsLab comes with visualization libraries that you can use to produce elegant
+HTML or LaTeX output.</p>
+</li>
+</ul>
+
+
+          
+        </div>
+        <div class="span1"></div>
+      </div>
+      <hr style="margin-top:50px;"/>
+      <footer class="footer" style="text-align:center">
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  //this.page.url = "http://Tutorial  Getting started with FsLab.html";  // Replace PAGE_URL with your page's canonical URL variable
+                  this.page.identifier = "Tutorial  Getting started with FsLab"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+              };
+              (function () { // DON'T EDIT BELOW THIS LINE
+                  var d = document, s = d.createElement('script');
+                  s.src = 'https://amieresgithub.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </div>
+  </body>
+</html>

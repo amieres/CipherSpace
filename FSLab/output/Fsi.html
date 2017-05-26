@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      The Untitled parameters will be replaced with the
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Untitled</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
+    <script src="styles/tips.js" type="text/javascript"></script>
+    
+    <script language="javascript" type="text/javascript">
+      function init()
+      {
+        try {
+          websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/websocket");
+          websocket.onmessage = function(evt) { location.reload(); };
+        } catch (e) { /* silently ignore lack of websockets */ }
+      }
+      window.addEventListener("load", init, false);
+    </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fslab.org">fslab.org</a></li>
+          <li><a href="http://fsharp.github.io/FSharp.Data/">F# Data</a></li>
+          <li><a href="http://bluemountaincapital.github.io/Deedle">Deedle</a></li>
+          <li><a href="http://bluemountaincapital.github.io/FSharpRProvider">R Provider</a></li>
+          <li><a href="http://tahahachana.github.io/XPlot/">XPlot</a></li>
+          <li><a href="http://www.mathdotnet.com/">Math.Net</a></li>
+        </ul>
+        <h3 class="muted">Journal</h3>
+      </div>
+      <hr />
+      <div class="row" style="margin-top:30px">
+        <div class="span1"></div>
+        <div class="span10" id="main">
+          <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
+<span class="l">  2: </span>
+<span class="l">  3: </span>
+<span class="l">  4: </span>
+<span class="l">  5: </span>
+<span class="l">  6: </span>
+<span class="l">  7: </span>
+<span class="l">  8: </span>
+<span class="l">  9: </span>
+<span class="l"> 10: </span>
+<span class="l"> 11: </span>
+<span class="l"> 12: </span>
+<span class="l"> 13: </span>
+<span class="l"> 14: </span>
+<span class="l"> 15: </span>
+<span class="l"> 16: </span>
+<span class="l"> 17: </span>
+<span class="l"> 18: </span>
+<span class="l"> 19: </span>
+<span class="l"> 20: </span>
+<span class="l"> 21: </span>
+<span class="l"> 22: </span>
+<span class="l"> 23: </span>
+<span class="l"> 24: </span>
+<span class="l"> 25: </span>
+<span class="l"> 26: </span>
+<span class="l"> 27: </span>
+<span class="l"> 28: </span>
+<span class="l"> 29: </span>
+<span class="l"> 30: </span>
+<span class="l"> 31: </span>
+<span class="l"> 32: </span>
+<span class="l"> 33: </span>
+<span class="l"> 34: </span>
+<span class="l"> 35: </span>
+<span class="l"> 36: </span>
+<span class="l"> 37: </span>
+<span class="l"> 38: </span>
+<span class="l"> 39: </span>
+<span class="l"> 40: </span>
+<span class="l"> 41: </span>
+<span class="l"> 42: </span>
+<span class="l"> 43: </span>
+<span class="l"> 44: </span>
+<span class="l"> 45: </span>
+<span class="l"> 46: </span>
+<span class="l"> 47: </span>
+<span class="l"> 48: </span>
+<span class="l"> 49: </span>
+<span class="l"> 50: </span>
+<span class="l"> 51: </span>
+<span class="l"> 52: </span>
+<span class="l"> 53: </span>
+<span class="l"> 54: </span>
+<span class="l"> 55: </span>
+<span class="l"> 56: </span>
+<span class="l"> 57: </span>
+<span class="l"> 58: </span>
+<span class="l"> 59: </span>
+<span class="l"> 60: </span>
+<span class="l"> 61: </span>
+<span class="l"> 62: </span>
+<span class="l"> 63: </span>
+<span class="l"> 64: </span>
+<span class="l"> 65: </span>
+<span class="l"> 66: </span>
+<span class="l"> 67: </span>
+<span class="l"> 68: </span>
+<span class="l"> 69: </span>
+<span class="l"> 70: </span>
+<span class="l"> 71: </span>
+<span class="l"> 72: </span>
+<span class="l"> 73: </span>
+<span class="l"> 74: </span>
+<span class="l"> 75: </span>
+<span class="l"> 76: </span>
+<span class="l"> 77: </span>
+<span class="l"> 78: </span>
+<span class="l"> 79: </span>
+<span class="l"> 80: </span>
+<span class="l"> 81: </span>
+<span class="l"> 82: </span>
+<span class="l"> 83: </span>
+<span class="l"> 84: </span>
+<span class="l"> 85: </span>
+<span class="l"> 86: </span>
+<span class="l"> 87: </span>
+<span class="l"> 88: </span>
+<span class="l"> 89: </span>
+<span class="l"> 90: </span>
+<span class="l"> 91: </span>
+<span class="l"> 92: </span>
+<span class="l"> 93: </span>
+<span class="l"> 94: </span>
+<span class="l"> 95: </span>
+<span class="l"> 96: </span>
+<span class="l"> 97: </span>
+<span class="l"> 98: </span>
+<span class="l"> 99: </span>
+<span class="l">100: </span>
+<span class="l">101: </span>
+<span class="l">102: </span>
+<span class="l">103: </span>
+<span class="l">104: </span>
+<span class="l">105: </span>
+<span class="l">106: </span>
+<span class="l">107: </span>
+<span class="l">108: </span>
+<span class="l">109: </span>
+<span class="l">110: </span>
+<span class="l">111: </span>
+<span class="l">112: </span>
+<span class="l">113: </span>
+<span class="l">114: </span>
+<span class="l">115: </span>
+<span class="l">116: </span>
+<span class="l">117: </span>
+<span class="l">118: </span>
+<span class="l">119: </span>
+<span class="l">120: </span>
+<span class="l">121: </span>
+<span class="l">122: </span>
+<span class="l">123: </span>
+<span class="l">124: </span>
+<span class="l">125: </span>
+<span class="l">126: </span>
+<span class="l">127: </span>
+<span class="l">128: </span>
+<span class="l">129: </span>
+<span class="l">130: </span>
+<span class="l">131: </span>
+<span class="l">132: </span>
+<span class="l">133: </span>
+<span class="l">134: </span>
+<span class="l">135: </span>
+<span class="l">136: </span>
+<span class="l">137: </span>
+<span class="l">138: </span>
+<span class="l">139: </span>
+<span class="l">140: </span>
+<span class="l">141: </span>
+<span class="l">142: </span>
+<span class="l">143: </span>
+<span class="l">144: </span>
+<span class="l">145: </span>
+<span class="l">146: </span>
+<span class="l">147: </span>
+<span class="l">148: </span>
+<span class="l">149: </span>
+<span class="l">150: </span>
+<span class="l">151: </span>
+<span class="l">152: </span>
+<span class="l">153: </span>
+<span class="l">154: </span>
+<span class="l">155: </span>
+<span class="l">156: </span>
+<span class="l">157: </span>
+<span class="l">158: </span>
+<span class="l">159: </span>
+<span class="l">160: </span>
+<span class="l">161: </span>
+<span class="l">162: </span>
+<span class="l">163: </span>
+<span class="l">164: </span>
+<span class="l">165: </span>
+<span class="l">166: </span>
+<span class="l">167: </span>
+<span class="l">168: </span>
+<span class="l">169: </span>
+<span class="l">170: </span>
+<span class="l">171: </span>
+<span class="l">172: </span>
+<span class="l">173: </span>
+<span class="l">174: </span>
+<span class="l">175: </span>
+<span class="l">176: </span>
+<span class="l">177: </span>
+<span class="l">178: </span>
+<span class="l">179: </span>
+<span class="l">180: </span>
+<span class="l">181: </span>
+<span class="l">182: </span>
+<span class="l">183: </span>
+<span class="l">184: </span>
+<span class="l">185: </span>
+<span class="l">186: </span>
+<span class="l">187: </span>
+<span class="l">188: </span>
+<span class="l">189: </span>
+<span class="l">190: </span>
+<span class="l">191: </span>
+<span class="l">192: </span>
+<span class="l">193: </span>
+<span class="l">194: </span>
+<span class="l">195: </span>
+<span class="l">196: </span>
+<span class="l">197: </span>
+<span class="l">198: </span>
+<span class="l">199: </span>
+<span class="l">200: </span>
+<span class="l">201: </span>
+<span class="l">202: </span>
+<span class="l">203: </span>
+<span class="l">204: </span>
+<span class="l">205: </span>
+<span class="l">206: </span>
+<span class="l">207: </span>
+<span class="l">208: </span>
+<span class="l">209: </span>
+<span class="l">210: </span>
+<span class="l">211: </span>
+<span class="l">212: </span>
+<span class="l">213: </span>
+<span class="l">214: </span>
+<span class="l">215: </span>
+<span class="l">216: </span>
+<span class="l">217: </span>
+<span class="l">218: </span>
+<span class="l">219: </span>
+<span class="l">220: </span>
+<span class="l">221: </span>
+<span class="l">222: </span>
+<span class="l">223: </span>
+<span class="l">224: </span>
+<span class="l">225: </span>
+<span class="l">226: </span>
+<span class="l">227: </span>
+<span class="l">228: </span>
+<span class="l">229: </span>
+<span class="l">230: </span>
+<span class="l">231: </span>
+<span class="l">232: </span>
+<span class="l">233: </span>
+<span class="l">234: </span>
+<span class="l">235: </span>
+<span class="l">236: </span>
+<span class="l">237: </span>
+<span class="l">238: </span>
+<span class="l">239: </span>
+<span class="l">240: </span>
+<span class="l">241: </span>
+<span class="l">242: </span>
+<span class="l">243: </span>
+<span class="l">244: </span>
+<span class="l">245: </span>
+<span class="l">246: </span>
+<span class="l">247: </span>
+<span class="l">248: </span>
+<span class="l">249: </span>
+<span class="l">250: </span>
+<span class="l">251: </span>
+<span class="l">252: </span>
+<span class="l">253: </span>
+<span class="l">254: </span>
+<span class="l">255: </span>
+<span class="l">256: </span>
+<span class="l">257: </span>
+<span class="l">258: </span>
+<span class="l">259: </span>
+<span class="l">260: </span>
+<span class="l">261: </span>
+<span class="l">262: </span>
+<span class="l">263: </span>
+<span class="l">264: </span>
+<span class="l">265: </span>
+<span class="l">266: </span>
+<span class="l">267: </span>
+<span class="l">268: </span>
+<span class="l">269: </span>
+<span class="l">270: </span>
+<span class="l">271: </span>
+<span class="l">272: </span>
+<span class="l">273: </span>
+<span class="l">274: </span>
+<span class="l">275: </span>
+<span class="l">276: </span>
+<span class="l">277: </span>
+<span class="l">278: </span>
+<span class="l">279: </span>
+<span class="l">280: </span>
+<span class="l">281: </span>
+<span class="l">282: </span>
+<span class="l">283: </span>
+<span class="l">284: </span>
+<span class="l">285: </span>
+<span class="l">286: </span>
+<span class="l">287: </span>
+<span class="l">288: </span>
+<span class="l">289: </span>
+<span class="l">290: </span>
+<span class="l">291: </span>
+<span class="l">292: </span>
+<span class="l">293: </span>
+<span class="l">294: </span>
+<span class="l">295: </span>
+<span class="l">296: </span>
+<span class="l">297: </span>
+<span class="l">298: </span>
+<span class="l">299: </span>
+<span class="l">300: </span>
+<span class="l">301: </span>
+<span class="l">302: </span>
+<span class="l">303: </span>
+<span class="l">304: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">@&quot;packages\FSharp.Compiler.Service\lib\net45\FSharp.Compiler.Service.dll&quot;</span>
+<span class="k">open</span> <span class="i">Microsoft</span><span class="o">.</span><span class="i">FSharp</span><span class="o">.</span><span class="i">Compiler</span><span class="o">.</span><span class="i">SourceCodeServices</span>
+<span class="k">open</span> <span class="i">Microsoft</span><span class="o">.</span><span class="i">FSharp</span><span class="o">.</span><span class="i">Compiler</span><span class="o">.</span><span class="i">Interactive</span><span class="o">.</span><span class="i">Shell</span>
+
+<span class="k">open</span> <span class="i">System</span>
+<span class="k">open</span> <span class="i">System</span><span class="o">.</span><span class="i">IO</span>
+<span class="k">open</span> <span class="i">System</span><span class="o">.</span><span class="i">Text</span>
+
+<span class="k">module</span> <span class="i">Fsi</span> <span class="o">=</span>
+    <span class="c">// Intialize output and input streams</span>
+    <span class="k">let</span> <span class="i">sbOut</span> <span class="o">=</span> <span class="k">new</span> <span class="i">StringBuilder</span>()
+    <span class="k">let</span> <span class="i">sbErr</span> <span class="o">=</span> <span class="k">new</span> <span class="i">StringBuilder</span>()
+    <span class="k">let</span> <span class="i">inStream</span> <span class="o">=</span> <span class="k">new</span> <span class="i">StringReader</span>(<span class="s">&quot;&quot;</span>)
+    <span class="k">let</span> <span class="i">outStream</span> <span class="o">=</span> <span class="k">new</span> <span class="i">StringWriter</span>(<span class="i">sbOut</span>)
+    <span class="k">let</span> <span class="i">errStream</span> <span class="o">=</span> <span class="k">new</span> <span class="i">StringWriter</span>(<span class="i">sbErr</span>)
+    
+    <span class="c">// Build command line arguments &amp; start FSI session</span>
+    <span class="k">let</span> <span class="i">argv</span> <span class="o">=</span> [| <span class="s">&quot;C:\\fsi.exe&quot;</span> |]
+    <span class="k">let</span> <span class="i">allArgs</span> <span class="o">=</span> <span class="i">Array</span><span class="o">.</span><span class="i">append</span> <span class="i">argv</span> [|<span class="s">&quot;--noninteractive&quot;</span>|]
+    
+    <span class="k">let</span> <span class="i">fsiConfig</span> <span class="o">=</span> <span class="i">FsiEvaluationSession</span><span class="o">.</span><span class="i">GetDefaultConfiguration</span>()
+    <span class="k">let</span> <span class="i">fsiSession</span> <span class="o">=</span> <span class="i">FsiEvaluationSession</span><span class="o">.</span><span class="i">Create</span>(<span class="i">fsiConfig</span>, <span class="i">allArgs</span>, <span class="i">inStream</span>, <span class="i">outStream</span>, <span class="i">errStream</span>, <span class="k">true</span>) 
+    
+    <span class="k">let</span> <span class="i">invoke</span> <span class="i">text</span> <span class="o">=</span> 
+        <span class="i">sbOut</span><span class="o">.</span><span class="i">Clear</span>() <span class="o">|&gt;</span> <span class="i">ignore</span>
+        <span class="k">let</span> (<span class="i">r</span>, <span class="i">errors</span>) <span class="o">=</span> <span class="i">fsiSession</span><span class="o">.</span><span class="i">EvalInteractionNonThrowing</span> <span class="i">text</span>
+        (<span class="i">sbOut</span><span class="o">.</span><span class="i">ToString</span>(), <span class="i">r</span>, <span class="i">errors</span>)
+    
+<span class="c">(*</span>
+<span class="c">fsiSession.EvalInteractionNonThrowing &quot;&quot;&quot;</span>
+<span class="c">type Point = {</span>
+<span class="c">    x : int</span>
+<span class="c">    y : int</span>
+<span class="c">}</span>
+<span class="c">&quot;&quot;&quot;</span>
+
+<span class="c">fsiSession.EvalExpression &quot;&quot;&quot;</span>
+<span class="c"> { x = 3; y = 9 }</span>
+<span class="c">&quot;&quot;&quot;</span>
+
+
+<span class="c">let collectionTest() = </span>
+
+<span class="c">    for i in 1 .. 200 do</span>
+<span class="c">        let defaultArgs = [|&quot;fsi.exe&quot;;&quot;--noninteractive&quot;;&quot;--nologo&quot;;&quot;--gui-&quot;|]</span>
+<span class="c">        use inStream = new StringReader(&quot;&quot;)</span>
+<span class="c">        use outStream = new StringWriter()</span>
+<span class="c">        use errStream = new StringWriter()</span>
+
+<span class="c">        let fsiConfig = FsiEvaluationSession.GetDefaultConfiguration()</span>
+<span class="c">        use session = FsiEvaluationSession.Create(fsiConfig, defaultArgs, inStream, outStream, errStream, collectible=true)</span>
+<span class="c">        </span>
+<span class="c">        session.EvalInteraction (sprintf &quot;type D = { v : int }&quot;)</span>
+<span class="c">        let v = session.EvalExpression (sprintf &quot;{ v = 42 * %d }&quot; i)</span>
+<span class="c">        printfn &quot;iteration %d, result = %A&quot; i v.Value.ReflectionValue</span>
+
+<span class="c">#r @&quot;packages\FSharp.Management\lib\net40\FSharp.Management.dll&quot;</span>
+
+<span class="c">open FSharp.Management</span>
+
+<span class="c">type fs = FileSystem&lt;&quot;.&quot;&gt;</span>
+
+<span class="c">fs.</span>
+
+<span class="c">Registry.</span>
+
+
+<span class="c">open Microsoft.FSharp.Quotations</span>
+<span class="c">let expr = &lt;@ 2 * 5 @&gt;</span>
+
+
+<span class="c">let expr2 x = &lt;@ 2 * %x @&gt;</span>
+
+<span class="c">println expr2</span>
+
+<span class="c">open Microsoft.FSharp.Quotations</span>
+<span class="c">open Microsoft.FSharp.Quotations.Patterns</span>
+<span class="c">open Microsoft.FSharp.Quotations.DerivedPatterns</span>
+
+<span class="c">let println expr =</span>
+<span class="c">    let rec print expr =</span>
+<span class="c">        match expr with</span>
+<span class="c">        | Application(expr1, expr2) -&gt;</span>
+<span class="c">            // Function application.</span>
+<span class="c">            print expr1</span>
+<span class="c">            printf &quot; &quot;</span>
+<span class="c">            print expr2</span>
+<span class="c">        | SpecificCall &lt;@@ (+) @@&gt; (_, _, exprList) -&gt;</span>
+<span class="c">            // Matches a call to (+). Must appear before Call pattern.</span>
+<span class="c">            print exprList.Head</span>
+<span class="c">            printf &quot; + &quot;</span>
+<span class="c">            print exprList.Tail.Head</span>
+<span class="c">        | Call(exprOpt, methodInfo, exprList) -&gt;</span>
+<span class="c">            // Method or module function call.</span>
+<span class="c">            match exprOpt with</span>
+<span class="c">            | Some expr -&gt; print expr</span>
+<span class="c">            | None -&gt; printf &quot;%s&quot; methodInfo.DeclaringType.Name</span>
+<span class="c">            printf &quot;.%s(&quot; methodInfo.Name</span>
+<span class="c">            if (exprList.IsEmpty) then printf &quot;)&quot; else</span>
+<span class="c">            print exprList.Head</span>
+<span class="c">            for expr in exprList.Tail do</span>
+<span class="c">                printf &quot;,&quot;</span>
+<span class="c">                print expr</span>
+<span class="c">            printf &quot;)&quot;</span>
+<span class="c">        | Int32(n) -&gt;</span>
+<span class="c">            printf &quot;%d&quot; n</span>
+<span class="c">        | Lambda(param, body) -&gt;</span>
+<span class="c">            // Lambda expression.</span>
+<span class="c">            printf &quot;fun (%s:%s) -&gt; &quot; param.Name (param.Type.ToString())</span>
+<span class="c">            print body</span>
+<span class="c">        | Let(var, expr1, expr2) -&gt;</span>
+<span class="c">            // Let binding.</span>
+<span class="c">            if (var.IsMutable) then</span>
+<span class="c">                printf &quot;let mutable %s = &quot; var.Name</span>
+<span class="c">            else</span>
+<span class="c">                printf &quot;let %s = &quot; var.Name</span>
+<span class="c">            print expr1</span>
+<span class="c">            printf &quot; in &quot;</span>
+<span class="c">            print expr2</span>
+<span class="c">        | PropertyGet(_, propOrValInfo, _) -&gt;</span>
+<span class="c">            printf &quot;%s&quot; propOrValInfo.Name</span>
+<span class="c">        | String(str) -&gt;</span>
+<span class="c">            printf &quot;%s&quot; str</span>
+<span class="c">        | Value(value, typ) -&gt;</span>
+<span class="c">            printf &quot;%s&quot; (value.ToString())</span>
+<span class="c">        | Var(var) -&gt;</span>
+<span class="c">            printf &quot;%s&quot; var.Name</span>
+<span class="c">        | _ -&gt; printf &quot;%s&quot; (expr.ToString())</span>
+<span class="c">    print expr</span>
+<span class="c">    printfn &quot;&quot;</span>
+
+
+
+<span class="c">type Util() =</span>
+<span class="c">    static member replicate(amount, [&lt;System.ParamArray&gt;] xs) = Array.collect (Array.replicate amount) xs</span>
+
+
+<span class="c">Util.replicate(3, 5., 6.)</span>
+<span class="c">Util.replicate (3, [| 3; 5; 6|])</span>
+<span class="c">*)</span>
+
+<span class="k">module</span> <span class="i">Snippet</span> <span class="o">=</span>
+
+    <span class="k">type</span> <span class="i">StatusSnippet</span> <span class="o">=</span>
+        | <span class="i">SnippetNew</span>
+        | <span class="i">SnippetInvokedNoValue</span>
+        | <span class="i">SnippetInvoked</span> <span class="k">of</span> <span class="i">FsiValue</span>
+        | <span class="i">SnippetFailed</span>  <span class="k">of</span> <span class="i">string</span>
+
+    <span class="k">type</span> <span class="i">LetMod</span> <span class="o">=</span>
+        | <span class="i">NoMod</span>
+        | <span class="i">Mutable</span>
+        | <span class="i">Recursive</span>
+    <span class="k">with</span> <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">GetText</span> <span class="o">=</span>
+           <span class="k">match</span> <span class="i">this</span> <span class="k">with</span>
+           | <span class="i">NoMod</span>      <span class="k">-&gt;</span> <span class="s">&quot;&quot;</span>
+           | <span class="i">Mutable</span>    <span class="k">-&gt;</span> <span class="s">&quot;mutable&quot;</span>
+           | <span class="i">Recursive</span>  <span class="k">-&gt;</span> <span class="s">&quot;rec&quot;</span>
+
+    
+    <span class="k">type</span> <span class="i">SnippetType</span> <span class="o">=</span>
+        | <span class="i">Module</span>
+        | <span class="i">Type</span>   <span class="k">of</span> <span class="i">parms</span><span class="o">:</span> <span class="i">string</span>
+        | <span class="i">Let</span>    <span class="k">of</span> <span class="i">parms</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span> <span class="i">Inline</span><span class="o">:</span> <span class="i">bool</span> <span class="o">*</span> <span class="i">Mod</span><span class="o">:</span> <span class="i">LetMod</span>
+        | <span class="i">Member</span> <span class="k">of</span> <span class="i">parms</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span> <span class="i">Inline</span><span class="o">:</span> <span class="i">bool</span> <span class="o">*</span> <span class="i">Static</span><span class="o">:</span> <span class="i">bool</span>  
+    <span class="k">with</span> <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">GetText</span> <span class="o">:</span> <span class="i">string</span> <span class="k">-&gt;</span> <span class="i">string</span> <span class="o">=</span>
+           <span class="k">let</span> <span class="i">sprintfName</span> <span class="i">sta</span> <span class="i">parms</span> <span class="i">mods</span> <span class="o">=</span>
+               (<span class="i">mods</span> <span class="o">|&gt;</span> <span class="i">String</span><span class="o">.</span><span class="i">concat</span> <span class="s">&quot; &quot;</span>, <span class="i">parms</span>)
+               <span class="o">|&gt;</span> <span class="k">function</span>
+               | <span class="s">&quot;&quot;</span>, <span class="s">&quot;&quot;</span> <span class="k">-&gt;</span>             <span class="i">sprintf</span> <span class="s">&quot;%s %s =&quot;</span>       <span class="i">sta</span>
+               | <span class="i">ms</span>, <span class="s">&quot;&quot;</span> <span class="k">-&gt;</span>             <span class="i">sprintf</span> <span class="s">&quot;%s %s %s =&quot;</span>    <span class="i">sta</span> <span class="i">ms</span>
+               | <span class="s">&quot;&quot;</span>, _  <span class="k">-&gt;</span> <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;%s %s %s =&quot;</span>    <span class="i">sta</span>    <span class="i">name</span> <span class="i">parms</span>
+               | <span class="i">ms</span>, _  <span class="k">-&gt;</span> <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;%s %s %s %s =&quot;</span> <span class="i">sta</span> <span class="i">ms</span> <span class="i">name</span> <span class="i">parms</span>
+           <span class="k">match</span> <span class="i">this</span> <span class="k">with</span>
+           | <span class="i">Module</span>                    <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;module %s = &quot;</span>
+           | <span class="i">Type</span>   (<span class="i">parms</span>)            <span class="k">-&gt;</span> <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;type %s%s = &quot;</span> <span class="i">name</span> <span class="i">parms</span>
+           | <span class="i">Let</span>    (<span class="i">parms</span>, <span class="i">inl</span>, <span class="i">mods</span>) <span class="k">-&gt;</span> [ <span class="k">if</span> <span class="i">inl</span>  <span class="k">then</span> <span class="k">yield</span> <span class="s">&quot;inline&quot;</span>
+                                            <span class="k">match</span> <span class="i">mods</span> <span class="k">with</span>
+                                            | <span class="i">NoMod</span>      <span class="k">-&gt;</span> ()
+                                            | <span class="i">Mutable</span>    <span class="k">-&gt;</span> <span class="k">yield</span> <span class="s">&quot;mutable&quot;</span>
+                                            | <span class="i">Recursive</span>  <span class="k">-&gt;</span> <span class="k">yield</span> <span class="s">&quot;rec&quot;</span>
+                                          ] 
+                                          <span class="o">|&gt;</span> <span class="i">sprintfName</span> <span class="s">&quot;let&quot;</span> <span class="i">parms</span>
+           | <span class="i">Member</span> (<span class="i">parms</span>, <span class="i">inl</span>, <span class="i">sta</span>)  <span class="k">-&gt;</span> <span class="k">if</span> <span class="i">sta</span>  <span class="k">then</span> <span class="s">&quot;static member&quot;</span>
+                                                  <span class="k">else</span> <span class="s">&quot;member&quot;</span> 
+                                          <span class="o">|&gt;</span> <span class="i">sprintfName</span> 
+                                               <span class="o">&lt;|</span> <span class="i">parms</span> 
+                                               <span class="o">&lt;|</span> [ <span class="k">if</span> <span class="i">inl</span>  <span class="k">then</span> <span class="k">yield</span> <span class="s">&quot;inline&quot;</span>] 
+                                          <span class="o">|&gt;</span> <span class="k">if</span> <span class="i">sta</span> <span class="k">then</span> <span class="i">id</span> <span class="k">else</span>
+                                             <span class="k">fun</span> <span class="i">f</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">f</span> (<span class="s">&quot;this.&quot;</span> <span class="o">+</span> <span class="i">name</span>)
+                                                  
+    <span class="k">let</span> <span class="i">indent</span> (<span class="i">text</span><span class="o">:</span><span class="i">string</span>) <span class="o">=</span>
+        <span class="i">text</span><span class="o">.</span><span class="i">Split</span> <span class="s">&#39;\n&#39;</span>
+        <span class="o">|&gt;</span> <span class="i">Array</span><span class="o">.</span><span class="i">map</span> (<span class="k">fun</span> <span class="i">l</span> <span class="k">-&gt;</span> <span class="s">&quot;    &quot;</span> <span class="o">+</span> <span class="i">l</span>)
+        <span class="o">|&gt;</span> <span class="i">String</span><span class="o">.</span><span class="i">concat</span> <span class="s">&quot;\n&quot;</span>
+
+    <span class="k">type</span> <span class="i">SnippetContent</span> <span class="o">=</span>
+        | <span class="i">SnippetText</span> <span class="k">of</span> <span class="i">string</span>
+        | <span class="i">Snippet</span>     <span class="k">of</span> <span class="i">Snippet</span>
+    <span class="k">with</span> <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">GetText</span> <span class="o">:</span> <span class="i">string</span> <span class="o">=</span>
+            <span class="k">match</span> <span class="i">this</span> <span class="k">with</span>
+            | <span class="i">SnippetText</span> <span class="i">text</span>  <span class="k">-&gt;</span> <span class="i">text</span>
+            | <span class="i">Snippet</span>     <span class="i">snip</span>  <span class="k">-&gt;</span> <span class="i">snip</span><span class="o">.</span><span class="i">GetText</span>
+         <span class="k">static</span> <span class="k">member</span> <span class="i">New</span>(<span class="i">sType</span>, <span class="i">name</span>, <span class="i">desc</span>, <span class="i">def</span>) <span class="o">=</span> <span class="i">Snippet</span> <span class="o">&lt;|</span> <span class="i">Snippet</span><span class="o">.</span><span class="i">New</span>(<span class="i">sType</span>, <span class="i">name</span>, <span class="i">desc</span>, <span class="i">def</span>)
+         <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Invoke</span>() <span class="o">=</span>
+            <span class="k">match</span> <span class="i">this</span> <span class="k">with</span>
+            | <span class="i">Snippet</span>     <span class="i">snip</span>  <span class="k">-&gt;</span> <span class="i">snip</span><span class="o">.</span><span class="i">Invoke</span>()
+            | <span class="i">SnippetText</span> <span class="i">text</span>  <span class="k">-&gt;</span> <span class="k">let</span> (<span class="i">out</span>, <span class="i">r</span>, <span class="i">errors</span>) <span class="o">=</span> <span class="i">Fsi</span><span class="o">.</span><span class="i">invoke</span> <span class="i">text</span>
+                                   <span class="i">out</span> <span class="o">+</span> (<span class="i">errors</span> <span class="o">|&gt;</span> <span class="i">Array</span><span class="o">.</span><span class="i">map</span> (<span class="i">sprintf</span> <span class="s">&quot;%A&quot;</span>) <span class="o">|&gt;</span> <span class="i">String</span><span class="o">.</span><span class="i">concat</span> <span class="s">&quot;\n&quot;</span>)
+
+    
+    <span class="k">and</span> <span class="i">Snippet</span> <span class="o">=</span> {
+        <span class="i">id</span>                   <span class="o">:</span> <span class="i">System</span><span class="o">.</span><span class="i">Guid</span>
+        <span class="i">sType</span>                <span class="o">:</span> <span class="i">SnippetType</span>
+        <span class="k">mutable</span> <span class="i">name</span>         <span class="o">:</span> <span class="i">string</span>
+        <span class="k">mutable</span> <span class="i">description</span>  <span class="o">:</span> <span class="i">string</span>
+        <span class="k">mutable</span> <span class="i">definition</span>   <span class="o">:</span> <span class="i">SnippetContent</span> <span class="i">list</span>
+        <span class="k">mutable</span> <span class="i">output</span>       <span class="o">:</span> <span class="i">string</span>
+        <span class="k">mutable</span> <span class="i">status</span>       <span class="o">:</span> <span class="i">StatusSnippet</span>
+        <span class="i">dependencies</span>         <span class="o">:</span> <span class="i">Guid</span> <span class="i">list</span>
+        <span class="i">dependents</span>           <span class="o">:</span> <span class="i">Guid</span> <span class="i">list</span>
+    }
+    <span class="k">with</span> <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">GetText</span> <span class="o">:</span> <span class="i">string</span> <span class="o">=</span> 
+            <span class="i">this</span><span class="o">.</span><span class="i">definition</span>
+            <span class="o">|&gt;</span> <span class="i">List</span><span class="o">.</span><span class="i">map</span> (<span class="k">fun</span> <span class="i">snipC</span> <span class="k">-&gt;</span> <span class="i">snipC</span><span class="o">.</span><span class="i">GetText</span>) 
+            <span class="o">|&gt;</span> <span class="i">String</span><span class="o">.</span><span class="i">concat</span> <span class="s">&quot;\n&quot;</span>
+            <span class="o">|&gt;</span> <span class="i">indent</span>
+            <span class="o">|&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;%s \n%s\n&quot;</span> (<span class="i">this</span><span class="o">.</span><span class="i">sType</span><span class="o">.</span><span class="i">GetText</span> <span class="i">this</span><span class="o">.</span><span class="i">name</span>)
+         <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Invoke</span> () <span class="o">=</span> 
+            <span class="k">let</span> (<span class="i">out</span>, <span class="i">r</span>, <span class="i">errors</span>) <span class="o">=</span> <span class="i">Fsi</span><span class="o">.</span><span class="i">invoke</span> <span class="i">this</span><span class="o">.</span><span class="i">GetText</span>
+            <span class="k">let</span> <span class="i">status</span> <span class="o">=</span> <span class="k">match</span> <span class="i">r</span> <span class="k">with</span>
+                         | <span class="i">Choice1Of2</span> () <span class="k">-&gt;</span> <span class="i">SnippetInvokedNoValue</span>
+                         | <span class="i">Choice2Of2</span>  <span class="i">e</span> <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;%A\n%A&quot;</span> <span class="i">errors</span> <span class="i">e</span>
+                                            <span class="o">|&gt;</span> <span class="i">SnippetFailed</span>
+            <span class="i">this</span><span class="o">.</span><span class="i">status</span> <span class="o">&lt;-</span> <span class="i">status</span>
+            <span class="i">this</span><span class="o">.</span><span class="i">output</span> <span class="o">&lt;-</span> <span class="i">out</span>
+            <span class="i">out</span> <span class="o">+</span> (<span class="i">errors</span> <span class="o">|&gt;</span> <span class="i">Array</span><span class="o">.</span><span class="i">map</span> (<span class="i">sprintf</span> <span class="s">&quot;%A&quot;</span>) <span class="o">|&gt;</span> <span class="i">String</span><span class="o">.</span><span class="i">concat</span> <span class="s">&quot;\n&quot;</span>)
+         <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Status</span>    <span class="o">=</span> <span class="i">this</span><span class="o">.</span><span class="i">status</span>
+         <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">ToString</span>  <span class="o">=</span> <span class="i">sprintf</span> <span class="s">&quot;%s : %A&quot;</span> <span class="i">this</span><span class="o">.</span><span class="i">name</span> <span class="i">this</span><span class="o">.</span><span class="i">status</span>
+         <span class="k">static</span> <span class="k">member</span> <span class="i">New</span>(<span class="i">sType</span>, <span class="i">name</span>, <span class="i">desc</span>, <span class="i">def</span>) <span class="o">=</span> {
+                       <span class="i">id</span>           <span class="o">=</span> <span class="i">System</span><span class="o">.</span><span class="i">Guid</span><span class="o">.</span><span class="i">NewGuid</span>()
+                       <span class="i">sType</span>        <span class="o">=</span> <span class="i">sType</span>
+                       <span class="i">name</span>         <span class="o">=</span> <span class="i">name</span>
+                       <span class="i">description</span>  <span class="o">=</span> <span class="i">desc</span>
+                       <span class="i">definition</span>   <span class="o">=</span> <span class="i">def</span>
+                       <span class="i">output</span>       <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                       <span class="i">status</span>       <span class="o">=</span> <span class="i">SnippetNew</span>
+                       <span class="i">dependencies</span> <span class="o">=</span> []
+                       <span class="i">dependents</span>   <span class="o">=</span> []
+                   }
+            
+<span class="k">open</span> <span class="i">Snippet</span>
+
+<span class="k">let</span> <span class="i">tailFact</span> <span class="o">=</span> <span class="s">&quot;tailFact&quot;</span>
+<span class="k">let</span> <span class="i">snipFact</span> <span class="o">=</span> 
+    <span class="i">SnippetContent</span><span class="o">.</span><span class="i">New</span>(
+      <span class="i">sType</span> <span class="o">=</span> <span class="i">Let</span> (<span class="s">&quot;n&quot;</span>, <span class="k">false</span>, <span class="i">NoMod</span>)
+    , <span class="i">name</span>  <span class="o">=</span> <span class="s">&quot;fact&quot;</span>
+    , <span class="i">desc</span>  <span class="o">=</span> <span class="s">&quot;Factorial function using tail recursion&quot;</span>
+    , <span class="i">def</span>   <span class="o">=</span> [
+        <span class="i">SnippetContent</span><span class="o">.</span><span class="i">New</span>(
+          <span class="i">sType</span> <span class="o">=</span> <span class="i">Let</span> (<span class="s">&quot;n m&quot;</span>, <span class="k">false</span>, <span class="i">Recursive</span>)
+        , <span class="i">name</span>  <span class="o">=</span> <span class="i">tailFact</span>
+        , <span class="i">desc</span>  <span class="o">=</span> <span class="s">&quot;Factorial function with tail recursion&quot;</span>
+        , <span class="i">def</span>   <span class="o">=</span> [
+            <span class="i">SnippetText</span> <span class="o">&lt;|</span> <span class="s">&quot;if n &lt;= 1 then m else&quot;</span>
+            <span class="i">SnippetText</span> <span class="o">&lt;|</span> <span class="i">tailFact</span> <span class="o">+</span> <span class="s">&quot; (n - 1) (n * m)&quot;</span>
+          ]
+        )
+        <span class="i">SnippetText</span> <span class="o">&lt;|</span> <span class="i">tailFact</span> <span class="o">+</span> <span class="s">&quot; n 1&quot;</span>
+      ]
+    )
+
+<span class="k">let</span> <span class="i">snipMath</span> <span class="o">=</span>
+    <span class="i">SnippetContent</span><span class="o">.</span><span class="i">New</span>(
+      <span class="i">sType</span> <span class="o">=</span> <span class="i">Module</span>
+    , <span class="i">name</span>  <span class="o">=</span> <span class="s">&quot;Math&quot;</span>
+    , <span class="i">desc</span>  <span class="o">=</span> <span class="s">&quot;Math module&quot;</span>
+    , <span class="i">def</span>   <span class="o">=</span> [
+        <span class="i">snipFact</span>
+        <span class="i">SnippetText</span> <span class="s">&quot;let times2 = (*) 2&quot;</span>
+      ]
+    )
+    
+<span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> <span class="i">snipMath</span><span class="o">.</span><span class="i">GetText</span>
+<span class="i">snipMath</span><span class="o">.</span><span class="i">Invoke</span>() <span class="o">|&gt;</span> <span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> 
+
+<span class="k">let</span> <span class="i">snip0</span> <span class="o">=</span> <span class="i">SnippetText</span> <span class="s">&quot;&quot;&quot;let calc () = Math.fact 10 |&gt; Math.times2&quot;&quot;&quot;</span>
+<span class="i">snip0</span><span class="o">.</span><span class="i">Invoke</span>() <span class="o">|&gt;</span> <span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> 
+
+<span class="k">let</span> <span class="i">snip2</span> <span class="o">=</span> <span class="i">SnippetText</span> <span class="s">&quot;&quot;&quot;calc()&quot;&quot;&quot;</span>
+<span class="i">snip2</span><span class="o">.</span><span class="i">Invoke</span>() <span class="o">|&gt;</span> <span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> 
+    
+<span class="i">snipMath</span> <span class="o">|&gt;</span> <span class="k">function</span> <span class="i">Snippet</span> <span class="i">s</span> <span class="k">-&gt;</span> <span class="i">s</span><span class="o">.</span><span class="i">output</span> <span class="o">|&gt;</span> <span class="i">printfn</span> <span class="s">&quot;%s&quot;</span>
+
+<span class="k">let</span> <span class="i">f</span> <span class="o">=</span> 
+    <span class="k">function</span> 
+    | <span class="i">x</span> <span class="k">-&gt;</span> 
+        <span class="k">function</span> 
+        | _ <span class="k">-&gt;</span> <span class="s">&quot;something&quot;</span> 
+
+<span class="k">let</span> <span class="i">f</span> <span class="o">=</span> <span class="k">function</span> | <span class="i">x</span> <span class="k">-&gt;</span> <span class="i">x</span> <span class="o">|&gt;</span> <span class="k">function</span>  | _ <span class="k">-&gt;</span> <span class="s">&quot;something&quot;</span> 
+
+<span class="i">f</span> <span class="n">1</span>
+</code></pre></td>
+</tr>
+</table>
+
+
+          
+        </div>
+        <div class="span1"></div>
+      </div>
+      <hr style="margin-top:50px;"/>
+      <footer class="footer" style="text-align:center">
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  //this.page.url = "http://Untitled.html";  // Replace PAGE_URL with your page's canonical URL variable
+                  this.page.identifier = "Untitled"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+              };
+              (function () { // DON'T EDIT BELOW THIS LINE
+                  var d = document, s = d.createElement('script');
+                  s.src = 'https://amieresgithub.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </div>
+  </body>
+</html>

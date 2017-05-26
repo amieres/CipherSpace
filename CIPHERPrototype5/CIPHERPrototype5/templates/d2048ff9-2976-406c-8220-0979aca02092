@@ -1,0 +1,15 @@
+﻿<div>
+    <div id="ID${uniqueId}" />
+    <script>
+        // <![CDATA[
+        CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/menu.fsx"], function () {
+            IntelliFactory.Runtime.Start();
+            IntelliFactory.Runtime.overwrite = true;
+            CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/${param1}"], function () {
+                IntelliFactory.Runtime.Start();
+                CIPHERSpace.MainForm.leftAndContentRun(${param2},document.getElementById("ID${uniqueId}"));
+            });
+        });
+        // ]]>
+    </script>
+</div>

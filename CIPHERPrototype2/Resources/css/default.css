@@ -1,0 +1,563 @@
+﻿.wcDocker {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 13px;
+  color: rgb(85, 85, 85);
+}
+
+.wcDocker,
+.wcPanelBackground {
+  background-color: rgb(238, 255, 255);
+  box-shadow: 2px 2px 4px 0px rgb(204, 204, 204);
+}
+
+.wcModalBlocker {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.wcLoadingIcon {
+  color: rgb(34, 34, 34);
+}
+
+.wcLoadingLabel {
+  color: rgb(17, 17, 17);
+}
+
+.wcLoadingBackground {
+  background-color: rgb(55, 55, 55);
+}
+
+.wcGhost {
+  background-color: rgb(153, 0, 255);
+  border-radius: 7px;
+}
+
+.wcFrameEdge {
+  background-color: rgba(0, 0, 0, 0.0470588);
+  border-color: rgba(0, 0, 0, 0.109804);
+  border-width: 2;
+  border-style: solid;
+}
+
+.wcSplitterBar.wcSplitterBarV:not(.wcSplitterBarStatic) {
+  width: 3px;
+}
+
+.wcSplitterBar.wcSplitterBarH:not(.wcSplitterBarStatic) {
+  height: 3px;
+}
+
+.wcSplitterBar.wcSplitterBarV:not(.wcSplitterBarStatic),
+.wcSplitterBar.wcSplitterBarH:not(.wcSplitterBarStatic) {
+  background-color: rgb(153, 153, 153);
+  border-style: outset;
+  border-width: 0px;
+  border-color: rgb(169, 169, 169);
+}
+
+.wcSplitterBar.wcSplitterBarV.wcSplitterBarStatic {
+  width: 2px;
+}
+
+.wcSplitterBar.wcSplitterBarH.wcSplitterBarStatic {
+  height: 2px;
+}
+
+.wcSplitterBar.wcSplitterBarV.wcSplitterBarStatic,
+.wcSplitterBar.wcSplitterBarH.wcSplitterBarStatic {
+  background-color: rgba(0, 0, 0, 0);
+  border-style: outset;
+  border-width: 1px;
+  border-color: rgb(169, 169, 169);
+}
+
+.wcFrameFlasher {
+  background-color: rgb(204, 0, 0);
+}
+
+.wcFrameShadower {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.wcFrameButton {
+  width: 13px;
+  height: 13px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgb(102, 102, 102);
+  background-color: rgb(204, 204, 204);
+  border-style: outset;
+  border-width: 0px;
+  border-color: rgb(153, 153, 153);
+}
+
+.wcFrameButton:hover,
+.wcFrameButtonHover {
+  width: 13px;
+  height: 13px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgb(102, 102, 102);
+  background-color: rgb(255, 0, 255);
+  border-style: outset;
+  border-width: 0px;
+  border-color: rgb(153, 153, 153);
+}
+
+.wcFrameButton:active,
+.wcFrameButtonActive {
+  width: 12px;
+  height: 12px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgb(102, 102, 102);
+  background-color: rgb(249, 203, 156);
+  border-style: inset;
+  border-width: 0px;
+  border-color: rgb(153, 153, 153);
+}
+
+.wcLayoutGridAlternate tr:nth-child(even),
+.wcLayoutGridAltColor {
+  background-color: rgb(232, 232, 232) !important;
+}
+
+.wcLayoutGrid,
+.wcLayoutGrid tr,
+.wcLayoutGrid td {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(243, 243, 243);
+}
+
+.wcFrameTitleBar {
+  height: 18px;
+  background-color: rgba(204, 204, 204, 0.882353);
+}
+
+.wcFrameCenter {
+  top: 18px;
+}
+
+.wcFrameTitle {
+  padding-top: 2px;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: rgba(208, 224, 227, 0.8);
+  font-weight: bold;
+  text-align: center;
+}
+
+.wcPanelTab > div {
+  margin-top: 0px;
+}
+
+.wcPanelTab {
+  font-size: 12px;
+  font-weight: 400;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: rgb(68, 68, 68);
+  margin-top: 3px;
+  margin-right: 1px;
+  background-color: rgb(255, 255, 255);
+  border-style: solid solid none;
+  border-width: 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color: rgba(204, 204, 204, 0);
+}
+
+.wcPanelTab:hover > div,
+.wcPanelTabHover > div {
+  margin-top: 0px;
+}
+
+.wcPanelTab:hover,
+.wcPanelTabHover {
+  font-size: 12px;
+  font-weight: 400;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: rgb(68, 68, 68);
+  margin-top: 3px;
+  margin-right: 1px;
+  background-color: rgb(204, 204, 204);
+  border-style: solid solid none;
+  border-width: 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color: rgba(204, 204, 204, 0);
+}
+
+.wcPanelTabActive > div {
+  margin-top: 0px;
+}
+
+.wcPanelTabActive {
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: rgb(68, 68, 68);
+  margin-top: 1px;
+  margin-right: 1px;
+  background-color: rgb(255, 255, 255);
+  border-style: solid solid none;
+  border-width: 1px 1px 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color: rgb(102, 102, 102);
+}
+
+.wcPanelTabActive:hover > div,
+.wcPanelTabActiveHover > div {
+  margin-top: 0px;
+}
+
+.wcPanelTabActive:hover,
+.wcPanelTabActiveHover {
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: rgb(68, 68, 68);
+  margin-top: 1px;
+  margin-right: 1px;
+  background-color: rgb(255, 255, 255);
+  border-style: solid solid none;
+  border-width: 1px 1px 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-color: rgb(102, 102, 102);
+}
+
+.wcMenuList,
+.context-menu-list {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(153, 153, 153);
+}
+
+.wcMenuSeparator,
+.context-menu-separator {
+  background-color: rgb(204, 204, 204) !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(68, 68, 68);
+}
+
+.wcMenuList,
+.wcMenuItem,
+.context-menu-list,
+.context-menu-item {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: rgb(102, 102, 102);
+  background-color: rgb(248, 243, 238);
+}
+
+.wcMenuItemHover,
+.wcMenuItem:hover,
+.context-menu-item.hover {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: rgb(0, 0, 0);
+  background-color: rgb(102, 102, 102);
+}
+
+.wcMenuItem.disabled,
+.context-menu-item.disabled {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  color: rgb(248, 243, 238);
+  background-color: rgb(0, 0, 255);
+}
+
+.wcScrollbar,
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.wcScrollbar,
+::-webkit-scrollbar,
+.wcScrollbarCorner,
+::-webkit-scrollbar-corner {
+  background-color: rgb(153, 153, 153);
+}
+
+.wcScrollbarTrack,
+::-webkit-scrollbar-track {
+  border-width: 0px;
+  border-radius: 0px;
+  border-color: rgb(0, 0, 0);
+}
+
+.wcScrollbarThumb,
+::-webkit-scrollbar-thumb {
+  background-color: rgb(204, 204, 204);
+  border-style: outset;
+  border-width: 2px;
+  border-radius: 0px;
+  border-color: rgb(243, 243, 243);
+  background-color: rgb(204, 204, 204);
+  background-color: rgb(204, 204, 204);
+}
+
+.wcScrollbarThumbHover,
+.wcScrollBarThumb:hover,
+::-webkit-scrollbar-thumb:hover {
+  border-style: outset;
+  border-width: 2px;
+  border-radius: 0px;
+  border-color: rgb(153, 153, 153);
+}
+
+.wcScrollbarThumbActive,
+.wcScrollBarThumb:active,
+::-webkit-scrollbar-thumb:active {
+  border-style: outset;
+  border-width: 2px;
+  border-radius: 0px;
+  border-color: rgb(243, 243, 243);
+  box-shadow: inset -2px 0px 6px 0px rgba(0, 0, 0, 0.701961);
+}
+
+.wcInput,
+input {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(19, 79, 92);
+  background-color: rgb(255, 255, 255);
+  border-style: inset;
+  border-width: 0px;
+  border-radius: 0px;
+  border-color: rgb(244, 204, 204);
+  box-shadow: 1px 2px 4px 0px rgb(153, 153, 153);
+}
+
+.wcSelect,
+select {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(19, 79, 92);
+  background-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 0px;
+  border-color: rgb(244, 204, 204);
+  box-shadow: 1px 2px 4px 0px rgb(153, 153, 153);
+}
+
+.wcButton:focus,
+button:focus {
+  outline: 0;
+}
+
+.wcButton,
+button {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  background-color: rgb(221, 221, 221);
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 0px;
+  border-color: rgb(221, 221, 221);
+  box-shadow: 2px 2px 4px 0px rgb(153, 153, 153);
+}
+
+.wcButtonHover,
+.wcButton:hover,
+button:hover {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  background-color: rgb(221, 221, 221);
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 0px;
+  border-color: rgb(153, 153, 153);
+  box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.388235);
+}
+
+.wcButtonActive,
+.wcButton:active,
+button:active {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  background-color: rgb(204, 204, 204);
+  border-style: inset;
+  border-width: 1px;
+  border-radius: 0px;
+  border-color: rgb(153, 153, 153);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.388235);
+}
+
+.wcButtonActive.wcButtonHover,
+.wcButton:hover.wcButtonActive,
+.wcButton:active.wcButtonHover,
+.wcButton:active:hover,
+button:active:hover {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  background-color: rgb(204, 204, 204);
+  border-style: inset;
+  border-width: 1px;
+  border-radius: 0px;
+  border-color: rgb(153, 153, 153);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.388235);
+}
+
+.wcButtonDisabled,
+.wcButton.disabled,
+button.disabled,
+button:disabled {
+  font-family: Arial;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgb(153, 153, 153);
+  background-color: rgba(204, 204, 204, 0.431373);
+  border-style: outset;
+  border-width: 0px;
+  border-radius: 0px;
+  border-color: rgb(221, 221, 221);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.388235);
+}
+
+.wcMobile .wcSplitterBar.wcSplitterBarV:not(.wcSplitterBarStatic) {
+  width: 13px;
+}
+
+.wcMobile .wcSplitterBar.wcSplitterBarH:not(.wcSplitterBarStatic) {
+  height: 13px;
+}
+
+.wcMobile .wcSplitterBar.wcSplitterBarV:not(.wcSplitterBarStatic),
+.wcMobile .wcSplitterBar.wcSplitterBarH:not(.wcSplitterBarStatic) {
+  border-width: 2px;
+}
+
+.wcMobile .wcFrameButton {
+  width: 28px;
+  height: 28px;
+  font-size: 22px;
+}
+
+.wcMobile .wcFrameButton:hover,
+.wcMobile .wcFrameButtonHover {
+  width: 27px;
+  height: 27px;
+  font-size: 22px;
+}
+
+.wcMobile .wcFrameButton:active,
+.wcMobile .wcFrameButtonActive {
+  width: 26px;
+  height: 26px;
+  font-size: 22px;
+}
+
+.wcMobile .wcFrameTitleBar {
+  height: 29px;
+}
+
+.wcMobile .wcFrameCenter {
+  top: 29px;
+}
+
+.wcMobile .wcFrameTitle {
+  font-size: 20px;
+}
+
+.wcMobile .wcPanelTab > div {
+  margin-top: 4px;
+}
+
+.wcMobile .wcPanelTab {
+  font-size: 14px;
+  height: 29px;
+}
+
+.wcMobile .wcPanelTab:hover > div,
+.wcMobile .wcPanelTabHover > div {
+  margin-top: 4px;
+}
+
+.wcMobile .wcPanelTab:hover,
+.wcMobile .wcPanelTabHover {
+  font-size: 14px;
+  height: 29px;
+}
+
+.wcMobile .wcPanelTabActive {
+  font-size: 14px;
+  height: 29px;
+}
+
+.wcMobile .wcPanelTabActive:hover > div,
+.wcMobile .wcPanelTabActiveHover > div {
+  margin-top: 4px;
+}
+
+.wcMobile .wcPanelTabActive:hover,
+.wcMobile .wcPanelTabActiveHover {
+  font-size: 14px;
+  height: 29px;
+}
+
+.wcMobile .wcInput,
+.wcMobile input {
+  font-size: 22px;
+}
+
+.wcMobile .wcSelect,
+.wcMobile select {
+  font-size: 22px;
+}
+
+.wcMobile .wcButton,
+.wcMobile button {
+  font-size: 22px;
+}
+
+.wcMobile .wcButtonHover,
+.wcMobile .wcButton:hover,
+.wcMobile button:hover {
+  font-size: 22px;
+}
+
+.wcMobile .wcButtonActive,
+.wcMobile .wcButton:active,
+.wcMobile button:active {
+  font-size: 22px;
+}
+
+.wcMobile .wcButtonActive.wcButtonHover,
+.wcMobile .wcButton:hover.wcButtonActive,
+.wcMobile .wcButton:active.wcButtonHover,
+.wcMobile .wcButton:active:hover,
+.wcMobile button:active:hover {
+  font-size: 22px;
+}
+
+.wcMobile .wcButtonDisabled,
+.wcMobile .wcButton.disabled,
+.wcMobile button.disabled,
+.wcMobile button:disabled {
+  font-size: 22px;
+}
+

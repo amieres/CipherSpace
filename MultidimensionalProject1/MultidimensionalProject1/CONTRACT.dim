@@ -1,0 +1,228 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="fd404e9c-ce4f-4237-a046-e0aee74795c1" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>DIM CONTR</ID>
+  <Name>CONTRACT</Name>
+  <CreatedTimestamp>0001-01-01T06:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T06:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+      <Value>
+        <dds xmlns="">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="2" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-1219" scrolltop="-5279" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="7938" y="15558" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+            <font>
+              <ddsxmlobjectstreamwrapper binary="010000009001b0300100065461686f6d61" />
+            </font>
+            <mouseicon>
+              <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+            </mouseicon>
+          </diagram>
+          <layoutmanager>
+            <ddsxmlobj />
+          </layoutmanager>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.3" tooltip="DIM_CONTR" left="20" top="-4381" logicalid="1" controlid="1" masterid="0" hint1="0" hint2="0" width="5461" height="9381" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="000c000055150000a5240000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_DIM_CONTR" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+        </dds>
+      </Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>-1219</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>-5279</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>20</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>-4381</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ARDiagramLayout</Name>
+      <Value>
+        <DiagramLayout ZoomPercent="100" ViewPortX="0" ViewPortY="0" xmlns="">
+          <Shapes NodeWidth="185">
+            <Shape Id="CONTR KEY" Expanded="false">
+              <Attributes>
+                <Attribute Id="CONTR KEY" />
+                <Attribute Id="CONTR REV STREAM" />
+              </Attributes>
+              <Position x="20" y="20" />
+            </Shape>
+            <Shape Id="CONTR ID" Expanded="false">
+              <Attributes>
+                <Attribute Id="CONTR ID" />
+              </Attributes>
+              <Position x="256" y="20" />
+            </Shape>
+            <Shape Id="VEND KEY" Expanded="false">
+              <Attributes>
+                <Attribute Id="VEND KEY" />
+              </Attributes>
+              <Position x="492" y="20" />
+            </Shape>
+          </Shapes>
+        </DiagramLayout>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T06:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="4c36c37a-5266-4aa0-a65c-1cb5916b6161">
+    <DataSourceViewID>AR Datamart</DataSourceViewID>
+  </Source>
+  <ErrorConfiguration dwd:design-time-name="d27802d2-7f00-4aeb-86c6-a4807fc4ab31">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="fd7fa48a-0b75-4699-8dca-d7020bb67795">
+      <ID>CONTR KEY</ID>
+      <Name>CONTR KEY</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="0d0317a1-61d6-48a4-a576-023620864849">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="1fb47ed7-2415-4a88-91f2-f042dd434143">
+            <TableID>dbo_DIM_CONTR</TableID>
+            <ColumnID>CONTR_KEY</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="89fe7847-8fda-49aa-bda9-ef07400d3203">
+          <AttributeID>CONTR ID</AttributeID>
+          <Name>CONTR ID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="7c5af44a-4955-4447-9b75-dea6bb9cda1b">
+          <AttributeID>CONTR REV STREAM</AttributeID>
+          <Name>CONTR REV STREAM</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="efa5e30a-b71e-4aa3-a1ea-bdfd4f7afc3a">
+      <ID>CONTR ID</ID>
+      <Name>CONTR ID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="401f3c7c-89b3-42e2-8a05-b3ed1c8e80e7">
+          <DataType>WChar</DataType>
+          <DataSize>10</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="7286e7cd-8f2a-41bb-9af6-c71c7ca7bece">
+            <TableID>dbo_DIM_CONTR</TableID>
+            <ColumnID>CONTR_ID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="132ba650-155b-4b69-92a0-c492584762b1">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="e8225ce5-2e1d-4e06-85f6-c640a54af4b0">
+          <TableID>dbo_DIM_CONTR</TableID>
+          <ColumnID>CONTR_REV_STREAM</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="5189f343-a8b1-406d-8ef1-30667ba5694f">
+          <AttributeID>VEND KEY</AttributeID>
+          <Name>VEND KEY</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="79e0439e-d895-4c9c-9689-14805f2ebcd7">
+      <ID>VEND KEY</ID>
+      <Name>VEND KEY</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="9be6e072-17d8-4b46-b6df-d373fd1a7e72">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="3d0c14f8-648b-4813-a56d-55f155c7152a">
+            <TableID>dbo_DIM_CONTR</TableID>
+            <ColumnID>VEND_KEY</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="0b0e054e-48d5-4648-9cc1-c3fb3684ffa4">
+        <DataType>WChar</DataType>
+        <DataSize>1000</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="96eaf951-498d-4c63-8ad6-877163d6f97c">
+          <TableID>dbo_DIM_CONTR</TableID>
+          <ColumnID>CONTR_DESCR</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="f4020b96-5b7c-465e-9094-060c62a8870f">
+      <ID>CONTR REV STREAM</ID>
+      <Name>CONTR REV STREAM</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="b5bfde6d-e14c-4cc3-989a-689965aea5fd">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="70f86b5a-80d1-4593-a0f9-d619d139d3a5">
+            <TableID>dbo_DIM_CONTR</TableID>
+            <ColumnID>CONTR_REV_STREAM</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <AttributeAllMemberName>All Contrats</AttributeAllMemberName>
+  <Hierarchies>
+    <Hierarchy dwd:design-time-name="530e8b01-aa61-4483-971c-5517bcb5499c">
+      <ID>Hierarchy</ID>
+      <Name>Vendors</Name>
+      <Levels>
+        <Level dwd:design-time-name="500dee58-94a1-4a20-a3c5-c81e9e37a45c">
+          <ID>VEND KEY</ID>
+          <Name>VEND KEY</Name>
+          <SourceAttributeID>VEND KEY</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="2c28756c-bcc9-44d7-b141-9e46a9241ec0">
+          <ID>CONTR ID</ID>
+          <Name>CONTR ID</Name>
+          <SourceAttributeID>CONTR ID</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+  </Hierarchies>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>

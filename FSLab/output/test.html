@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      The Untitled parameters will be replaced with the
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Untitled</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
+    <script src="styles/tips.js" type="text/javascript"></script>
+    
+    <script language="javascript" type="text/javascript">
+      function init()
+      {
+        try {
+          websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/websocket");
+          websocket.onmessage = function(evt) { location.reload(); };
+        } catch (e) { /* silently ignore lack of websockets */ }
+      }
+      window.addEventListener("load", init, false);
+    </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fslab.org">fslab.org</a></li>
+          <li><a href="http://fsharp.github.io/FSharp.Data/">F# Data</a></li>
+          <li><a href="http://bluemountaincapital.github.io/Deedle">Deedle</a></li>
+          <li><a href="http://bluemountaincapital.github.io/FSharpRProvider">R Provider</a></li>
+          <li><a href="http://tahahachana.github.io/XPlot/">XPlot</a></li>
+          <li><a href="http://www.mathdotnet.com/">Math.Net</a></li>
+        </ul>
+        <h3 class="muted">Journal</h3>
+      </div>
+      <hr />
+      <div class="row" style="margin-top:30px">
+        <div class="span1"></div>
+        <div class="span10" id="main">
+          <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
+<span class="l">45: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#load</span> <span class="s">&quot;packages/FsLab/FsLab.fsx&quot;</span>
+<span class="k">open</span> <span class="i">FsLab</span>
+
+<span class="k">open</span> <span class="i">Foogle</span>
+<span class="k">open</span> <span class="i">Deedle</span>
+<span class="k">open</span> <span class="i">FSharp</span><span class="o">.</span><span class="i">Data</span>
+
+<span class="k">let</span> <span class="i">wb</span>        <span class="o">=</span> <span class="i">WorldBankData</span><span class="o">.</span><span class="i">GetDataContext</span>()
+<span class="k">let</span> <span class="i">ve</span>        <span class="o">=</span> <span class="i">wb</span><span class="o">.</span><span class="i">Countries</span><span class="o">.</span><span class="i">``Venezuela, RB``</span><span class="o">.</span><span class="i">Indicators</span>
+<span class="k">let</span> <span class="i">eu</span>        <span class="o">=</span> <span class="i">wb</span><span class="o">.</span><span class="i">Countries</span><span class="o">.</span><span class="i">``European Union``</span><span class="o">.</span><span class="i">Indicators</span>
+<span class="k">let</span> <span class="i">veschool</span>  <span class="o">=</span> <span class="i">ve</span><span class="o">.</span><span class="i">``School enrollment, tertiary, male (% gross)``</span>
+<span class="k">let</span> <span class="i">euschool</span>  <span class="o">=</span> <span class="i">eu</span><span class="o">.</span><span class="i">``School enrollment, tertiary, male (% gross)``</span>
+<span class="k">let</span> <span class="i">veschool2</span> <span class="o">=</span> <span class="i">veschool</span><span class="o">.</span><span class="i">Values</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">zip</span> <span class="i">veschool</span><span class="o">.</span><span class="i">Years</span> <span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">ofObservations</span>
+<span class="k">let</span> <span class="i">euschool2</span> <span class="o">=</span> <span class="i">euschool</span><span class="o">.</span><span class="i">Values</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">zip</span> <span class="i">euschool</span><span class="o">.</span><span class="i">Years</span> <span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">ofObservations</span>
+
+<span class="i">abs</span>(<span class="i">veschool</span> <span class="o">-</span> <span class="i">euschool</span>)
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">sort</span>
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">rev</span>
+<span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">take</span> <span class="n">5</span>
+
+<span class="i">ve</span><span class="o">.</span><span class="i">``School enrollment, tertiary (gross), gender parity index (GPI)``</span>
+<span class="o">|&gt;</span> <span class="k">fun</span> <span class="i">ind</span> <span class="k">-&gt;</span> <span class="i">ind</span><span class="o">.</span><span class="i">Values</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">zip</span> <span class="i">ind</span><span class="o">.</span><span class="i">Years</span> <span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">ofObservations</span>
+
+<span class="k">let</span> <span class="i">toSeries_</span> (<span class="i">ind</span><span class="o">:</span> <span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span>) <span class="o">=</span> <span class="i">ind</span><span class="o">.</span><span class="i">Values</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">zip</span> <span class="i">ind</span><span class="o">.</span><span class="i">Years</span> <span class="o">|&gt;</span> <span class="i">Series</span><span class="o">.</span><span class="i">ofObservations</span>
+
+<span class="k">type</span> <span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span>
+<span class="k">with</span>
+  <span class="k">static</span> <span class="k">member</span> <span class="i">toSeries</span> (<span class="i">ind</span><span class="o">:</span> <span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span>) <span class="o">:</span> <span class="i">Series</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">toSeries_</span> <span class="i">ind</span>
+  <span class="k">static</span> <span class="k">member</span> <span class="i">div</span> (<span class="i">a</span><span class="o">:</span><span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span>, <span class="i">b</span><span class="o">:</span><span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span>) <span class="o">=</span> (<span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span><span class="o">.</span><span class="i">toSeries</span> <span class="i">a</span>) <span class="o">/</span> (<span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span><span class="o">.</span><span class="i">toSeries</span> <span class="i">b</span>)
+
+<span class="k">let</span> <span class="i">fem</span> <span class="o">=</span> <span class="i">ve</span><span class="o">.</span><span class="i">``School enrollment, tertiary, female (% gross)``</span>
+<span class="k">let</span> <span class="i">mal</span> <span class="o">=</span> <span class="i">ve</span><span class="o">.</span><span class="i">``School enrollment, tertiary, male (% gross)``</span>  
+
+<span class="i">Runtime</span><span class="o">.</span><span class="i">WorldBank</span><span class="o">.</span><span class="i">Indicator</span><span class="o">.</span><span class="i">div</span>(<span class="i">fem</span>, <span class="i">mal</span>)
+
+<span class="prep">#r</span> <span class="s">@&quot;C:\Program Files (x86)\AWS SDK for .NET\bin\Net45\AWSSDK.Lambda.dll&quot;</span>
+<span class="prep">#r</span> <span class="s">@&quot;C:\Program Files (x86)\AWS SDK for .NET\bin\Net45\AWSSDK.Core.dll&quot;</span>
+
+<span class="k">let</span> <span class="i">openGarage</span> () <span class="o">=</span>
+    <span class="k">let</span> <span class="i">client</span> <span class="o">=</span> <span class="k">new</span> <span class="i">Amazon</span><span class="o">.</span><span class="i">Lambda</span><span class="o">.</span><span class="i">AmazonLambdaClient</span>()
+    <span class="k">let</span> <span class="i">request</span> <span class="o">=</span> <span class="k">new</span> <span class="i">Amazon</span><span class="o">.</span><span class="i">Lambda</span><span class="o">.</span><span class="i">Model</span><span class="o">.</span><span class="i">InvokeRequest</span>()
+    <span class="i">request</span><span class="o">.</span><span class="i">FunctionName</span> <span class="o">&lt;-</span> <span class="s">&quot;activateGarageDoor&quot;</span>
+    <span class="i">client</span><span class="o">.</span><span class="i">Invoke</span> <span class="i">request</span>
+
+<span class="i">openGarage</span> ()
+</code></pre></td>
+</tr>
+</table>
+
+
+          
+        </div>
+        <div class="span1"></div>
+      </div>
+      <hr style="margin-top:50px;"/>
+      <footer class="footer" style="text-align:center">
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  //this.page.url = "http://Untitled.html";  // Replace PAGE_URL with your page's canonical URL variable
+                  this.page.identifier = "Untitled"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+              };
+              (function () { // DON'T EDIT BELOW THIS LINE
+                  var d = document, s = d.createElement('script');
+                  s.src = 'https://amieresgithub.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </div>
+  </body>
+</html>

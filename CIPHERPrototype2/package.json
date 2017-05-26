@@ -1,0 +1,8 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "phosphor-stackedpanel": "^0.9.6"
+  }
+}

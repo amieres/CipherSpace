@@ -1,0 +1,10 @@
+ vaadin-split-layout {
+   height: 200px;
+ }
+ vaadin-split-layout > div {
+   font-family: sans-serif;
+   background: #e0e0e0;
+   display:flex;
+   justify-content:center;
+   align-items:center;
+ }

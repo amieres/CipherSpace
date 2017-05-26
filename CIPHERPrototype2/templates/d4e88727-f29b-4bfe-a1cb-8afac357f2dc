@@ -1,0 +1,9 @@
+<div class="container">
+	<div class="row">
+		<div class="col-lg-9" _include="${param1}">
+		</div>
+		<div class="col-lg-3 visible-lg">
+			This is a test!
+		</div>
+	</div>
+</div>

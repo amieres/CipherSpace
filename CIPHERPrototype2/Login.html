@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.1" />
+    <title>${title}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Resources/bootstrap-submenu/css/submenu.css" />
+    <link rel="stylesheet" href="/resources/css/main.css" />
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .blur {
+	        -webkit-filter: blur(20px); /* Prefixed CSS3 blur filters */
+	        -moz-filter: blur(20px); 
+	        -ms-filter: blur(20px);
+            filter: blur(20px); /* Someday, sigh ... */ 
+        }
+        .shadow {
+          -webkit-box-shadow: 2px 2px 15px black;
+          -moz-box-shadow:    2px 2px 15px black;
+          box-shadow:         2px 2px 15px black;
+        }
+    </style>
+</head>
+<body class="fullheight flex">
+    <div class="flex flexgrow">
+        <div class="flex-row flex-align-center flexgrow">
+            <div id="bg" class="blur" style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; background-image:url('/Resources/images/BI_CONSULTANCY.jpg'); background-size: cover; background-position: center center">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                        <div class="panel panel-default shadow">
+                            <div class="panel-body">
+                                <div style="text-align: center;">
+                                    <img alt="Brand" src="/Resources/images/LOGO_cipher2.png" style="width: 200px;"/>
+                                </div>
+                                <br />
+                                <div data-replace="form">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script data-replace="scripts"></script>
+</body>
+</html>

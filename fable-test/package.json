@@ -1,0 +1,19 @@
+{
+  "name": "star-wars-fable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "fable --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fable-arch": "0.9.12",
+    "fable-compiler": "0.7.22",
+    "fable-core": "0.7.15",
+    "fable-powerpack": "0.0.18",
+    "virtual-dom": "2.1.1"
+  }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/EPFileX/css/main.css">
+</head>
+
+<body>
+    <div> This example only works because the includes for vaadin-split-layout are added after the elements were created. Otherwise it would not work well. </div>
+    <template id="template_panel">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-${parameter.color||'primary'}">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <div class="huge">${parameter.text1}</div>
+                            <div>${parameter.text2}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a href="${parameter.link||'#'}">
+                        <div class="pull-left">${parameter.text3||'more detail...'}</div>
+                    </a>
+                    <div id="${parameter.uniqueId||0}"></div>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="template_split">
+        <vaadin-split-layout>
+        </vaadin-split-layout>
+    </template>
+</body>
+<script>
+    var xpath        = (xpathToExecute, elem) => {
+        var result   = [];
+        var iterator = document.evaluate(xpathToExecute, elem, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null);
+        var thisNode = iterator.iterateNext();
+        while (thisNode) {
+            result.push(thisNode);
+            thisNode = iterator.iterateNext();
+        }
+        return result;
+    }
+    var append = (parent, child) => parent.appendChild(child.content ? document.importNode(child.content, true): child);
+    instancePanel    = parameter => {
+        evalTemplate = txt => txt ? eval('`' + txt + '`') : txt;
+        var template = document.querySelector('#template_panel');
+        var clone    = document.importNode(template, true);
+        xpath('//*/@*'    , clone.content.firstElementChild).forEach(a => a.value = evalTemplate(a.value));
+        xpath('//*/text()', clone.content.firstElementChild).forEach(t => t.data  = evalTemplate(t.data ));
+        return clone;
+    }
+    instanceSplit       = (panel1, panel2, vertical) => {
+        var template    = document.querySelector('#template_split');
+        var clone       = document.importNode(template, true);
+        append(clone.content.firstElementChild, panel1);
+        append(clone.content.firstElementChild, panel2);
+        if (vertical) clone.content.firstElementChild.setAttribute("vertical", "")
+        return clone;
+    }
+    var panel1 = () => instancePanel({
+        text1: "TEXT1"
+        , text2: "TEXT2"
+        , text3: "TEXT3"
+        , link: "LINK"
+        , uniqueId: "UNIQUEID"
+    });
+    var panel2 = () => instancePanel({
+        text1: "HELLO"
+        , text2: "How are"
+        , text3: "You?"
+        , link: "good?"
+        , color: "red"
+        , uniqueId: "123"
+    });
+    var s1 = () => instanceSplit(panel1(), panel2());
+    var s2 = () => instanceSplit(panel2(), panel1());
+    var s1i = s1();
+    var s2i = s2();
+    append(document.body, instanceSplit(s1i, s2i, true));
+    append(document.body, s1());
+    append(document.body, s2());
+</script>
+    <script type="text/javascript" src="https://user-content-dot-custom-elements.appspot.com/vaadin/vaadin-split-layout/v1.0.0/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="stylesheet" type="text/css" href="/EPFile/css/vaadin-split-layout.css">
+    <link rel="import" type="text/html" href="https://user-content-dot-custom-elements.appspot.com/vaadin/vaadin-split-layout/v1.0.0/vaadin-split-layout/vaadin-split-layout.html">
+</html>

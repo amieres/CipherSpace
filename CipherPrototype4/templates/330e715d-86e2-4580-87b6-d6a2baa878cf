@@ -1,0 +1,59 @@
+﻿<div>
+    <div id="ID${uniqueId}" />
+    <script>
+        // <![CDATA[
+        CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/Layouts.fsx"], function () {
+            IntelliFactory.Runtime.overwrite = true;
+            CIPHERSpaceLoadFiles([${param1}], function () {
+                IntelliFactory.Runtime.Start();
+                function generator(prefix) {
+                    var i = (new Date()).getTime();
+                    return function(suffix) {
+                        return prefix + (i++) + (suffix || '');
+                    };
+                }
+                var newId = generator('UID_');
+                var C = CIPHERSpace;
+                var H = C.ReactHtml;
+                var U = C.Util;
+                var base = "";
+                var FormData = C.DataTube.generalCell();
+                ${param2}
+                C.SetNode.run(_main_, document.getElementById("ID${uniqueId}")); 
+            });
+        });
+        // ]]>
+    </script>
+</div>
+
+// DimAll: CPNode/DimensionEditor.fsx/r1 => C.DimensionListAll.nextV(r1)
+//
+// DimAll = function (r1) { return C.DimensionListAll.nextV(r1); }
+
+// LabelH4: CPNode//p1 => H.H4([U.text(p1)])
+//
+// LabelH4 = function (p1) { return H.H4([U.text(p1)]);          }
+
+// DimTree: CPNode/DimensionEditor.fsx/p1 => C.DimElements.nextD(p1)
+//
+// DimTree = function (p1) { return C.DimElements.nextD(p1);     }
+
+// NewNode:
+// CPNode/DimAll, SelDim => LabelH4, SelDim => OtherVar => DimTree/
+// (SelDimT = function (n) { return C.DimensionListAll.selTuple(SelDim)[n]; }
+// , C.MainForm.leftAndContentNode([ DimAll(SelDim) ], [ LabelH4_0(SelDimT(2)), DimTree_0(SelDimT(0)) ]))
+// 
+// NewNode = function() {
+//    DimAll    = function (r1) { return ; }
+//    LabelH4   = function (p1) { return ; }
+//    DimTree   = function (p1) { return ; }
+//    DataTube  = C.DataTube.generalCell();
+//    SelDim    = DataTube.subCell("NewNode.SelDim");
+//    OtherVar  = DataTube.subCell("NewNode.OtherVar");
+//    LabelH4_0 = function () { _this = this; _args = arguments; return C.DynNode.node(function () { return LabelH4(p1); }, function (f) { SelDim.subscribe("LabelH4_0", f); }); }
+//    DimTree_0 = function (p1) { return C.DynNode.node(function () { return DimTree(p1); }, function (f) { SelDim.subscribe("DimTree_0", f); OtherVar.subscribe("DimTree_0", f); }); }
+//    return
+//         (SelDimT = function (n) { return C.DimensionListAll.selTuple(SelDim)[n]; }
+//       ,  C.MainForm.leftAndContentNode([ DimAll(SelDim) ], [ C.DynNode.node(function () { return LabelH4(SelDimT(2)) }, function (f) { SelDim.subscribe("LabelH4_0", f); }), DimTree_0(SelDimT(0)) ]));
+// }
+// 

@@ -1,0 +1,11 @@
+﻿<div>
+    <div id = "HELLO" />
+    <script>
+        // <![CDATA[
+        CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/${param1}"], function () {
+            IntelliFactory.Runtime.Start();
+            ${param2};
+        });
+        // ]]>
+    </script>
+</div>

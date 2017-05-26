@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database Name="CIPHERSpaceDB" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo._AttributeFields" Member="_AttributeFields">
+    <Type Name="_AttributeFields">
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TableId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RelationalField" Type="System.String" DbType="VarChar(19) NOT NULL" CanBeNull="false" />
+      <Column Name="FieldName" Type="System.String" DbType="VarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="FieldDescription" Type="System.String" DbType="VarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="FieldType" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="FieldWidth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FieldDecimalPlaces" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FieldOrderPosition" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo._CubeAccessControl" Member="_CubeAccessControl">
+    <Type Name="_CubeAccessControl">
+      <Column Name="CubeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="AccessCubeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Cubes" Member="_Cubes">
+    <Type Name="_Cubes">
+      <Column Name="CubeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CubeDescription" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Param1" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Param2" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="AccessControl" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionLog" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CubeType" Type="System.String" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="ExtendedProps" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CubeRules" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._CubesDimensions" Member="_CubesDimensions">
+    <Type Name="_CubesDimensions">
+      <Column Name="CubeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DimensionOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MeasureDimension" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Dimension_InterCompany" Member="_Dimension_InterCompany">
+    <Type Name="_Dimension_InterCompany">
+      <Column Name="MemberName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="element_description" Member="Element_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="MemberType" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="MemberOrder" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Dimension_InterCompany_Rels" Member="_Dimension_InterCompany_Rels">
+    <Type Name="_Dimension_InterCompany_Rels">
+      <Column Name="MemberName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ParentMemberName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MemberParentOrder" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Weight" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo._DimensionLevelNames" Member="_DimensionLevelNames">
+    <Type Name="_DimensionLevelNames">
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LevelNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Dimensions" Member="_Dimensions">
+    <Type Name="_Dimensions">
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DimensionDescription" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SourceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Param1" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Param2" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DimensionType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DefaultElement" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="FlatView" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="InvertedHierarchy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AccessCube" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ExtendedProps" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="LoadFlags" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Dimensions_Other" Member="_Dimensions_Other">
+    <Type Name="_Dimensions_Other">
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DimensionDescription" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="SourceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Param1" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Param2" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DimensionType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DefaultElement" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="FlatView" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InvertedHierarchy" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AccessCube" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ExtendedProps" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="LoadFlags" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo._FactLoad" Member="_FactLoad">
+    <Type Name="_FactLoad">
+      <Column Name="JobObject" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CubeId" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FactTable" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FactChangesTable" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FactLoadType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParameterId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastLoadedVersion" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NewestVersionToLoad" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SourceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FactType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RelationalColumnName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._FactLoadParameters" Member="_FactLoadParameters">
+    <Type Name="_FactLoadParameters">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DimIdx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ColumnName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TargetElement" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="TargetElementUnknown" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="TargetElementMissing" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Hierarchies" Member="_Hierarchies">
+    <Type Name="_Hierarchies">
+      <Column Name="HierarchyName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HierarchyDescription" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="DimensionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SourceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HierarchyType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Param1" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Param2" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DefaultElement" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="ExtendedProps" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Jobs" Member="_Jobs">
+    <Type Name="_Jobs">
+      <Column Name="JobId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="JobType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobObject" Type="System.String" DbType="NVarChar(71) NOT NULL" CanBeNull="false" />
+      <Column Name="JobParameter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Started" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Completed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._JobsParameters" Member="_JobsParameters">
+    <Type Name="_JobsParameters">
+      <Column Name="JobParameter" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ParameterSet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DimIdx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParameterValue" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._JobsView" Member="_JobsView">
+    <Type Name="_JobsView">
+      <Column Name="JobId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="JobType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobObject" Type="System.String" DbType="NVarChar(71) NOT NULL" CanBeNull="false" />
+      <Column Name="JobParameter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Completed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CubeId" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ParameterId" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="StatusCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobTypeCode" Type="System.String" DbType="VarChar(35)" CanBeNull="true" />
+      <Column Name="Comment2" Type="System.String" DbType="VarChar(34)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Parameters" Member="_Parameters">
+    <Type Name="_Parameters">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Key" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StringValue" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="IntegerValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LinkId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._ScheduledJobs" Member="_ScheduledJobs">
+    <Type Name="_ScheduledJobs">
+      <Column Name="Id" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="JobType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JobObject" Type="System.String" DbType="NVarChar(71) NOT NULL" CanBeNull="false" />
+      <Column Name="JobParameter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Schedule" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Scheduled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Disabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo._ScheduledJobsView" Member="_ScheduledJobsView">
+    <Type Name="_ScheduledJobsView" />
+  </Table>
+  <Table Name="dbo._Sources" Member="_Sources">
+    <Type Name="_Sources">
+      <Column Name="SourceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SourceType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ConnectionParameters" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo._Subsets" Member="_Subsets">
+    <Type Name="_Subsets">
+      <Column Name="DimName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SubsetName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SubsetKind" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SubsetCategory" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SubsetTable" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Account_Sign" Member="FIN_Account_Sign">
+    <Type Name="FIN_Account_Sign">
+      <Column Name="account_sign" Member="Account_sign" Type="System.String" DbType="NVarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="account_sign_description" Member="Account_sign_description" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Account_Sign_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Client_Account_Account_Sign" Member="FIN_Client_Account" ThisKey="Account_sign" OtherKey="Element_sign" Type="FIN_Client_Account" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Account_Type" Member="FIN_Account_Type">
+    <Type Name="FIN_Account_Type">
+      <Column Name="account_type" Member="Account_type" Type="System.String" DbType="NVarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="account_type_description" Member="Account_type_description" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Account_Type_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Client_Account_Account_Type" Member="FIN_Client_Account" ThisKey="Account_type" OtherKey="Element_type" Type="FIN_Client_Account" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Address" Member="CS_Address">
+    <Type Name="CS_Address">
+      <Column Name="address_code" Member="Address_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="address_line_1" Member="Address_line_1" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="address_line_2" Member="Address_line_2" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="address_line_3" Member="Address_line_3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="address_city" Member="Address_city" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="address_state" Member="Address_state" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="address_country_code" Member="Address_country_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="address_postal_code" Member="Address_postal_code" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Association Name="FK_Client_Address_Address" Member="CS_Client_Address" ThisKey="Address_code" OtherKey="Address_code" Type="CS_Client_Address" DeleteRule="NO ACTION" />
+      <Association Name="FK_User_Address_Address" Member="CS_User_Address" ThisKey="Address_code" OtherKey="Address_code" Type="CS_User_Address" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Amount_Type" Member="FIN_Amount_Type">
+    <Type Name="FIN_Amount_Type">
+      <Column Name="amount_type" Member="Amount_type" Type="System.String" DbType="NVarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="amount_type_description" Member="Amount_type_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Amount_Type_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Period_Finance_Amount_Type" Member="FIN_Period_Finance" ThisKey="Amount_type" OtherKey="Amount_type" Type="FIN_Period_Finance" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.App" Member="CS_App">
+    <Type Name="CS_App">
+      <Column Name="app_code" Member="App_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="app_description" Member="App_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_App_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_App_Role_App_Code" Member="CS_Role_App" ThisKey="App_code" OtherKey="App_code" Type="CS_Role_App" DeleteRule="NO ACTION" />
+      <Association Name="FK_Client_Connection_App" Member="CS_Client_Connection" ThisKey="App_code" OtherKey="App_code" Type="CS_Client_Connection" DeleteRule="NO ACTION" />
+      <Association Name="FK_Client_Hierarchy_App_App" Member="CS_Client_Hierarchy_App" ThisKey="App_code" OtherKey="App_code" Type="CS_Client_Hierarchy_App" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Attribute" Member="Attribute">
+    <Type Name="Attribute">
+      <Column Name="dimension_code" Member="Dimension_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="attribute_code" Member="Attribute_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="attribute_name" Member="Attribute_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="attribute_description" Member="Attribute_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="attribute_type" Member="Attribute_type" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="attribute_length" Member="Attribute_length" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="attribute_precision" Member="Attribute_precision" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Attribute_Dimension" Member="Dimension" ThisKey="Dimension_code" OtherKey="Dimension_code" Type="Dimension" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Attribute_Value_Attribute" Member="Attribute_Value" ThisKey="Attribute_code" OtherKey="Attribute_code" Type="Attribute_Value" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Attribute_Value" Member="Attribute_Value">
+    <Type Name="Attribute_Value">
+      <Column Name="attribute_code" Member="Attribute_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="element_code" Member="Element_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="value_string" Member="Value_string" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="value_int" Member="Value_int" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="value_money" Member="Value_money" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="value_float" Member="Value_float" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="FK_Attribute_Value_Attribute" Member="Attribute" ThisKey="Attribute_code" OtherKey="Attribute_code" Type="Attribute" IsForeignKey="true" />
+      <Association Name="FK_Attribute_Value_Element" Member="Element" ThisKey="Element_code" OtherKey="Element_code" Type="Element" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client" Member="CS_Client">
+    <Type Name="CS_Client">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_name" Member="Client_name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="industry_type" Member="Industry_type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="object_hierarchy" Member="Object_hierarchy" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="FK_Client_Address_Client" Member="CS_Client_Address" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_Address" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_Connection_Client" Member="CS_Client_Connection" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_Connection" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_Currency_Client" Member="CS_Client_Currency" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_Currency" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_Hierarchy_Client" Member="CS_Client_Hierarchy" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_Hierarchy" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_Parameter_Client" Member="CS_Client_Parameter" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_Parameter" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_User_Client" Member="CS_Client_User" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client_User" DeleteRule="CASCADE" />
+      <Association Name="FK_Connection_Client" Member="CS_Connection" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Connection" DeleteRule="CASCADE" />
+      <Association Name="FK_Organization_Client" Member="CS_Organization" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Organization" DeleteRule="NO ACTION" />
+      <Association Name="FK_Dimension_Client" Member="Dimension" ThisKey="Client_code" OtherKey="Client_code" Type="Dimension" DeleteRule="CASCADE" />
+      <Association Name="FK_Server_Olap_Client" Member="Server_Olap" ThisKey="Client_code" OtherKey="Client_code" Type="Server_Olap" DeleteRule="CASCADE" />
+      <Association Name="FK_Client_Account_Client" Member="FIN_Client_Account" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Client_Account" DeleteRule="CASCADE" />
+      <Association Name="FK_Exchange_Rate_Client" Member="FIN_Exchange_Rate" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Exchange_Rate" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Set_Client" Member="FIN_Exchange_Rate_Set" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Exchange_Rate_Set" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Type_Exchange_Rate_Type" Member="FIN_Exchange_Rate_Type" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Exchange_Rate_Type" DeleteRule="NO ACTION" />
+      <Association Name="FK_FIN.ReportDefinitions_Client" Member="FIN_Report_Definition" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Report_Definition" DeleteRule="CASCADE" />
+      <Association Name="FK_Period_Finance_Client" Member="FIN_Period_Finance" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_Period_Finance" DeleteRule="NO ACTION" />
+      <Association Name="FK_UI_Object_Client" Member="FIN_UI_Object" ThisKey="Client_code" OtherKey="Client_code" Type="FIN_UI_Object" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Client_Account" Member="FIN_Client_Account">
+    <Type Name="FIN_Client_Account">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hierarchy_code" Member="Hierarchy_code" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="element_code" Member="Element_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="element_type" Member="Element_type" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="element_sign" Member="Element_sign" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="element_name" Member="Element_name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="element_description" Member="Element_description" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="parent_code" Member="Parent_code" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Client_Account_Account_Sign" Member="FIN_Account_Sign" ThisKey="Element_sign" OtherKey="Account_sign" Type="FIN_Account_Sign" IsForeignKey="true" />
+      <Association Name="FK_Client_Account_Account_Type" Member="FIN_Account_Type" ThisKey="Element_type" OtherKey="Account_type" Type="FIN_Account_Type" IsForeignKey="true" />
+      <Association Name="FK_Client_Account_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Client_Account_Description_Client_Account" Member="FIN_Client_Account_Description" ThisKey="Client_code,Element_code" OtherKey="Client_code,Account_number" Type="FIN_Client_Account_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_Period_Finance_Client_Account" Member="FIN_Period_Finance" ThisKey="Client_code,Element_code" OtherKey="Client_code,Account_number" Type="FIN_Period_Finance" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Client_Account_Description" Member="FIN_Client_Account_Description">
+    <Type Name="FIN_Client_Account_Description">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="account_number" Member="Account_number" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="account_description" Member="Account_description" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Association Name="FK_Client_Account_Description_Client_Account" Member="FIN_Client_Account" ThisKey="Client_code,Account_number" OtherKey="Client_code,Element_code" Type="FIN_Client_Account" IsForeignKey="true" />
+      <Association Name="FK_Client_Account_Description_Language" Member="CS_Language" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Language" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Address" Member="CS_Client_Address">
+    <Type Name="CS_Client_Address">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="address_code" Member="Address_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="address_name" Member="Address_name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="FK_Client_Address_Address" Member="CS_Address" ThisKey="Address_code" OtherKey="Address_code" Type="CS_Address" IsForeignKey="true" />
+      <Association Name="FK_Client_Address_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Connection" Member="CS_Client_Connection">
+    <Type Name="CS_Client_Connection">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="app_code" Member="App_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="connection_code" Member="Connection_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="status" Member="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="effective_date" Member="Effective_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="expiration_date" Member="Expiration_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="FK_Client_Connection_App" Member="CS_App" ThisKey="App_code" OtherKey="App_code" Type="CS_App" IsForeignKey="true" />
+      <Association Name="FK_Client_Connection_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Client_Connection_Connection" Member="CS_Connection" ThisKey="Connection_code" OtherKey="Connection_code" Type="CS_Connection" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Currency" Member="CS_Client_Currency">
+    <Type Name="CS_Client_Currency">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_code" Member="Currency_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_description" Member="Currency_description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Client_Currency_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Organization_Client_Currency" Member="CS_Organization" ThisKey="Client_code,Currency_code" OtherKey="Client_code,Currency_code" Type="CS_Organization" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Client_Currency" Member="FIN_Exchange_Rate" ThisKey="Client_code,Currency_code" OtherKey="Client_code,Currency_code_from" Type="FIN_Exchange_Rate" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Client_Currency1" Member="Exchange_Rate_Client_Currency1" ThisKey="Client_code,Currency_code" OtherKey="Client_code,Currency_code_to" Type="FIN_Exchange_Rate" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Hierarchy" Member="CS_Client_Hierarchy">
+    <Type Name="CS_Client_Hierarchy">
+      <Column Name="hierarchy_code" Member="Hierarchy_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hierarchy_name" Member="Hierarchy_name" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Association Name="FK_Client_Hierarchy_App_Client_Hierarchy" Member="CS_Client_Hierarchy_App" ThisKey="Hierarchy_code,Client_code" OtherKey="Hierarchy_code,Client_code" Type="CS_Client_Hierarchy_App" DeleteRule="NO ACTION" />
+      <Association Name="FK_Client_Hierarchy_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Organization_Hierarchy_Client_Hierarchy" Member="CS_Organization_Hierarchy" ThisKey="Hierarchy_code,Client_code" OtherKey="Hierarchy_code,Client_code" Type="CS_Organization_Hierarchy" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Hierarchy_App" Member="CS_Client_Hierarchy_App">
+    <Type Name="CS_Client_Hierarchy_App">
+      <Column Name="hierarchy_code" Member="Hierarchy_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="app_code" Member="App_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_Client_Hierarchy_App_App" Member="CS_App" ThisKey="App_code" OtherKey="App_code" Type="CS_App" IsForeignKey="true" />
+      <Association Name="FK_Client_Hierarchy_App_Client_Hierarchy" Member="CS_Client_Hierarchy" ThisKey="Hierarchy_code,Client_code" OtherKey="Hierarchy_code,Client_code" Type="CS_Client_Hierarchy" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Hierarchy_Description" Member="CS_Client_Hierarchy_Description">
+    <Type Name="CS_Client_Hierarchy_Description">
+      <Column Name="hierarchy_code" Member="Hierarchy_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hierarchy_description" Member="Hierarchy_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_Parameter" Member="CS_Client_Parameter">
+    <Type Name="CS_Client_Parameter">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="parameter_code" Member="Parameter_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="parameter_value" Member="Parameter_value" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Association Name="FK_Client_Parameter_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Client_Parameter_Parameter" Member="CS_Parameter" ThisKey="Parameter_code" OtherKey="Parameter_code" Type="CS_Parameter" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Client_User" Member="CS_Client_User">
+    <Type Name="CS_Client_User">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="user_code" Member="User_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="status" Member="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="effective_date" Member="Effective_date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="expiration_date" Member="Expiration_date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="current_client" Member="Current_client" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="FK_Client_User_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Client_User_User" Member="CS_User" ThisKey="User_code" OtherKey="User_code" Type="CS_User" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Connection" Member="CS_Connection">
+    <Type Name="CS_Connection">
+      <Column Name="connection_code" Member="Connection_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="connection_description" Member="Connection_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="connection_type_code" Member="Connection_type_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="connection_server_name" Member="Connection_server_name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="connection_user_id" Member="Connection_user_id" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="connection_user_password" Member="Connection_user_password" Type="System.Data.Linq.Binary" DbType="VarBinary(128)" CanBeNull="true" />
+      <Column Name="connection_port_number" Member="Connection_port_number" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="connection_folder" Member="Connection_folder" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="connection_string" Member="Connection_string" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="FK_Client_Connection_Connection" Member="CS_Client_Connection" ThisKey="Connection_code" OtherKey="Connection_code" Type="CS_Client_Connection" DeleteRule="NO ACTION" />
+      <Association Name="FK_Connection_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Connection_Connection_Type" Member="CS_Connection_Type" ThisKey="Connection_type_code" OtherKey="Type_code" Type="CS_Connection_Type" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Connection_Type" Member="CS_Connection_Type">
+    <Type Name="CS_Connection_Type">
+      <Column Name="type_code" Member="Type_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="type_description" Member="Type_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Connection_Connection_Type" Member="CS_Connection" ThisKey="Type_code" OtherKey="Connection_type_code" Type="CS_Connection" DeleteRule="NO ACTION" />
+      <Association Name="FK_Connection_Type_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Dimension" Member="Dimension">
+    <Type Name="Dimension">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="dimension_code" Member="Dimension_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dimension_name" Member="Dimension_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="dimension_description" Member="Dimension_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="default_hierarchy" Member="Default_hierarchy" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="FK_Attribute_Dimension" Member="Attribute" ThisKey="Dimension_code" OtherKey="Dimension_code" Type="Attribute" DeleteRule="CASCADE" />
+      <Association Name="FK_BaseElement_Dimension" Member="Element" ThisKey="Dimension_code" OtherKey="Dimension_code" Type="Element" DeleteRule="CASCADE" />
+      <Association Name="FK_Dimension_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Elem_Elem" Member="Elem_Elem">
+    <Type Name="Elem_Elem">
+      <Column Name="child_code" Member="Child_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="parent_code" Member="Parent_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="weight" Member="Weight" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="child_order" Member="Child_order" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Elem_Elem_Element" Member="Element" ThisKey="Child_code" OtherKey="Element_code" Type="Element" IsForeignKey="true" />
+      <Association Name="FK_Elem_Elem_Element1" Member="Parent_codeElement" ThisKey="Parent_code" OtherKey="Element_code" Type="Element" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Element" Member="Element">
+    <Type Name="Element">
+      <Column Name="dimension_code" Member="Dimension_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="element_code" Member="Element_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="element_name" Member="Element_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="element_description" Member="Element_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="element_order" Member="Element_order" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Attribute_Value_Element" Member="Attribute_Value" ThisKey="Element_code" OtherKey="Element_code" Type="Attribute_Value" DeleteRule="CASCADE" />
+      <Association Name="FK_BaseElement_Dimension" Member="Dimension" ThisKey="Dimension_code" OtherKey="Dimension_code" Type="Dimension" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_Elem_Elem_Element" Member="Elem_Elem" ThisKey="Element_code" OtherKey="Child_code" Type="Elem_Elem" DeleteRule="NO ACTION" />
+      <Association Name="FK_Elem_Elem_Element1" Member="Element_codeElem_Elem" ThisKey="Element_code" OtherKey="Parent_code" Type="Elem_Elem" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Element_Relations" Member="Element_Relations">
+    <Type Name="Element_Relations">
+      <Column Name="child_code" Member="Child_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="parent_code" Member="Parent_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="weight" Member="Weight" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="child_order" Member="Child_order" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="dimension_code" Member="Dimension_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="child_name" Member="Child_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="child_description" Member="Child_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="parent_name" Member="Parent_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="parent_description" Member="Parent_description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Exchange_Rate" Member="FIN_Exchange_Rate">
+    <Type Name="FIN_Exchange_Rate">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="exchange_rate_type_code" Member="Exchange_rate_type_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="exchange_rate_set_code" Member="Exchange_rate_set_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_code_from" Member="Currency_code_from" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_code_to" Member="Currency_code_to" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="value" Member="Value" Type="System.Decimal" DbType="Decimal(38,8) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Exchange_Rate_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" />
+      <Association Name="FK_Exchange_Rate_Client_Currency" Member="CS_Client_Currency" ThisKey="Client_code,Currency_code_from" OtherKey="Client_code,Currency_code" Type="CS_Client_Currency" IsForeignKey="true" />
+      <Association Name="FK_Exchange_Rate_Client_Currency1" Member="Exchange_Rate_Client_Currency1" ThisKey="Client_code,Currency_code_to" OtherKey="Client_code,Currency_code" Type="CS_Client_Currency" IsForeignKey="true" />
+      <Association Name="FK_Exchange_Rate_Exchange_Rate_Set" Member="FIN_Exchange_Rate_Set" ThisKey="Client_code,Exchange_rate_set_code" OtherKey="Client_code,Exchange_rate_set_code" Type="FIN_Exchange_Rate_Set" IsForeignKey="true" />
+      <Association Name="FK_Exchange_Rate_Exchange_Rate_Type" Member="FIN_Exchange_Rate_Type" ThisKey="Client_code,Exchange_rate_type_code" OtherKey="Client_code,Exchange_rate_type_code" Type="FIN_Exchange_Rate_Type" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Exchange_Rate_Set" Member="FIN_Exchange_Rate_Set">
+    <Type Name="FIN_Exchange_Rate_Set">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="exchange_rate_set_code" Member="Exchange_rate_set_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="exchange_rate_set_description" Member="Exchange_rate_set_description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Exchange_Rate_Exchange_Rate_Set" Member="FIN_Exchange_Rate" ThisKey="Client_code,Exchange_rate_set_code" OtherKey="Client_code,Exchange_rate_set_code" Type="FIN_Exchange_Rate" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Set_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Exchange_Rate_Type" Member="FIN_Exchange_Rate_Type">
+    <Type Name="FIN_Exchange_Rate_Type">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="exchange_rate_type_code" Member="Exchange_rate_type_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="echange_rate_type_description" Member="Echange_rate_type_description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="FK_Exchange_Rate_Exchange_Rate_Type" Member="FIN_Exchange_Rate" ThisKey="Client_code,Exchange_rate_type_code" OtherKey="Client_code,Exchange_rate_type_code" Type="FIN_Exchange_Rate" DeleteRule="NO ACTION" />
+      <Association Name="FK_Exchange_Rate_Type_Exchange_Rate_Type" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Info_Status" Member="CS_Info_Status">
+    <Type Name="CS_Info_Status">
+      <Column Name="info_status_code" Member="Info_status_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="info_status_description" Member="Info_status_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Info_Status_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_User_Info_Info_Status" Member="CS_User_Info" ThisKey="Info_status_code" OtherKey="Info_status_code" Type="CS_User_Info" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Info_Type" Member="CS_Info_Type">
+    <Type Name="CS_Info_Type">
+      <Column Name="info_type" Member="Info_type" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="info_description" Member="Info_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_User_Info_Info_Type" Member="CS_User_Info" ThisKey="Info_type" OtherKey="Info_type" Type="CS_User_Info" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Label" Member="CS_Label">
+    <Type Name="CS_Label">
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="label_description" Member="Label_description" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_App_Label" Member="CS_App" ThisKey="Label_code" OtherKey="Label_code" Type="CS_App" DeleteRule="NO ACTION" />
+      <Association Name="FK_Connection_Type_Label" Member="CS_Connection_Type" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Connection_Type" DeleteRule="NO ACTION" />
+      <Association Name="FK_Info_Status_Label" Member="CS_Info_Status" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Info_Status" DeleteRule="NO ACTION" />
+      <Association Name="FK_Label_Description_Label" Member="CS_Label_Description" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_Language_Label" Member="CS_Language" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Language" DeleteRule="NO ACTION" />
+      <Association Name="FK_Parameter_Label" Member="CS_Parameter" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Parameter" DeleteRule="NO ACTION" />
+      <Association Name="FK_Parameter_Type_Label" Member="CS_Parameter_Type" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Parameter_Type" DeleteRule="NO ACTION" />
+      <Association Name="FK_Permission_Label" Member="CS_Permission" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Permission" DeleteRule="NO ACTION" />
+      <Association Name="FK_Role_Label" Member="CS_Role" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Role" DeleteRule="NO ACTION" />
+      <Association Name="FK_Account_Sign_Label" Member="FIN_Account_Sign" ThisKey="Label_code" OtherKey="Label_code" Type="FIN_Account_Sign" DeleteRule="NO ACTION" />
+      <Association Name="FK_Account_Type_Label" Member="FIN_Account_Type" ThisKey="Label_code" OtherKey="Label_code" Type="FIN_Account_Type" DeleteRule="NO ACTION" />
+      <Association Name="FK_Amount_Type_Label" Member="FIN_Amount_Type" ThisKey="Label_code" OtherKey="Label_code" Type="FIN_Amount_Type" DeleteRule="NO ACTION" />
+      <Association Name="FK_Version_Label" Member="FIN_Version" ThisKey="Label_code" OtherKey="Label_code" Type="FIN_Version" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Label_Description" Member="CS_Label_Description">
+    <Type Name="CS_Label_Description">
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="label_description" Member="Label_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="FK_Label_Description_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Label_Description_Language" Member="CS_Language" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Language" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Language" Member="CS_Language">
+    <Type Name="CS_Language">
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_description" Member="Language_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Label_Description_Language" Member="CS_Label_Description" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Label_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_Language_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Organization_Description_Language" Member="CS_Organization_Description" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Organization_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_User_Language" Member="CS_User" ThisKey="Language_code" OtherKey="Language_code" Type="CS_User" DeleteRule="NO ACTION" />
+      <Association Name="FK_Client_Account_Description_Language" Member="FIN_Client_Account_Description" ThisKey="Language_code" OtherKey="Language_code" Type="FIN_Client_Account_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_UI_Object_Description_Language" Member="FIN_UI_Object_Description" ThisKey="Language_code" OtherKey="Language_code" Type="FIN_UI_Object_Description" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LoadParameters" Member="LoadParameters">
+    <Type Name="LoadParameters">
+      <Column Name="LoadYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JustClear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RetainedIncomeAcct" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Organization" Member="CS_Organization">
+    <Type Name="CS_Organization">
+      <Column Name="organization_code" Member="Organization_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="organization_name" Member="Organization_name" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="currency_code" Member="Currency_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Association Name="FK_Organization_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" />
+      <Association Name="FK_Organization_Client_Currency" Member="CS_Client_Currency" ThisKey="Client_code,Currency_code" OtherKey="Client_code,Currency_code" Type="CS_Client_Currency" IsForeignKey="true" />
+      <Association Name="FK_Organization_Description_Organization" Member="CS_Organization_Description" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization_Description" DeleteRule="NO ACTION" />
+      <Association Name="FK_Organization_Hierarchy_Organization" Member="CS_Organization_Hierarchy" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization_Hierarchy" DeleteRule="NO ACTION" />
+      <Association Name="FK_Organization_Hierarchy_Organization1" Member="Organization_Hierarchy_Organization1" ThisKey="Client_code,Organization_code" OtherKey="Parent_code,Organization_code" Type="CS_Organization_Hierarchy" DeleteRule="NO ACTION" />
+      <Association Name="FK_Period_Finance_Organization" Member="FIN_Period_Finance" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="FIN_Period_Finance" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Organization_Description" Member="CS_Organization_Description">
+    <Type Name="CS_Organization_Description">
+      <Column Name="organization_code" Member="Organization_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="organization_description" Member="Organization_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="FK_Organization_Description_Language" Member="CS_Language" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Language" IsForeignKey="true" />
+      <Association Name="FK_Organization_Description_Organization" Member="CS_Organization" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Organization_Hierarchy" Member="CS_Organization_Hierarchy">
+    <Type Name="CS_Organization_Hierarchy">
+      <Column Name="hierarchy_code" Member="Hierarchy_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="organization_code" Member="Organization_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="parent_code" Member="Parent_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Organization_Hierarchy_Client_Hierarchy" Member="CS_Client_Hierarchy" ThisKey="Hierarchy_code,Client_code" OtherKey="Hierarchy_code,Client_code" Type="CS_Client_Hierarchy" IsForeignKey="true" />
+      <Association Name="FK_Organization_Hierarchy_Organization" Member="CS_Organization" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization" IsForeignKey="true" />
+      <Association Name="FK_Organization_Hierarchy_Organization1" Member="Organization_Hierarchy_Organization1" ThisKey="Parent_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Parameter" Member="CS_Parameter">
+    <Type Name="CS_Parameter">
+      <Column Name="parameter_code" Member="Parameter_code" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="parameter_type" Member="Parameter_type" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Client_Parameter_Parameter" Member="CS_Client_Parameter" ThisKey="Parameter_code" OtherKey="Parameter_code" Type="CS_Client_Parameter" DeleteRule="NO ACTION" />
+      <Association Name="FK_Parameter_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Parameter_Parameter_Type" Member="CS_Parameter_Type" ThisKey="Parameter_type" OtherKey="Parameter_type" Type="CS_Parameter_Type" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Parameter_Type" Member="CS_Parameter_Type">
+    <Type Name="CS_Parameter_Type">
+      <Column Name="parameter_type" Member="Parameter_type" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Parameter_Parameter_Type" Member="CS_Parameter" ThisKey="Parameter_type" OtherKey="Parameter_type" Type="CS_Parameter" DeleteRule="NO ACTION" />
+      <Association Name="FK_Parameter_Type_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Period" Member="FIN_Period">
+    <Type Name="FIN_Period">
+      <Column Name="client_code" Member="Client_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="year" Member="Year" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="period" Member="Period" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="start_date" Member="Start_date" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="end_date" Member="End_date" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="parent_period" Member="Parent_period" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Association Name="FK_Period_Period" Member="Period_Period" ThisKey="Client_code,Year,Period" OtherKey="Client_code,Year,Period" Type="FIN_Period" IsForeignKey="true" />
+      <Association Name="FK_Period_Period" Member="Period_Period1" ThisKey="Client_code,Year,Period" OtherKey="Client_code,Year,Period" Type="FIN_Period" Cardinality="One" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Period_Finance" Member="FIN_Period_Finance">
+    <Type Name="FIN_Period_Finance">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="organization_code" Member="Organization_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="year" Member="Year" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="period" Member="Period" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="account_number" Member="Account_number" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="version_code" Member="Version_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_code" Member="Currency_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="amount" Member="Amount" Type="System.Decimal" DbType="Decimal(38,8)" CanBeNull="true" />
+      <Column Name="amount_type" Member="Amount_type" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Association Name="FK_Period_Finance_Amount_Type" Member="FIN_Amount_Type" ThisKey="Amount_type" OtherKey="Amount_type" Type="FIN_Amount_Type" IsForeignKey="true" />
+      <Association Name="FK_Period_Finance_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" />
+      <Association Name="FK_Period_Finance_Client_Account" Member="FIN_Client_Account" ThisKey="Client_code,Account_number" OtherKey="Client_code,Element_code" Type="FIN_Client_Account" IsForeignKey="true" />
+      <Association Name="FK_Period_Finance_Organization" Member="CS_Organization" ThisKey="Client_code,Organization_code" OtherKey="Client_code,Organization_code" Type="CS_Organization" IsForeignKey="true" />
+      <Association Name="FK_Period_Finance_Version" Member="FIN_Version" ThisKey="Version_code" OtherKey="Version_code" Type="FIN_Version" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Permission" Member="CS_Permission">
+    <Type Name="CS_Permission">
+      <Column Name="permission_code" Member="Permission_code" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="permission_description" Member="Permission_description" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Permission_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Role_Permission_Permission_Code" Member="CS_Role_Permission" ThisKey="Permission_code" OtherKey="Permission_code" Type="CS_Role_Permission" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Report_Definition" Member="FIN_Report_Definition">
+    <Type Name="FIN_Report_Definition">
+      <Column Name="report_id" Member="Report_id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="report_name" Member="Report_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="report_type" Member="Report_type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="report_unique_id" Member="Report_unique_id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="report_definition" Member="Report_definition" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="options" Member="Options" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="owner" Member="Owner" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="location" Member="Location" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="date_created" Member="Date_created" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="date_modified" Member="Date_modified" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="FK_FIN.ReportDefinitions_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Role" Member="CS_Role">
+    <Type Name="CS_Role">
+      <Column Name="role_code" Member="Role_code" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="role_description" Member="Role_description" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_App_Role_Role_code" Member="CS_Role_App" ThisKey="Role_code" OtherKey="Role_code" Type="CS_Role_App" DeleteRule="NO ACTION" />
+      <Association Name="FK_Role_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+      <Association Name="FK_Role_Permission_Role_code" Member="CS_Role_Permission" ThisKey="Role_code" OtherKey="Role_code" Type="CS_Role_Permission" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.Role_App" Member="CS_Role_App">
+    <Type Name="CS_Role_App">
+      <Column Name="app_code" Member="App_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="user_code" Member="User_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="role_code" Member="Role_code" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_App_Role_App_Code" Member="CS_App" ThisKey="App_code" OtherKey="App_code" Type="CS_App" IsForeignKey="true" />
+      <Association Name="FK_App_Role_Role_code" Member="CS_Role" ThisKey="Role_code" OtherKey="Role_code" Type="CS_Role" IsForeignKey="true" />
+      <Association Name="FK_App_Role_User_Code" Member="CS_User" ThisKey="User_code" OtherKey="User_code" Type="CS_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.Role_Permission" Member="CS_Role_Permission">
+    <Type Name="CS_Role_Permission">
+      <Column Name="role_code" Member="Role_code" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="permission_code" Member="Permission_code" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_Role_Permission_Permission_Code" Member="CS_Permission" ThisKey="Permission_code" OtherKey="Permission_code" Type="CS_Permission" IsForeignKey="true" />
+      <Association Name="FK_Role_Permission_Role_code" Member="CS_Role" ThisKey="Role_code" OtherKey="Role_code" Type="CS_Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Server_Olap" Member="Server_Olap">
+    <Type Name="Server_Olap">
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="server_code" Member="Server_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="server_id" Member="Server_id" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="server_name" Member="Server_name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="model_name" Member="Model_name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Server_Olap_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.UI_Object" Member="FIN_UI_Object">
+    <Type Name="FIN_UI_Object">
+      <Column Name="object_code" Member="Object_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="client_code" Member="Client_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="object_name" Member="Object_name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="object_blob" Member="Object_blob" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="create_user" Member="Create_user" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="create_timestamp" Member="Create_timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_user" Member="Update_user" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="update_timestamp" Member="Update_timestamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="editable_flag" Member="Editable_flag" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="FK_UI_Object_Client" Member="CS_Client" ThisKey="Client_code" OtherKey="Client_code" Type="CS_Client" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_UI_Object_User" Member="CS_User" ThisKey="Create_user" OtherKey="User_code" Type="CS_User" IsForeignKey="true" />
+      <Association Name="FK_UI_Object_User1" Member="Update_userCS_User" ThisKey="Update_user" OtherKey="User_code" Type="CS_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.UI_Object_Description" Member="FIN_UI_Object_Description">
+    <Type Name="FIN_UI_Object_Description">
+      <Column Name="client_code" Member="Client_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="object_code" Member="Object_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="object_name" Member="Object_name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="FK_UI_Object_Description_Language" Member="CS_Language" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Language" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.User" Member="CS_User">
+    <Type Name="CS_User">
+      <Column Name="user_code" Member="User_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="user_name" Member="User_name" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="user_email" Member="User_email" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="language_code" Member="Language_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="user_password" Member="User_password" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="FK_App_Role_User_Code" Member="CS_Role_App" ThisKey="User_code" OtherKey="User_code" Type="CS_Role_App" DeleteRule="NO ACTION" />
+      <Association Name="FK_Client_User_User" Member="CS_Client_User" ThisKey="User_code" OtherKey="User_code" Type="CS_Client_User" DeleteRule="CASCADE" />
+      <Association Name="FK_User_Address_User" Member="CS_User_Address" ThisKey="User_code" OtherKey="User_code" Type="CS_User_Address" DeleteRule="NO ACTION" />
+      <Association Name="FK_User_Info_User" Member="CS_User_Info" ThisKey="User_code" OtherKey="User_code" Type="CS_User_Info" DeleteRule="NO ACTION" />
+      <Association Name="FK_User_Language" Member="CS_Language" ThisKey="Language_code" OtherKey="Language_code" Type="CS_Language" IsForeignKey="true" />
+      <Association Name="FK_UI_Object_User" Member="FIN_UI_Object" ThisKey="User_code" OtherKey="Create_user" Type="FIN_UI_Object" DeleteRule="CASCADE" />
+      <Association Name="FK_UI_Object_User1" Member="User_codeFIN_UI_Object" ThisKey="User_code" OtherKey="Update_user" Type="FIN_UI_Object" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="CS.User_Address" Member="CS_User_Address">
+    <Type Name="CS_User_Address">
+      <Column Name="user_code" Member="User_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="address_code" Member="Address_code" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="address_name" Member="Address_name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="FK_User_Address_Address" Member="CS_Address" ThisKey="Address_code" OtherKey="Address_code" Type="CS_Address" IsForeignKey="true" />
+      <Association Name="FK_User_Address_User" Member="CS_User" ThisKey="User_code" OtherKey="User_code" Type="CS_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="CS.User_Info" Member="CS_User_Info">
+    <Type Name="CS_User_Info">
+      <Column Name="user_code" Member="User_code" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="info_type" Member="Info_type" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="info_code" Member="Info_code" Type="System.String" DbType="NVarChar(25) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="info_value" Member="Info_value" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="default_flag" Member="Default_flag" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="effective_date" Member="Effective_date" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="expiration_date" Member="Expiration_date" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="info_status_code" Member="Info_status_code" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="status" Member="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="FK_User_Info_Info_Status" Member="CS_Info_Status" ThisKey="Info_status_code" OtherKey="Info_status_code" Type="CS_Info_Status" IsForeignKey="true" />
+      <Association Name="FK_User_Info_Info_Type" Member="CS_Info_Type" ThisKey="Info_type" OtherKey="Info_type" Type="CS_Info_Type" IsForeignKey="true" />
+      <Association Name="FK_User_Info_User" Member="CS_User" ThisKey="User_code" OtherKey="User_code" Type="CS_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="FIN.Version" Member="FIN_Version">
+    <Type Name="FIN_Version">
+      <Column Name="version_code" Member="Version_code" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="version_description" Member="Version_description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="label_code" Member="Label_code" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Association Name="FK_Period_Finance_Version" Member="FIN_Period_Finance" ThisKey="Version_code" OtherKey="Version_code" Type="FIN_Period_Finance" DeleteRule="NO ACTION" />
+      <Association Name="FK_Version_Label" Member="CS_Label" ThisKey="Label_code" OtherKey="Label_code" Type="CS_Label" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="CS.labelDescription" Method="CS_LabelDescription" IsComposable="true">
+    <Parameter Name="LanguageCode" Parameter="languageCode" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="LabelCode" Parameter="labelCode" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.String" DbType="VarChar(200)" />
+  </Function>
+  <Function Name="CS.sp_Encryption_Keys" Method="CS_Sp_Encryption_Keys">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+</Database>

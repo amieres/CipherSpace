@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+    <script type="text/javascript" src="https://user-content-dot-custom-elements.appspot.com/vaadin/vaadin-split-layout/v1.0.0/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="stylesheet" type="text/css" href="/EPFile/css/vaadin-split-layout.css">
+    <link rel="import" type="text/html" href="https://user-content-dot-custom-elements.appspot.com/vaadin/vaadin-split-layout/v1.0.0/vaadin-split-layout/vaadin-split-layout.html">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/incrementaldom/0.5.1/incremental-dom-min.js"></script>
+</head>
+
+<body>
+    <div> </div>
+    <vaadin-split-layout>
+        <div class="splitter-handle">&middot;</div>
+        <div>First content element</div>
+        <div>Second content element</div>
+    </vaadin-split-layout>
+</body>
+<script>
+    var IncrementalDOM = window.IncrementalDOM;
+    var elementOpen = IncrementalDOM.elementOpen;
+    var elementClose = IncrementalDOM.elementClose;
+    var elementVoid = IncrementalDOM.elementVoid;
+    var text = IncrementalDOM.text;
+    var patch = IncrementalDOM.patch;
+    var patchInner = IncrementalDOM.patchInner;
+    var patchOuter = IncrementalDOM.patchOuter;
+
+    render = function () {
+        elementOpen('vaadin-split-layout', '', null, 'onclick', (e) => console.log('click!!'));
+        elementOpen('div', null, [ 'class', 'splitter-handle']);
+        text('&middot;');
+        elementClose('div');
+        elementOpen('div', null, [ 'vaadin-split-layout', 'primary']);
+        text('Hello');
+        elementClose('div');
+        elementOpen('div', null, [ 'vaadin-split-layout', 'secondary']);
+        text('How are you?');
+        elementClose('div');
+        elementClose('vaadin-split-layout');
+    }
+    patch(document.body.firstElementChild, () => render());
+
+</script>
+
+</html>

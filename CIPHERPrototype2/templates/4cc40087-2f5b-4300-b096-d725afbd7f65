@@ -1,0 +1,54 @@
+﻿<div class="flex flexgrow text-center">
+    <div class="flex flexgrow text-center bg-primary">
+        <div class="flex-row flexgrow ">
+            <div class="flex1">
+                <div class="service-item">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                    </span>
+                    <h4>
+                        <strong>Configuration Forms</strong>
+                    </h4>
+                    <a _nav="Configuration: Current User"><p class="bg-primary"><span class="glyphicon glyphicon-user"></span> User</p></a>
+                    <a _nav="Configuration: Installation"><p class="bg-primary">Company</p></a>
+                    <a _nav="Connections">   <p class="bg-primary">Connections</p></a>
+                    <a _nav="Navigation"> <p class="bg-primary">Navigation</p></a>
+                    <a _nav="Users">  <p class="bg-primary">Users</p></a>
+                    <a _nav="Parameters">    <p class="bg-primary">Parameters</p></a>
+                    <a href="#" class="btn btn-light">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-7 flex text-left text flex flexgrow " _include="${param1}" />
+            <div class="flex1" />
+        </div>
+        <!-- /.row (nested) -->
+    </div>
+    <!-- /.col-lg-10 -->
+    <div class="flex flexgrow container" id="HELLO">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr />
+                <h2 class="intro-text text-center">
+                    ${username}, Build a website
+                    <strong>worth visiting</strong>
+                </h2>
+                <hr />
+                <img class="img-responsive img-border img-left" src="/EPFile/image/intro-pic.jpg" alt="" />
+                <hr class="visible-xs" />
+                <p>The boxes used in this template are nested inbetween a normal Bootstrap row and the start of your column layout. The boxes will be full-width boxes, so if you want to make them smaller then you will need to customize.</p>
+                <p>A huge thanks to <a href="http://join.deathtothestockphoto.com/" target="_blank">Death to the Stock Photo</a> for allowing us to use the beautiful photos that make this template really come to life. When using this template, make sure your photos are decent. Also make sure that the file size on your photos is kept to a minumum to keep load times to a minimum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+            </div>
+        </div>
+    </div>
+    <script src="/EPJavaScript/FScript/TestFS.fs"></script>
+    <script> IntelliFactory.Runtime.overwrite = true; </script>
+    <script src="/xEPJavaScript/FScript/FileFS.fs"></script>
+    <script>
+        // <![CDATA[
+        IntelliFactory.Runtime.Start();
+        CIPHERPrototype1.TestFS.showForm_($("#HELLO")[0]);
+        // ]]>
+    </script>
+</div>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/incrementaldom/0.5.1/incremental-dom-min.js"></script>
+
+</head>
+<body>
+    <div id="main"/>
+</body>
+    <script>
+var IncrementalDOM = window.IncrementalDOM      ;
+var elementOpen    = IncrementalDOM.elementOpen ;
+var elementClose   = IncrementalDOM.elementClose;
+var elementVoid    = IncrementalDOM.elementVoid ;
+var text           = IncrementalDOM.text        ;
+var patch          = IncrementalDOM.patch       ;
+var patchInner     = IncrementalDOM.patchInner  ;
+var patchOuter     = IncrementalDOM.patchOuter  ;
+
+var data = {
+    text         : 'Hello World!'
+  , n            : 1             
+  , someCondition: true
+};
+
+let counterSym = Symbol();
+
+function setText(e) {
+    console.log(e.target.value);
+    let n = Number(e.target.value);
+    if (n > 0) data.n = n;
+    else {
+        data.text = "Hello, " + e.target.value + "! ";
+        data.someCondition = e.target.value != "";
+        rerender();
+    }
+}
+
+function rerender() {
+    patch(document.body, () => render(data));
+}
+
+function renderCounter(init) {
+    function reset() { object[counterSym] = init; }
+    let object = elementOpen('div', 'c', null, 'onclick', reset);
+        if (!object[counterSym]) {
+            reset();
+            setInterval(()=>(object[counterSym]++, patchOuter(object, () => renderCounter(init) )), 1000);
+        }
+        text(object[counterSym]).onclick = reset;
+    elementClose('div');
+}
+
+function renderCounters(n) {
+  for(i = 1; i <= n; i++)
+    renderCounter(i * 1000000);
+}
+
+function render(data) {
+  elementVoid('input', '', [ 'type', 'text', 'oninput', setText]);
+  if (data.someCondition) {
+    elementOpen('div', '', null, 'onclick', (e)=> (data.text = "hello!", console.log(data), rerender()));
+        text(data.text);
+        renderCounters(data.n);
+    elementClose('div');
+  }
+}
+
+rerender();
+    </script></html>

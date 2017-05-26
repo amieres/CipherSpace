@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      The The FINTRANS View parameters will be replaced with the
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>The FINTRANS View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
+    <script src="styles/tips.js" type="text/javascript"></script>
+    
+    <script language="javascript" type="text/javascript">
+      function init()
+      {
+        try {
+          websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/websocket");
+          websocket.onmessage = function(evt) { location.reload(); };
+        } catch (e) { /* silently ignore lack of websockets */ }
+      }
+      window.addEventListener("load", init, false);
+    </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fslab.org">fslab.org</a></li>
+          <li><a href="http://fsharp.github.io/FSharp.Data/">F# Data</a></li>
+          <li><a href="http://bluemountaincapital.github.io/Deedle">Deedle</a></li>
+          <li><a href="http://bluemountaincapital.github.io/FSharpRProvider">R Provider</a></li>
+          <li><a href="http://tahahachana.github.io/XPlot/">XPlot</a></li>
+          <li><a href="http://www.mathdotnet.com/">Math.Net</a></li>
+        </ul>
+        <h3 class="muted">Journal</h3>
+      </div>
+      <hr />
+      <div class="row" style="margin-top:30px">
+        <div class="span1"></div>
+        <div class="span10" id="main">
+          <h1>The FINTRANS View</h1>
+<p>For each stream there is a view called <code>&lt;STREAM&gt;.VW_FG_FIN_TRANS2</code> in the <strong><code>ARStaging</code></strong> database.
+Each view is defined in a F# script file called <code>&lt;STREAM&gt;_FG_FIN_TRANS.fsx</code></p>
+<ul>
+<li>Library stream: <code>ARStaging.HPL.VW_FG_FIN_TRANS2</code> view defined in <code>HPL_FG_FIN_TRANS.fsx</code></li>
+<li>Legal stream: <code>ARStaging.HCTO.VW_FG_FIN_TRANS2</code> view defined in <code>HCTO_FG_FIN_TRANS.fsx</code></li>
+<li>Public Works stream: <code>ARStaging.PWE.VW_FG_FIN_TRANS2</code> view defined in <code>PWE_FG_FIN_TRANS.fsx</code></li>
+<li>Health stream: <code>ARStaging.HHD.VW_FG_FIN_TRANS2</code> view defined in <code>HHD_FG_FIN_TRANS.fsx</code></li>
+<li>Courts stream: <code>ARStaging.MCD.VW_FG_FIN_TRANS2</code> view defined in <code>MCD_FG_FIN_TRANS.fsx</code></li>
+<li>Secondary Emergency stream: <code>ARStaging.EMS_MSB.VW_FG_FIN_TRANS2</code> view defined in <code>EMS_MSB_FG_FIN_TRANS.fsx</code></li>
+</ul>
+<p>Al views are identical, and are joined together in the SQL Server table-valued function <code>ARStaging.GENERIC.FN_SOURCE_FG_FIN_TRANS2</code>:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">ALTER</span> <span class="i">FUNCTION</span> <span class="i">GENERIC</span><span class="o">.</span><span class="i">FN_SOURCE_FG_FIN_TRANS2</span>(<span class="o">@</span><span class="i">SOURCE</span> <span class="i">VARCHAR</span>(<span class="n">40</span>), <span class="o">@</span><span class="i">CURRENT_DTE</span> <span class="i">DATE</span> <span class="o">=</span> <span class="i">NULL</span>)
+<span class="i">RETURNS</span> <span class="i">TABLE</span> 
+<span class="i">AS</span> <span class="i">RETURN</span>
+	<span class="i">WITH</span> <span class="i">Data</span> <span class="k">as</span> (
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">EMS_MSB</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>    <span class="i">UNION</span> <span class="i">ALL</span>
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">HPL</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>        <span class="i">UNION</span> <span class="i">ALL</span>
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">PWE</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>        <span class="i">UNION</span> <span class="i">ALL</span>
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">MCD</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>        <span class="i">UNION</span> <span class="i">ALL</span>
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">HCTO</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>       <span class="i">UNION</span> <span class="i">ALL</span>
+        <span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">HHD</span><span class="o">.</span><span class="i">VW_FG_FIN_TRANS2</span>        
+	)
+	<span class="i">SELECT</span> <span class="o">*</span>
+	  <span class="i">FROM</span> <span class="i">Data</span>
+	 <span class="i">WHERE</span> <span class="i">SRC_SYS</span> <span class="o">=</span> <span class="o">@</span><span class="i">SOURCE</span>
+       <span class="i">AND</span> <span class="i">DTE</span> <span class="o">&lt;=</span> <span class="i">ISNULL</span>(<span class="o">@</span><span class="i">CURRENT_DTE</span>, <span class="i">GETDATE</span>())
+</code></pre></td>
+</tr>
+</table>
+<h2>How to run the script to generate the view</h2>
+<p>At the top of the <code>&lt;STREAM&gt;_FG_FIN_TRANS.fsx</code> file there is a section commented out like the following:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">(*</span>
+<span class="c">(*keep*)#load &quot;BetterFSI.fsx&quot;  // &lt;&lt;&lt;==== Execute once in F# Interactive</span>
+
+<span class="c">Do __SOURCE_FILE__ __LINE__ //   HCTOView.Query |&gt; BetterFSI.Copy </span>
+<span class="c">Do __SOURCE_FILE__ __LINE__ //</span>
+<span class="c">Do __SOURCE_FILE__ __LINE__ //</span>
+<span class="c">*)</span>
+</code></pre></td>
+</tr>
+</table>
+<p>In Visual Studio put the cursor on the line that says <code>(*keep*)#load "BetterFSI.fsx"</code> and execute by using right-click and <strong><code>Execute in Interactive</code></strong>.
+This needs to be done only once at the beginning of a session.</p>
+<p>To create the view put the cursor on the line that says <code>HCTOView.Query |&gt; BetterFSI.Copy</code> and execute in interactive. This message will show in F# Interactive:
+<code>Copied to clipboard:
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[HCTO].[VW_FG_FIN_TRANS2]') AND ...</code>
+indicating the SQL query is in the clipboard. Then just paste it into a Sql Server Manager Query window and execute to create/alter the view.</p>
+<h2>Defining the view</h2>
+<p>The view definition starts by including the F# script <code>SlowlyChangingDimensionPlus.fsx</code>
+and opening the modules <code>SlowlyChangingDimensionPlus</code> and <code>Fields</code>.
+The <code>Fields</code> module is defined in the file <code>Fields.fsx</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#load</span> <span class="s">&quot;SlowlyChangingDimensionPlus.fsx&quot;</span>
+
+<span class="k">open</span> <span class="i">SlowlyChangingDimensionPlus</span>
+<span class="k">open</span> <span class="i">Fields</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The view is defined by creating a <code>FactView</code> object</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">HCTOView</span> <span class="o">=</span>
+    <span class="i">FactView</span> (
+        <span class="i">name</span>   <span class="o">=</span> <span class="i">SQLTableView</span><span class="o">.</span><span class="i">New</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;HCTO&quot;</span> <span class="s">&quot;VW_FG_FIN_TRANS2        &quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span>
+      , <span class="i">source</span> <span class="o">=</span> <span class="i">SQLTableView</span><span class="o">.</span><span class="i">New</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;HCTO&quot;</span> <span class="s">&quot;VW_FG_FIN_TRANS_STEP0   &quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The <code>name =</code> parameter indicates the target view name parts in double quotes: <code>DB</code>, <code>Schema</code> and view name.
+For the target <code>DB</code> must be empty <code>""</code>.</p>
+<p>Simmilarly the <code>source =</code> parameter indicates the source view/table for this view (the <code>FROM</code> part of the query).
+The source view must have resolved most of the calculations required leaving the FinTrans view to basically map
+the field names with minimal calculations done in this query. A good exception to this rule are those fields that
+need to use the prefix that identifies the stream, <code>'HCTO'</code> in this example, fields like <code>SRC_SYS</code> and <code>SRC_SYS_ID</code>:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">      , <span class="i">fields</span> <span class="o">=</span> [
+                <span class="i">vwField</span> <span class="i">SRC_SYS</span>                             <span class="s">&quot;&#39;HCTO&#39;                                                          &quot;</span>
+                <span class="i">vwField</span> <span class="i">SRC_SYS_ID</span>                          <span class="s">&quot;&#39;HCTO-&#39; + SRC_SYS_ID                                            &quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The fields are defined by calling vwField passing the field name
+and the SQL value expression between double quotes <code>"'HCTO-' + SRC_SYS_ID "</code>.
+All valid field names are pre-defined in the file <code>Fields.fsx</code>.
+Only those fields with actual data need to be included in this definition.
+Those that are not included will be automatically added by the script using the default value.
+Default values are defined in the file <code>FieldDefault.fsx</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
+<span class="l">  2: </span>
+<span class="l">  3: </span>
+<span class="l">  4: </span>
+<span class="l">  5: </span>
+<span class="l">  6: </span>
+<span class="l">  7: </span>
+<span class="l">  8: </span>
+<span class="l">  9: </span>
+<span class="l"> 10: </span>
+<span class="l"> 11: </span>
+<span class="l"> 12: </span>
+<span class="l"> 13: </span>
+<span class="l"> 14: </span>
+<span class="l"> 15: </span>
+<span class="l"> 16: </span>
+<span class="l"> 17: </span>
+<span class="l"> 18: </span>
+<span class="l"> 19: </span>
+<span class="l"> 20: </span>
+<span class="l"> 21: </span>
+<span class="l"> 22: </span>
+<span class="l"> 23: </span>
+<span class="l"> 24: </span>
+<span class="l"> 25: </span>
+<span class="l"> 26: </span>
+<span class="l"> 27: </span>
+<span class="l"> 28: </span>
+<span class="l"> 29: </span>
+<span class="l"> 30: </span>
+<span class="l"> 31: </span>
+<span class="l"> 32: </span>
+<span class="l"> 33: </span>
+<span class="l"> 34: </span>
+<span class="l"> 35: </span>
+<span class="l"> 36: </span>
+<span class="l"> 37: </span>
+<span class="l"> 38: </span>
+<span class="l"> 39: </span>
+<span class="l"> 40: </span>
+<span class="l"> 41: </span>
+<span class="l"> 42: </span>
+<span class="l"> 43: </span>
+<span class="l"> 44: </span>
+<span class="l"> 45: </span>
+<span class="l"> 46: </span>
+<span class="l"> 47: </span>
+<span class="l"> 48: </span>
+<span class="l"> 49: </span>
+<span class="l"> 50: </span>
+<span class="l"> 51: </span>
+<span class="l"> 52: </span>
+<span class="l"> 53: </span>
+<span class="l"> 54: </span>
+<span class="l"> 55: </span>
+<span class="l"> 56: </span>
+<span class="l"> 57: </span>
+<span class="l"> 58: </span>
+<span class="l"> 59: </span>
+<span class="l"> 60: </span>
+<span class="l"> 61: </span>
+<span class="l"> 62: </span>
+<span class="l"> 63: </span>
+<span class="l"> 64: </span>
+<span class="l"> 65: </span>
+<span class="l"> 66: </span>
+<span class="l"> 67: </span>
+<span class="l"> 68: </span>
+<span class="l"> 69: </span>
+<span class="l"> 70: </span>
+<span class="l"> 71: </span>
+<span class="l"> 72: </span>
+<span class="l"> 73: </span>
+<span class="l"> 74: </span>
+<span class="l"> 75: </span>
+<span class="l"> 76: </span>
+<span class="l"> 77: </span>
+<span class="l"> 78: </span>
+<span class="l"> 79: </span>
+<span class="l"> 80: </span>
+<span class="l"> 81: </span>
+<span class="l"> 82: </span>
+<span class="l"> 83: </span>
+<span class="l"> 84: </span>
+<span class="l"> 85: </span>
+<span class="l"> 86: </span>
+<span class="l"> 87: </span>
+<span class="l"> 88: </span>
+<span class="l"> 89: </span>
+<span class="l"> 90: </span>
+<span class="l"> 91: </span>
+<span class="l"> 92: </span>
+<span class="l"> 93: </span>
+<span class="l"> 94: </span>
+<span class="l"> 95: </span>
+<span class="l"> 96: </span>
+<span class="l"> 97: </span>
+<span class="l"> 98: </span>
+<span class="l"> 99: </span>
+<span class="l">100: </span>
+<span class="l">101: </span>
+<span class="l">102: </span>
+<span class="l">103: </span>
+<span class="l">104: </span>
+<span class="l">105: </span>
+<span class="l">106: </span>
+<span class="l">107: </span>
+<span class="l">108: </span>
+<span class="l">109: </span>
+<span class="l">110: </span>
+<span class="l">111: </span>
+<span class="l">112: </span>
+<span class="l">113: </span>
+<span class="l">114: </span>
+<span class="l">115: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">                <span class="i">vwField</span> <span class="i">BUS_AREA_ID</span>                         <span class="s">&quot;&#39;9000&#39;                                                          &quot;</span>
+<span class="c">// DIM_CARRIER                                                                                                                  </span>
+                <span class="i">vwField</span> <span class="i">CARRIER_SRC</span>                         <span class="s">&quot;&#39;HCTO&#39;                                                          &quot;</span>
+<span class="c">// DIM_CARRIER PROCEDURE                                                                                                       </span>
+                <span class="i">vwField</span> <span class="i">CARRIER_PROCEDURE_SRC</span>               <span class="s">&quot;&#39;HCTO&#39;                                                          &quot;</span>
+<span class="c">// DIM_COH_ORG                                                                                                                  </span>
+                <span class="i">vwField</span> <span class="i">DEPT_LONG_NAME</span>                      <span class="s">&quot;&#39;Legal Department&#39;                                              &quot;</span>
+                <span class="i">vwField</span> <span class="i">DIV_LONG_NAME</span>                       <span class="s">&quot;&#39;Treasury&#39;                                                      &quot;</span>
+<span class="c">// DIM_COLL_PERSON                                                                                                              </span>
+                <span class="i">vwField</span> <span class="i">COLL_PERSON_ID</span>                      <span class="s">&quot;&#39;HCTO-111&#39;                                                      &quot;</span>
+                <span class="i">vwField</span> <span class="i">COLL_PERSON_NAME</span>                    <span class="s">&quot;&#39;Harris County Employee&#39;                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">DIGITECH_ID</span>                         <span class="s">&quot;&#39;HCTO generic&#39;                                                  &quot;</span>
+                <span class="i">vwField</span> <span class="i">HCTO_AD_VAL_ID</span>                      <span class="s">&quot;&#39;Harris County Employee&#39;                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">COLL_PERSON_TYPE</span>                    <span class="s">&quot;&#39;COH Contractor&#39;                                                &quot;</span>
+                
+<span class="c">// DIM_CONTR                                                                                                                     </span>
+                <span class="i">vwField</span> <span class="i">CONTR_ID</span>                            <span class="s">&quot;&#39;4600013183&#39;                                                    &quot;</span>
+<span class="c">// DIM_CUST                                                                                                                      </span>
+                <span class="i">vwField</span> <span class="i">CUST_ID</span>                             <span class="s">&quot;&#39;HCTO-&#39;+ CAN                                                    &quot;</span>
+                <span class="i">vwField</span> <span class="i">CONFI_CUST_FLAG</span>                     <span class="s">&quot;&#39;N&#39;                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_NAME</span>                           <span class="s">&quot;NAMELINE1                                                       &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_IS_VEND_FLAG</span>                   <span class="s">&quot;&#39;N&#39;                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">JV_CUST_FLAG</span>                        <span class="s">&quot;&#39;N&#39;                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_ADDR_LINE_1</span>                    <span class="s">&quot;NAMELINE2                                                       &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_ADDR_LINE_2</span>                    <span class="s">&quot;NAMELINE3                                                       &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_ADDR_LINE_3</span>                    <span class="s">&quot;NAMELINE4                                                       &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_IN_CITY_FLAG</span>                   <span class="s">&quot;IIF(CITY=&#39;HOUSTON&#39;,&#39;Y&#39;,&#39;N&#39;)                                     &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_CITY</span>                           <span class="s">&quot;CITY                                                            &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_STATE</span>                          <span class="s">&quot;STATE                                                           &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_CTRY</span>                           <span class="s">&quot;COUNTRY                                                         &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_ZIP_CODE</span>                       <span class="s">&quot;SUBSTRING(ZIPCODE,1,5)                                          &quot;</span>
+                <span class="i">vwField</span> <span class="i">CUST_ZIP_PLUS_4</span>                     <span class="s">&quot;SUBSTRING(ZIPCODE,1,13)                                         &quot;</span>
+<span class="c">// DIM_CUST_PAR                                                                                                                  </span>
+<span class="c">// DIM DTE                                                                                                                       </span>
+                <span class="i">vwField</span> <span class="i">DTE</span>                                 <span class="s">&quot;TRANS_DTE                                                       &quot;</span>
+<span class="c">// DIM EMP                                                                                                                       </span>
+                <span class="i">vwField</span> <span class="i">EMP_TYPE</span>                            <span class="s">&quot;&#39;COH Contractor&#39;                                                &quot;</span>
+                <span class="i">vwField</span> <span class="i">EMP_NAME</span>                            <span class="s">&quot;&#39;Harris County Employee&#39;                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">COH_EMP_NUM</span>                         <span class="s">&quot;&#39;HCTO-111&#39;                                                      &quot;</span>
+<span class="c">// DIM_FIN_TRANS_TYPE                                                                                                            </span>
+                <span class="i">vwField</span> <span class="i">MSTR_TRANS_TYPE</span>                     <span class="s">&quot;MSTR_TRANS_TYPE                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">DET_TRANS_DESCR</span>                     <span class="s">&quot;DET_TRANS_DESCR                                                 &quot;</span>
+                <span class="i">vwField</span> <span class="i">DET_TRANS_CODE</span>                      <span class="s">&quot;&#39;HCTO-&#39; + MSTR_TRANS_TYPE                                       &quot;</span>
+<span class="c">// DIM INCDT                                                                                                                     </span>
+                <span class="i">vwField</span> <span class="i">INV_NUM</span>                             <span class="s">&quot;SRC_SYS_ID                                                      &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_DESCR</span>                         <span class="s">&quot;&#39;Property ownership&#39;                                            &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_TYPE</span>                          <span class="s">&quot;&#39;Property ownership&#39;                                            &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_CAT</span>                           <span class="s">&quot;&#39;Property ownership&#39;                                            &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_DTE</span>                           <span class="s">&quot;CONVERT(DATETIME,&#39;10/1/&#39;+CONVERT(VARCHAR(4),YEAR))              &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_ADDR_LINE_1</span>                   <span class="s">&quot;CONVERT(VARCHAR,PNUMBER)+&#39; &#39;+PSTRNAME                         &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_ST_NUM</span>                        <span class="s">&quot;PNUMBER                                                         &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_ST_NAME</span>                       <span class="s">&quot;PSTRNAME                                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_IN_CITY_FLAG</span>                  <span class="s">&quot;&#39;Y&#39;                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_STATE</span>                         <span class="s">&quot;&#39;Texas&#39;                                                         &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_CTRY</span>                          <span class="s">&quot;&#39;USA&#39;                                                           &quot;</span>
+                <span class="i">vwField</span> <span class="i">INCDT_ZIP_CODE</span>                      <span class="s">&quot;SUBSTRING(PZIP,1,5)                                             &quot;</span>
+<span class="c">// DIM_ITEM                                                                                                                      </span>
+                <span class="i">vwField</span> <span class="i">ITEM_TYPE</span>                           <span class="s">&quot;&#39;Ad Valorem Property&#39;                                           &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_ADDR_LINE_1</span>                    <span class="s">&quot;CONVERT(VARCHAR,PNUMBER)+&#39; &#39;+PSTRNAME                           &quot;</span> 
+                <span class="i">vwField</span> <span class="i">ITEM_ST_NUM</span>                         <span class="s">&quot;CONVERT(VARCHAR(13),PNUMBER)                                    &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_ST_NAME</span>                        <span class="s">&quot;PSTRNAME                                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_IN_CITY_FLAG</span>                   <span class="s">&quot;&#39;Y&#39;                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_STATE</span>                          <span class="s">&quot;&#39;Texas&#39;                                                         &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_DESCR</span>                          <span class="s">&quot;&#39;Property ownership&#39;                                            &quot;</span>
+                <span class="i">vwField</span> <span class="i">ITEM_ZIP_CODE</span>                       <span class="s">&quot;SUBSTRING(PZIP,1,5)                                             &quot;</span>
+<span class="c">// DIM ITEM DET</span>
+<span class="c">//                vwField TAXABLE_PROP_ROLL_TYPE              &quot;Roll Type                                          &quot;            </span>
+<span class="c">//                vwField NUM_OF_ACRES                        &quot;LEGACRES                                                        &quot;</span>
+<span class="c">//                vwField PROP_CLASS_CODE                     &quot;PROPCLASS                         &quot; </span>
+<span class="c">//                vwField CITY_RFPD_JURIS_CODE                &quot;&#39;61&#39;        &quot; </span>
+<span class="c">//                vwField CONFI_ACCT_FLAG                     &quot;&#39;N&#39; &quot; </span>
+<span class="c">//                vwField TAX_DEFERRAL_START_DTE              &quot;TAXDEFSTRT                                                      &quot;</span>
+<span class="c">//                vwField TAX_DEFERRAL_END_DTE                &quot;TAXDEFEND                                                     &quot; </span>
+<span class="c">//                vwField OWNERSHIP_EFF_DTE                   &quot;CONVERT(DATETIME,&#39;1900-01-01 00:00:00.000&#39;) &quot; </span>
+<span class="c">//                vwField APPRAISAL_DISTR_ACCT_NUM            &quot;SUBSTRING(CAN,1,16) &quot; </span>
+<span class="c">//                vwField TAXABLE_PROP_LGL_DESCR_1            &quot;LEGAL1                                                          &quot;</span>
+<span class="c">//                vwField TAXABLE_PROP_LGL_DESCR_2            &quot;LEGAL2                                                          &quot;</span>
+<span class="c">//                vwField TAXABLE_PROP_LGL_DESCR_3            &quot;LEGAL3                                                          &quot;</span>
+<span class="c">//                vwField TAXABLE_PROP_LGL_DESCR_4            &quot;LEGAL4                                                          &quot;</span>
+<span class="c">//                vwField TAXABLE_PROP_LGL_DESCR_5            &quot;LEGAL5                                                          &quot;</span>
+<span class="c">//                vwField TAX_ROLL_CODE                       &quot;ROLL                                                            &quot;</span>
+<span class="c">//                vwField PROP_CLASS_DESCR                    &quot;Property_Description                                            &quot;</span>
+<span class="c">//                vwField CITY_RFPD_JURIS_DESCR               &quot;&#39;HOUSTON, CITY OF&#39;                                             &quot;</span>
+<span class="c">//                vwField TAX_ROLL_DESCR                      &quot;Roll Type                                         &quot;</span>
+<span class="c">//                vwField CAN                                 &quot;SUBSTRING(F.CAN,1,16) &quot;</span>
+<span class="c">// DIM_RECEIVABLE</span>
+                <span class="i">vwField</span> <span class="i">RECEIVABLE_EVER_TRANS_FLAG</span>      <span class="s">&quot;&#39;N&#39;                                                                 &quot;</span>
+                <span class="i">vwField</span> <span class="i">RECEIVABLE_VERS_DELINQ_DTE</span>      <span class="s">&quot;DELINQ_DTE                                                          &quot;</span>
+                <span class="i">vwField</span> <span class="i">RECEIVABLE_VERS_DUE_DTE</span>         <span class="s">&quot;DUEDATE                                                             &quot;</span>
+                <span class="i">vwField</span> <span class="i">RECEIVABLE_VERS_ISSUE_DTE</span>       <span class="s">&quot;CONVERT(DATETIME,&#39;10/1/&#39;+CONVERT(VARCHAR(4), YEAR))                 &quot;</span>
+                <span class="i">vwField</span> <span class="i">RECEIVABLE_VERS_TO_DTE</span>          <span class="s">&quot;CONVERT(DATETIME,&#39;10/1/&#39;+CONVERT(VARCHAR(4), YEAR))                 &quot;</span>
+                <span class="i">vwField</span> <span class="i">VERS_ASSIGNED_VEND</span>              <span class="s">&quot;&#39;0000106846&#39;                                                        &quot;</span>
+                <span class="i">vwField</span> <span class="i">ORIG_BILL_NAME</span>                  <span class="s">&quot;NAMELINE1                                                           &quot;</span>
+                <span class="i">vwField</span> <span class="i">UNK_CUST_AT_BILL_FLAG</span>           <span class="s">&quot;&#39;N&#39;                                                                 &quot;</span>
+<span class="c">// Dim_Receivable_Det DIM_RECEIVABLE_AD_VAL_RECEIVABLE_DET</span>
+<span class="c">//                vwField AD_VAL_VET_FLAG                  &quot;VETERAN                                                            &quot;</span>
+<span class="c">//                vwField AD_VAL_DISABLED_FLAG             &quot;DISABLED                                                           &quot;</span>
+<span class="c">//                vwField AD_VAL_OVER_66_FLAG              &quot;OVER65                                                             &quot;</span>
+<span class="c">//                vwField AD_VAL_HOMESTEAD_FLAG            &quot;HOMESTEAD                                                          &quot;</span>
+<span class="c">//                vwField HCAD_ACCT_STAT                   &quot;CAN                                                                &quot;</span>
+<span class="c">//                vwField AD_VAL_TAX_DEFERRAL_START_DTE    &quot;TAXDEFSTRT                                                        &quot;</span>
+<span class="c">//                vwField AD_VAL_TAX_DEFERRAL_END_DTE      &quot;TAXDEFEND                                                         &quot;</span>
+<span class="c">//                vwField 3348_ATTY_FEE_DTE                &quot;DATE_3348                                                         &quot;</span>
+<span class="c">//                vwField 3308_ATTY_FEE_DTE                &quot;DATE_3308                                                         &quot;</span>
+<span class="c">//                vwField 3307_ATTY_FEE_DTE                &quot;DATE_3307                                                         &quot;</span>
+
+
+<span class="c">// FG_FIN_TRANS</span>
+                <span class="i">vwField</span> <span class="i">TRANS_AMT</span>                           <span class="s">&quot;TRANS_AMT	                                                       &quot;</span>      
+                <span class="i">vwField</span> <span class="i">SRC_SYS_TRANS_ID</span>                    <span class="s">&quot;&#39;HCTO&#39;                                                            &quot;</span>      
+              
+                <span class="i">vwField</span> <span class="i">POST_DTE</span>                            <span class="s">&quot;TRANS_DTE                                                          &quot;</span>                               
+        ]
+)
+             
+</code></pre></td>
+</tr>
+</table>
+<h2>The Query</h2>
+<p>The resulting query will have all necessary fields in alphabetical order.
+Data conversion and null checks are added automatically to ensure compatibility
+with the final tables. The type declaration of each field is in the file <code>FieldDecl.fsx</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">IF</span> <span class="i">EXISTS</span> (<span class="i">SELECT</span> <span class="o">*</span> <span class="i">FROM</span> <span class="i">sys</span><span class="o">.</span><span class="i">objects</span> <span class="i">WHERE</span> <span class="i">object_id</span> <span class="o">=</span> <span class="i">OBJECT_ID</span>(<span class="i">N&#39;</span>[<span class="i">HCTO</span>]<span class="o">.</span>[<span class="i">VW_FG_FIN_TRANS2</span>]<span class="o">&#39;</span>) <span class="i">AND</span> <span class="k">type</span> <span class="o">=</span>    <span class="i">N&#39;V&#39;</span>)
+    <span class="i">DROP</span> <span class="i">VIEW</span> [<span class="i">HCTO</span>]<span class="o">.</span>[<span class="i">VW_FG_FIN_TRANS2</span>];
+<span class="i">GO</span>
+<span class="o">--</span> <span class="i">Machine</span><span class="o">-</span><span class="i">generated</span><span class="o">-</span><span class="i">code</span>, <span class="i">DO</span> <span class="i">NOT</span> <span class="i">MODIFY</span> <span class="i">HERE</span>
+<span class="o">--</span> [<span class="i">HCTO</span>]<span class="o">.</span>[<span class="i">VW_FG_FIN_TRANS2</span>] <span class="o">&#39;</span><span class="i">HPL&#39;</span>, <span class="o">&#39;</span><span class="n">2017</span><span class="o">-</span><span class="n">03</span><span class="o">-</span><span class="n">01&#39;</span>
+<span class="i">CREATE</span> <span class="i">VIEW</span> [<span class="i">HCTO</span>]<span class="o">.</span>[<span class="i">VW_FG_FIN_TRANS2</span>]
+
+ <span class="k">as</span> <span class="i">SELECT</span> <span class="i">ADJ_FLAG</span>                                 <span class="o">=</span> <span class="s">&#39;N&#39;</span>
+        , <span class="i">ALLOC_TRANS_FLAG</span>                         <span class="o">=</span> <span class="s">&#39;*&#39;</span>
+        , <span class="i">BILLED_FLAG</span>                              <span class="o">=</span> <span class="s">&#39;Y&#39;</span>
+        , <span class="i">BLK_NUM</span>                                  <span class="o">=</span> <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>
+        , <span class="i">BOOT_SERIAL_NUM</span>                          <span class="o">=</span> <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>
+        , <span class="i">BUS_AREA_ID</span>                              <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">4</span>), <span class="o">&#39;</span><span class="n">9000&#39;</span>), <span class="o">&#39;</span><span class="n">6400&#39;</span>)
+        , <span class="i">BUS_CONT_PERSON_NAME</span>                     <span class="o">=</span> <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>
+        , <span class="i">CARRIER_FIN_CLASS</span>                        <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_FIN_GRP</span>                          <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_GRP</span>                              <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_NAME</span>                             <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_PROCEDURE_BILL_CODE</span>              <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_PROCEDURE_CODE</span>                   <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_PROCEDURE_DESCR</span>                  <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_PROCEDURE_SRC</span>                    <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">120</span>), <span class="o">&#39;</span><span class="i">HCTO&#39;</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">CARRIER_PROCEDURE_TYPE</span>                   <span class="o">=</span> <span class="o">&#39;</span>(<span class="i">SYS</span>) <span class="i">UNKNOWN&#39;</span>
+        , <span class="i">CARRIER_SRC</span>                              <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">120</span>), <span class="o">&#39;</span><span class="i">HCTO&#39;</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">COH_EMP_NUM</span>                              <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">8</span>), <span class="o">&#39;</span><span class="i">HCTO</span><span class="o">-</span><span class="n">111&#39;</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">COLL_PERSON_ID</span>                           <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">20</span>), <span class="o">&#39;</span><span class="i">HCTO</span><span class="o">-</span><span class="n">111&#39;</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">COLL_PERSON_NAME</span>                         <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">120</span>), <span class="o">&#39;</span><span class="i">Harris</span> <span class="i">County</span> <span class="i">Employee&#39;</span>), <span class="o">&#39;</span><span class="i">Employee&#39;</span>)
+        , <span class="i">COLL_PERSON_TYPE</span>                         <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">40</span>), <span class="o">&#39;</span><span class="i">COH</span> <span class="i">Contractor&#39;</span>), <span class="o">&#39;</span><span class="i">COH</span> <span class="i">Contractor&#39;</span>)
+        , <span class="i">CONFI_CUST_FLAG</span>                          <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">1</span>), <span class="s">&#39;N&#39;</span>), <span class="s">&#39;Y&#39;</span>)
+        , <span class="i">CONTR_ID</span>                                 <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">10</span>), <span class="o">&#39;</span><span class="n">4600013183&#39;</span>), <span class="o">&#39;</span><span class="n">4600012363&#39;</span>)
+        , <span class="i">CUST_ADDR_LINE_1</span>                         <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">200</span>), <span class="i">NAMELINE2</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">CUST_ADDR_LINE_2</span>                         <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">200</span>), <span class="i">NAMELINE3</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+        , <span class="i">CUST_ADDR_LINE_3</span>                         <span class="o">=</span> <span class="i">ISNULL</span>(<span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">200</span>), <span class="i">NAMELINE4</span>), <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>)
+<span class="o">..</span><span class="o">.</span>
+        , <span class="i">TRANS_AMT</span>                                <span class="o">=</span> <span class="i">CONVERT</span>(<span class="i">money</span>, <span class="i">TRANS_AMT</span>)
+        , <span class="i">TRANS_CNT</span>                                <span class="o">=</span> <span class="n">1</span>
+        , <span class="i">UNK_CUST_AT_BILL_FLAG</span>                    <span class="o">=</span> <span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">1</span>), <span class="s">&#39;N&#39;</span>)
+        , <span class="i">VERS_ASSIGNED_VEND</span>                       <span class="o">=</span> <span class="i">CONVERT</span>(<span class="i">varchar</span>(<span class="n">120</span>), <span class="o">&#39;</span><span class="n">0000106846&#39;</span>)
+        , <span class="i">VIO_CODE</span>                                 <span class="o">=</span> <span class="o">&#39;</span><span class="o">***</span><span class="o">&#39;</span>
+ <span class="i">FROM</span> [<span class="i">HCTO</span>]<span class="o">.</span>[<span class="i">VW_FG_FIN_TRANS_STEP0</span>];
+; 
+<span class="i">GO</span>
+</code></pre></td>
+</tr>
+</table>
+
+
+          
+        </div>
+        <div class="span1"></div>
+      </div>
+      <hr style="margin-top:50px;"/>
+      <footer class="footer" style="text-align:center">
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  //this.page.url = "http://The FINTRANS View.html";  // Replace PAGE_URL with your page's canonical URL variable
+                  this.page.identifier = "The FINTRANS View"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+              };
+              (function () { // DON'T EDIT BELOW THIS LINE
+                  var d = document, s = d.createElement('script');
+                  s.src = 'https://amieresgithub.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </div>
+  </body>
+</html>

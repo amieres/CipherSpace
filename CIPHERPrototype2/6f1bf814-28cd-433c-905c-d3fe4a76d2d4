@@ -1,0 +1,101 @@
+﻿<div class="row text-center">
+    <div class="row text-center  bg-primary">
+        <div class="col-lg-10 col-lg-offset-1">
+            <h2>Financial Statements</h2>
+            <hr class="small" />
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-item">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-cloud fa-stack-1x text-primary"></i>
+                        </span>
+                        <h4>
+                            <strong>Income Statement</strong>
+                        </h4>
+                        <a _nav="IS: By Company"><p class="bg-primary">by Company</p></a>
+                        <a _nav="IS: By Currency"><p class="bg-primary">by Currency</p></a>
+                        <a _nav="IS: By Level">   <p class="bg-primary">by Level</p></a>
+                        <a _nav="IS: By Version"> <p class="bg-primary">by Version</p></a>
+                        <a _nav="IS: By Period">  <p class="bg-primary">by Period</p></a>
+                        <a _nav="IS: By Year">    <p class="bg-primary">by Year</p></a>
+                        <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-item">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-compass fa-stack-1x text-primary"></i>
+                        </span>
+                        <h4>
+                            <strong>Balance Sheet</strong>
+                        </h4>
+                        <a _nav="IS: By Company"><p class="bg-primary">by Company</p></a>
+                        <a _nav="IS: By Currency"><p class="bg-primary">by Currency</p></a>
+                        <a _nav="IS: By Level">   <p class="bg-primary">by Level</p></a>
+                        <a _nav="IS: By Version"> <p class="bg-primary">by Version</p></a>
+                        <a _nav="IS: By Period">  <p class="bg-primary">by Period</p></a>
+                        <a _nav="IS: By Year">    <p class="bg-primary">by Year</p></a>
+                        <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-item">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-flask fa-stack-1x text-primary"></i>
+                        </span>
+                        <h4>
+                            <strong>Expenses</strong>
+                        </h4>
+                        <a _nav="Sales &amp; Marketing"><p class="bg-primary">Sales &amp; Marketing</p></a>
+                        <a _nav="G&amp;A">              <p class="bg-primary">G&amp;A</p></a>
+                        <a _nav="R&amp;D">              <p class="bg-primary">R&amp;D</p></a>
+                        <a _nav="Payroll">          <p class="bg-primary">Payroll</p></a>
+                        <a _nav="by Department">    <p class="bg-primary">by Department</p></a>
+                        <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-item">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-shield fa-stack-1x text-primary"></i>
+                        </span>
+                        <h4>
+                            <strong>Cash Flow</strong>
+                        </h4>
+                        <a _nav="IS: By Company"><p class="bg-primary">by Company</p></a>
+                        <a _nav="IS: By Currency"><p class="bg-primary">by Currency</p></a>
+                        <a _nav="IS: By Level">   <p class="bg-primary">by Level</p></a>
+                        <a _nav="IS: By Version"> <p class="bg-primary">by Version</p></a>
+                        <a _nav="IS: By Period">  <p class="bg-primary">by Period</p></a>
+                        <a _nav="IS: By Year">    <p class="bg-primary">by Year</p></a>
+                        <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+    </div>
+        <!-- /.col-lg-10 -->
+        <div class="container">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr />
+                    <h2 class="intro-text text-center">
+                        ${username}, Build a website
+                        <strong>worth visiting</strong>
+                    </h2>
+                    <hr />
+                    <img class="img-responsive img-border img-left" src="/resources/images/intro-pic.jpg" alt="" />
+                    <hr class="visible-xs" />
+                    <p>The boxes used in this template are nested inbetween a normal Bootstrap row and the start of your column layout. The boxes will be full-width boxes, so if you want to make them smaller then you will need to customize.</p>
+                    <p>A huge thanks to <a href="http://join.deathtothestockphoto.com/" target="_blank">Death to the Stock Photo</a> for allowing us to use the beautiful photos that make this template really come to life. When using this template, make sure your photos are decent. Also make sure that the file size on your photos is kept to a minumum to keep load times to a minimum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="container flex" style="height: 700px;" _include="IS: By Company" />
+</div>

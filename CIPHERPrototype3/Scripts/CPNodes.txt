@@ -1,0 +1,42 @@
+ClientForm			CPNode/menu.fsx,p:PanelMini2/C.MainForm.leftAndContentNode([],U.mergeDIH([H.Class("container"), H._Style([H._flex("")]), p(0, "Hello", "Dolly"), p("red", "Well", "Hello"), p("yellow", "How", "Are you")]))
+DimAll			CPNode/DimensionEditor.fsx/C.DimAll.New(FormData, base)
+DimTree			CPNode/DimensionEditor.fsx/dim => C.DimElements.nextD(dim)
+DimensionList			CPNode/d:DimAll,p:PanelMini,t:DimTree,m:MenuBar/ C.MainForm.leftAndContentNode([ p(0,"Dimensions", "select", 0, " ",d) ], [d_.dyn(() => H.Div([ p("green",d_.dimName(),"dim", 0, " ", t(d_.dimO()) ), m ]))] )
+DimensionList1			CPNode/d:DimAll,p:PanelMini,t:DimTree,f:Form/ f(H.Div([ p(0,"Dimensions", "select", 0, " ",d), d_.dyn(() => p("green",d_.dimName(),"dim", 0, " ", t(d_.dimO()) )) ]))
+DimensionList2			CPNode/d:DimAll,PanelMini,DimTree,h:Hover,l:LabelH4/ d_.dyn(() => H.Div([h(d), h(l(d_.dimName())), h(PanelMini(0,d_.dimName(),"dim"),[H._Style([H._background("%23e6e6e6"),H._display("-webkit-box")])]), DimTree(d_.dimO()) ]))
+Form			CPNode/np:NotificationPanelDimAll,ch:form|ChartMockUp.html,m:MenuBar/ content => H.Div([ H.Class("column"), m, H.Div([ H.Class("container"), H.Div([ H.Class("row"), content, np]), H.Div([ H.Class("row"), ch()])  ])])
+Home			CPNode/menu.fsx,d:DimAll,HomeForm/C.MainForm.leftAndContentNode([ d ], [ d_.dyn(()=>HomeForm(d_.dimName())) ])
+HomeForm			CPNode/HomeFormF/ text2Show => HomeFormF(text2Show)
+HomeFormF			CPInclude/form|incHomePage.html/a/b
+Hover			CPNode/Layouts.fsx/ (e, atts) => C.Hoverable.make(atts||[H._Style([H._background("%23e6e6e6")])], e)
+Image			CPNode// img => H.Img([H.Src(U.file(img))])
+LabelH4			CPNode// t => H.H4([U.text(t)])
+MenuBar			CPNode/menu.fsx/C.MenuBar.node()
+NavigationForm			CPNode/menu.fsx,LabelH4,UserForm/C.MainForm.leftAndContentNode([ LabelH4("HELLO") ], [ H.Div([H.NewAttr("dangerouslySetInnerHTML", {__html: UserForm})])  ])
+Notification			CPNode/f:form|Notification.html/(l,r) => f({left:l,right:r}).$1[0]
+NotificationPanel			CPNode/f:form|NotificationPanel.html/ch => {var id = newId('_'); n = f({uniqueId:id}); if(!ch) return n; return H.addChild(n)(H.NewAttr("ref",()=>C.SetNode.run(ch,document.getElementById(id))) ); }
+NotificationPanelDimAll			CPNode/da:DimAll,np:NotificationPanel,n:Notification/np( H.Div( U.mergeDIH([n("Dimension", "Hello"), n("LATIMUR", "Ficus")]) ) )
+PanelMini			CPNode/f:form|MiniPanel.html/(c,t1,t2,l,t3,ch)=>{var id=newId('_');var n=f({color:c,text1:t1,text2:t2,link:l,text3:t3,uniqueId:id});if(!ch) return n; return H.addChild(n)(H.NewAttr("ref",()=>C.SetNode.run(ch,document.getElementById(id))) ); }
+PanelMini2			CPNode/PanelMini/(c, t1, t2, l, t3) => PanelMini(c, t1, t2, l, t3).$1[0]
+
+----------------------------
+Form			CPNode/ch:form|ChartMockUp.html,m:MenuBar/ H.Div([ H.Class("column"), m, H.Div([ H.Class("container")]), ch])
+
+
+ClientForm			CPNode/menu.fsx,p:PanelMini2/C.MainForm.leftAndContentNode([],U.mergeDIH([H.Class("container"), H._Style([H._flex("")]), p(0, "Hello", "Dolly"), p("red", "Well", "Hello"), p("yellow", "How", "Are you")]))
+DimAll			CPNode/DimensionEditor.fsx/C.DimAll.New(FormData, base)
+DimTree			CPNode/DimensionEditor.fsx/p1 => C.DimElements.nextD(p1)
+DimTreeInPanel			CPNode/p:PanelMini,t:DimTree/ (d,n)=>p("green",n,"dim", 0, " ", t(d) ) 
+DimensionList			CPNode/d:DimAll,p:PanelMini,t:DimTree,m:MenuBar/ C.MainForm.leftAndContentNode([ p(0,"Dimensions", "select", 0, " ",d) ], [d_.dyn(() => H.Div([ p("green",d_.dimName(),"dim", 0, " ", t(d_.dimO()) ), m ]))] )
+DimensionList1			CPNode/d:DimAll,p:PanelMini,t:DimTree,m:MenuBar/ H.Div([ H.Class("container column"), m, H.Div([ H.Class("row"), p(0,"Dimensions", "select", 0, " ",d), d_.dyn(() => H.Div([ p("green",d_.dimName(),"dim", 0, " ", t(d_.dimO()) ) ]))] ) ])
+DimensionList2			CPNode/d:DimAll,PanelMini,DimTree,h:Hover,l:LabelH4/ d_.dyn(() => H.Div([h(d), h(l(d_.dimName())), h(PanelMini(0,d_.dimName(),"dim"),[H._Style([H._background("%23e6e6e6"),H._display("-webkit-box")])]), DimTree(d_.dimO()) ]))
+Home			CPNode/menu.fsx,d:DimAll,HomeForm/C.MainForm.leftAndContentNode([ d ], [ d_.dyn(()=>HomeForm(d_.dimName())) ])
+HomeForm			CPNode/HomeFormF/ text2Show => HomeFormF(text2Show)
+HomeFormF			CPInclude/form|incHomePage.html/a/b
+Hover			CPNode/Layouts.fsx/ (e, atts) => C.Hoverable.make(atts||[H._Style([H._background("%23e6e6e6")])], e)
+Image			CPNode// img => H.Img([H.Src(U.file(img))])
+LabelH4			CPNode// t => H.H4([U.text(t)])
+MenuBar			CPNode/menu.fsx/C.MenuBar.node()
+NavigationForm			CPNode/menu.fsx,LabelH4,UserForm/C.MainForm.leftAndContentNode([ LabelH4("HELLO") ], [ H.Div([H.NewAttr("dangerouslySetInnerHTML", {__html: UserForm})])  ])
+PanelMini			CPNode/f:form|MiniPanel.html/(c,t1,t2,l,t3,ch)=>{var id=newId('_');var n=f({color:c,text1:t1,text2:t2,link:l,text3:t3,uniqueId:id});if(!ch) return n; return H.addChild(n)(H.NewAttr("ref",()=>C.SetNode.run(ch,document.getElementById(id))) ); }
+PanelMini2			CPNode/PanelMini/(c, t1, t2, l, t3) => PanelMini(c, t1, t2, l, t3).$1[0]

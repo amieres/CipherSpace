@@ -1,0 +1,14 @@
+﻿<div>
+    <div id = "HELLO" />
+    <script>
+        // <![CDATA[
+        CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/TestFS.fs"], function () {
+            IntelliFactory.Runtime.overwrite = true;
+            CIPHERSpaceLoadFiles(["/EPJavaScript/FScript/FileFS.fs"], function () {
+                IntelliFactory.Runtime.Start();
+                CIPHERPrototype1.TestFS.showForm_($("#HELLO")[0]);
+            });
+        });
+        // ]]>
+    </script>
+</div>

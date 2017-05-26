@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!--
+      The Free Monad - Interpreter pattern in F# parameters will be replaced with the
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Free Monad - Interpreter pattern in F#</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/style.css" />
+    <script src="styles/tips.js" type="text/javascript"></script>
+    
+    <script language="javascript" type="text/javascript">
+      function init()
+      {
+        try {
+          websocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/websocket");
+          websocket.onmessage = function(evt) { location.reload(); };
+        } catch (e) { /* silently ignore lack of websockets */ }
+      }
+      window.addEventListener("load", init, false);
+    </script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fslab.org">fslab.org</a></li>
+          <li><a href="http://fsharp.github.io/FSharp.Data/">F# Data</a></li>
+          <li><a href="http://bluemountaincapital.github.io/Deedle">Deedle</a></li>
+          <li><a href="http://bluemountaincapital.github.io/FSharpRProvider">R Provider</a></li>
+          <li><a href="http://tahahachana.github.io/XPlot/">XPlot</a></li>
+          <li><a href="http://www.mathdotnet.com/">Math.Net</a></li>
+        </ul>
+        <h3 class="muted">Journal</h3>
+      </div>
+      <hr />
+      <div class="row" style="margin-top:30px">
+        <div class="span1"></div>
+        <div class="span10" id="main">
+          <h1>Free Monad - Interpreter pattern in F#</h1>
+<p>An analysis of the Free Monad - Interpreter pattern in F# from a definition
+created by erdeszt and based on: <a href="http://programmers.stackexchange.com/a/242803/145941">http://programmers.stackexchange.com/a/242803/145941</a></p>
+<h2>The DSL</h2>
+<p>First we define a DSL for our actions. Each action points to the next action using the <code>'next</code> generic type,
+every action has a <code>'next</code> that in turn could be a DSL, thus chaining them.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">next</span><span class="o">&gt;</span> <span class="o">=</span>
+    | <span class="i">Set</span> <span class="k">of</span> <span class="i">key</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span> <span class="i">value</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span>  <span class="o">&#39;</span><span class="i">next</span>
+    | <span class="i">Get</span> <span class="k">of</span> <span class="i">key</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span>       (<span class="i">string</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">next</span>)
+</code></pre></td>
+</tr>
+</table>
+<ul>
+<li><code>Get</code> returns a string which is passed to a function. <code>id</code> function can be used to finish the chain.</li>
+<li><code>Set</code> doesn't return anything, so the <code>'next</code> portion is the next DSL element in the chain, or a constant like <code>()</code> to finish.</li>
+</ul>
+<p>Note that used this way <code>'next</code> can be anything. It does not have to be a DSL value, so there is no real implication of a chain of DSLs.</p>
+<p>This is what 3 actions in the DSL may look like.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">ex1</span> <span class="o">=</span> <span class="i">Set</span> (<span class="s">&quot;name&quot;</span>, <span class="s">&quot;John&quot;</span>
+             , <span class="i">Get</span> (<span class="s">&quot;name&quot;</span>
+                  , <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">Set</span> (<span class="s">&quot;greeting&quot;</span>, <span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">name</span>, () )
+                   )
+              )
+</code></pre></td>
+</tr>
+</table>
+<p><code>val ex1 : DSL&lt;DSL&lt;DSL&lt;unit&gt;&gt;&gt; =
+Set ("name","John",Get ("name",&lt;fun:ex1@23-4&gt;))</code></p>
+<p>Notice how the resulting type <code>DSL&lt;DSL&lt;DSL&lt;unit&gt;&gt;&gt;</code> is nested and not generic.
+This means a strongly type function cannot process all posible values.</p>
+<h2>The Free Monad</h2>
+<p>Here comes the Free Monad <code>ChainDSL</code> to the rescue.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span>
+    | <span class="i">Do</span>     <span class="k">of</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span><span class="o">&gt;</span>
+    | <span class="i">Return</span> <span class="k">of</span> <span class="o">&#39;</span><span class="i">a</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The <code>Do</code> option creates a chain of <code>ChainDSL</code>s that ends with the <code>Return</code> option.
+This chain ends up having a type equal to the last <code>DSL</code> in the chain.
+This is almost like creating a <code>List</code> of <code>DSL</code>s (<code>List&lt;DSL&lt;'a&gt;&gt; or DSL&lt;'a&gt; list</code>),
+except that each <code>DSL</code> in the chain can be of a different type.</p>
+<p>Lets look at the same value above with <code>ChainDSL</code>:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">exF1</span> <span class="o">=</span> <span class="i">Do</span> (<span class="i">Set</span> (<span class="s">&quot;name&quot;</span>, <span class="s">&quot;John&quot;</span>
+                  , <span class="i">Do</span> (<span class="i">Get</span> (<span class="s">&quot;name&quot;</span>
+                           , <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">Do</span> (<span class="i">Set</span> (<span class="s">&quot;greeting&quot;</span>, <span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">name</span>, <span class="i">Return</span> () )) 
+                            )
+                       )
+                   )
+              )
+</code></pre></td>
+</tr>
+</table>
+<p><code>val exF1 : ChainDSL&lt;unit&gt; =
+Do (Set ("name","John",Do (Get ("name",&lt;fun:exF1@49-3&gt;))))</code></p>
+<p>Compare the resulting type with the prior case: <code>ChainDSL&lt;unit&gt;</code> vs <code>DSL&lt;DSL&lt;DSL&lt;unit&gt;&gt;&gt;</code>.
+No matter how deep the chain is, the value will always be of type <code>ChainDSL&lt;unit&gt;</code> or <code>ChainDSL&lt;string&gt;</code>.</p>
+<p>But creating the chain is much more complex than before.
+To solve that, lets create two helper functions: get and set.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">get</span> <span class="i">key</span>       <span class="o">=</span> <span class="i">Do</span> (<span class="i">Get</span> (<span class="i">key</span>, <span class="k">fun</span> <span class="i">value</span> <span class="k">-&gt;</span> <span class="i">Return</span> <span class="i">value</span>))
+<span class="k">let</span> <span class="i">set</span> <span class="i">key</span> <span class="i">value</span> <span class="o">=</span> <span class="i">Do</span> (<span class="i">Set</span> (<span class="i">key</span>,     <span class="i">value</span>,   <span class="i">Return</span> ()   ))    
+</code></pre></td>
+</tr>
+</table>
+<p><code>val get : key:string -&gt; ChainDSL&lt;string&gt;</code></p>
+<p><code>val set : key:string -&gt; value:string -&gt; ChainDSL&lt;unit&gt;</code></p>
+<p>Notice <code>get</code> returns a <code>ChainDSL&lt;string&gt;</code> and <code>set</code> returns a <code>ChainDSL&lt;unit&gt;</code>.
+They both return a <code>ChainDSL</code> chain with a single <code>DSL</code> action.</p>
+<p>With these functions we can create Get &amp; Set operations like this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">setName</span>     <span class="i">name</span> <span class="o">=</span> <span class="i">set</span> <span class="s">&quot;name&quot;</span>     <span class="i">name</span>
+<span class="k">let</span> <span class="i">getName</span>          <span class="o">=</span> <span class="i">get</span> <span class="s">&quot;name&quot;</span>
+<span class="k">let</span> <span class="i">setGreeting</span> <span class="i">name</span> <span class="o">=</span> <span class="i">set</span> <span class="s">&quot;greeting&quot;</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">name</span>)
+</code></pre></td>
+</tr>
+</table>
+<p>but they are not chained together like before.</p>
+<h2>Binding it together</h2>
+<p>To chain them we will need to define a bind function for the ChainDSL.
+We start with a map function for DSL, thus making DSL a functor:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">mapDSL</span><span class="o">:</span> (<span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">b</span>) <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">b</span><span class="o">&gt;</span> <span class="o">=</span> 
+    <span class="k">fun</span>     <span class="i">f</span>             <span class="i">action</span>  <span class="k">-&gt;</span>
+        <span class="k">match</span> <span class="i">action</span> <span class="k">with</span>
+        | <span class="i">Get</span> (<span class="i">key</span>,        <span class="i">fNext</span>) <span class="k">-&gt;</span> <span class="i">Get</span> (<span class="i">key</span>,        <span class="i">fNext</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span class="i">f</span>)
+        | <span class="i">Set</span> (<span class="i">key</span>, <span class="i">value</span>,  <span class="i">next</span>) <span class="k">-&gt;</span> <span class="i">Set</span> (<span class="i">key</span>, <span class="i">value</span>,  <span class="i">next</span> <span class="o">|&gt;</span> <span class="i">f</span>)
+</code></pre></td>
+</tr>
+</table>
+<p>All <code>mapDSL</code> does is apply the function <code>f</code> to the <code>'next</code> part of the <code>DSL</code>.
+In other words go to the next node in the chain.</p>
+<p>Next we define the bind function for ChainDSL, finally making it a monad:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">bindChain</span><span class="o">:</span> (<span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">b</span><span class="o">&gt;</span>) <span class="k">-&gt;</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">b</span><span class="o">&gt;</span> <span class="o">=</span>
+    <span class="k">fun</span>        <span class="i">fChain</span>                  <span class="i">chainTo</span>      <span class="k">-&gt;</span>
+        <span class="k">let</span> <span class="k">rec</span> <span class="i">appendTo</span> <span class="i">chain</span> <span class="o">=</span>
+            <span class="k">match</span> <span class="i">chain</span> <span class="k">with</span>
+            | <span class="i">Return</span> <span class="i">a</span>   <span class="k">-&gt;</span> <span class="i">fChain</span> <span class="i">a</span>
+            | <span class="i">Do</span>     <span class="i">dsl</span> <span class="k">-&gt;</span> <span class="i">Do</span> (<span class="i">mapDSL</span> <span class="i">appendTo</span> <span class="i">dsl</span>)
+        <span class="i">appendTo</span> <span class="i">chainTo</span>
+</code></pre></td>
+</tr>
+</table>
+<p><code>bindChain</code> is similar and acts like the List.append function, it concatenates two chains of <code>ChainDSL</code>s.
+The difference is that the chain to be appended <code>fChain</code> is passed within a function.
+<code>bindChain</code> navigates recursively down <code>chainTo</code> and replaces the last element with the result of <code>fChain</code>:</p>
+<ul>
+<li>On the <code>Do</code> side <code>bindChain</code> calls <code>mapDSL</code> to apply the function to the next <code>ChainDSL</code> node.</li>
+<li>On the <code>Return</code> side it replaces the 'Return a' for a call to the chain to be appended <code>fChain</code>.</li>
+</ul>
+<p>In a sense <code>ChainDSL</code> is actually the opposite of a <code>List&lt;DSL&lt;'a&gt;&gt;</code>. In a List new elements are
+inserted at the head, here they are attached at the tail end.</p>
+<p>Now we can bind setName, getName &amp; setResult from above like this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">exF2</span> <span class="o">=</span> <span class="i">setName</span> <span class="s">&quot;John&quot;</span> 
+           <span class="o">|&gt;</span> <span class="i">bindChain</span> (<span class="k">fun</span> _    <span class="k">-&gt;</span> <span class="i">getName</span>         )
+           <span class="o">|&gt;</span> <span class="i">bindChain</span> (<span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">setGreeting</span> <span class="i">name</span>)
+</code></pre></td>
+</tr>
+</table>
+<p><code>val exF2 : ChainDSL&lt;unit&gt; =
+Do (Set ("name","John",Do (Get ("name",&lt;fun:mapDSL@87-2&gt;))))</code></p>
+<p>which is the same as this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">exF3</span> <span class="o">=</span> <span class="i">set</span> <span class="s">&quot;name&quot;</span> <span class="s">&quot;John&quot;</span> 
+           <span class="o">|&gt;</span> <span class="i">bindChain</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;name&quot;</span>                           )
+           <span class="o">|&gt;</span> <span class="i">bindChain</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;greeting&quot;</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">v</span>))
+</code></pre></td>
+</tr>
+</table>
+<p><code>val exF3 : ChainDSL&lt;unit&gt; =
+Do (Set ("name","John",Do (Get ("name",&lt;fun:mapDSL@87-2&gt;))))</code></p>
+<p>and this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> (<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span>) <span class="i">v</span> <span class="i">f</span> <span class="o">=</span> <span class="i">bindChain</span> <span class="i">f</span> <span class="i">v</span>
+
+<span class="k">let</span> <span class="i">exF4</span> <span class="o">=</span> <span class="i">set</span> <span class="s">&quot;name&quot;</span> <span class="s">&quot;John&quot;</span> 
+           <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _    <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;name&quot;</span> 
+           <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">name</span> <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;greeting&quot;</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">name</span>)
+</code></pre></td>
+</tr>
+</table>
+<p><code>val exF4 : ChainDSL&lt;unit&gt; =
+Do (Set ("name","John",Do (Get ("name",&lt;fun:mapDSL@87-2&gt;))))</code></p>
+<h2>Using Computational Expressions</h2>
+<p>Now lets try it with Computational Expressions.
+First we define a builder class.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">ChainDSLBuilder</span> () <span class="o">=</span>
+    <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Return</span>      <span class="i">v</span> <span class="o">=</span> <span class="i">Return</span> <span class="i">v</span>
+    <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">ReturnFrom</span> <span class="i">mv</span> <span class="o">=</span> <span class="i">mv</span>
+    <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Zero</span>       () <span class="o">=</span> <span class="i">Return</span> ()
+    <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Bind</span>   (<span class="i">v</span>, <span class="i">f</span>) <span class="o">=</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="i">f</span>
+
+<span class="k">let</span> <span class="i">chainDSL</span> <span class="o">=</span> <span class="i">ChainDSLBuilder</span> ()
+</code></pre></td>
+</tr>
+</table>
+<p>And now we use the computational expression like this.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">exF5</span> <span class="o">=</span> <span class="i">chainDSL</span> {
+    <span class="k">do!</span>         <span class="i">set</span> <span class="s">&quot;name&quot;</span>     <span class="s">&quot;John&quot;</span>
+    <span class="k">let!</span> <span class="i">name</span> <span class="o">=</span> <span class="i">get</span> <span class="s">&quot;name&quot;</span>
+    <span class="k">do!</span>         <span class="i">set</span> <span class="s">&quot;greeting&quot;</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">name</span>)
+}
+</code></pre></td>
+</tr>
+</table>
+<p><code>val exF5 : ChainDSL&lt;unit&gt; =
+Do (Set ("name","John",Do (Get ("name",&lt;fun:mapDSL@87-2&gt;))))</code></p>
+<h2>The Interpreter(s)</h2>
+<p>Now we are going to create an interpreter to execute the AST created.</p>
+<p>This first version is very simple it does not store or retrieve any values, just prints out the commands.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span class="i">interpreter1</span><span class="o">:</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">a</span> <span class="o">=</span>
+    <span class="k">fun</span>               <span class="i">chain</span>        <span class="k">-&gt;</span>
+        <span class="k">match</span> <span class="i">chain</span> <span class="k">with</span>
+        | <span class="i">Return</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;return %A&quot;</span> <span class="i">v</span>
+                      <span class="i">v</span>
+        | <span class="i">Do</span>   <span class="i">dsl</span> <span class="k">-&gt;</span> 
+            <span class="k">match</span> <span class="i">dsl</span> <span class="k">with</span>
+            | <span class="i">Get</span>(<span class="i">key</span>,        <span class="i">nextF</span>) <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Get %s&quot;</span> <span class="i">key</span>
+                                        <span class="i">nextF</span> (<span class="i">sprintf</span> <span class="s">&quot;&lt;get.%s&gt;&quot;</span> <span class="i">key</span>) 
+            | <span class="i">Set</span>(<span class="i">key</span>, <span class="i">value</span>, <span class="i">next</span> ) <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Set %s &#39;%s&#39;&quot;</span> <span class="i">key</span> <span class="i">value</span>
+                                        <span class="i">next</span>                           
+            <span class="o">|&gt;</span> <span class="i">interpreter1</span>
+
+<span class="i">interpreter1</span> <span class="i">exF5</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>Set name 'John'
+Get name
+Set greeting 'Hello &lt;get.name&gt;'
+return &lt;null&gt;</code></pre></td></tr></table>
+<p>This next version actually stores and retrieves the values in a <code>Map</code> object, and when finished prints its content.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">interpreter2</span> <span class="i">chain</span> <span class="o">=</span> 
+    <span class="k">let</span> <span class="k">rec</span> <span class="i">interpreter2r</span><span class="o">:</span> <span class="i">Map</span><span class="o">&lt;</span><span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="i">ChainDSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">a</span> <span class="o">=</span>
+        <span class="k">fun</span>                <span class="i">dataStore</span>              <span class="i">chain</span>        <span class="k">-&gt;</span>
+            <span class="k">match</span> <span class="i">chain</span> <span class="k">with</span>
+            | <span class="i">Return</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;return %A\n%A&quot;</span> <span class="i">v</span> <span class="i">dataStore</span>
+                          <span class="i">v</span>
+            | <span class="i">Do</span>   <span class="i">dsl</span> <span class="k">-&gt;</span> 
+                <span class="k">match</span> <span class="i">dsl</span> <span class="k">with</span>
+                | <span class="i">Get</span>(<span class="i">key</span>,        <span class="i">nextF</span>) <span class="k">-&gt;</span> <span class="i">dataStore</span> 
+                                            <span class="o">|&gt;</span> <span class="i">Map</span><span class="o">.</span><span class="i">find</span> <span class="i">key</span> 
+                                            <span class="o">|&gt;</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Get %s -&gt; &#39;%s&#39;&quot;</span> <span class="i">key</span> <span class="i">v</span> ; <span class="i">v</span> )
+                                            <span class="o">|&gt;</span> <span class="i">nextF</span>
+                                            <span class="o">|&gt;</span> <span class="i">interpreter2r</span> <span class="i">dataStore</span>
+                | <span class="i">Set</span>(<span class="i">key</span>, <span class="i">value</span>, <span class="i">next</span> ) <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Set %s &#39;%s&#39;&quot;</span> <span class="i">key</span> <span class="i">value</span>
+                                            <span class="i">next</span>
+                                            <span class="o">|&gt;</span> <span class="i">interpreter2r</span> (<span class="i">dataStore</span> <span class="o">|&gt;</span> <span class="i">Map</span><span class="o">.</span><span class="i">add</span> <span class="i">key</span> <span class="i">value</span>)
+
+    <span class="i">interpreter2r</span> (<span class="i">Map</span><span class="o">.</span><span class="i">ofList</span> []) <span class="i">chain</span>
+
+<span class="i">interpreter2</span> <span class="i">exF5</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>Set name 'John'
+Get name -&gt; 'John'
+Set greeting 'Hello John'
+return &lt;null&gt;
+map [("greeting", "Hello John"); ("name", "John")]</code></pre></td></tr></table>
+<p>A slightly longer example:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">chainDSL</span> {
+    <span class="k">do!</span>           <span class="i">set</span> <span class="s">&quot;first-name&quot;</span> <span class="s">&quot;John&quot;</span>
+    <span class="k">do!</span>           <span class="i">set</span> <span class="s">&quot;last-name&quot;</span>  <span class="s">&quot;Smith&quot;</span>
+    <span class="k">let!</span> <span class="i">first</span>  <span class="o">=</span> <span class="i">get</span> <span class="s">&quot;first-name&quot;</span>
+    <span class="k">let!</span> <span class="i">last</span>   <span class="o">=</span> <span class="i">get</span> <span class="s">&quot;last-name&quot;</span>
+    <span class="k">do!</span>           <span class="i">set</span> <span class="s">&quot;full-name&quot;</span> (<span class="i">first</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>  <span class="o">+</span> <span class="i">last</span>)
+    <span class="k">let!</span> <span class="i">full</span>   <span class="o">=</span> <span class="i">get</span> <span class="s">&quot;full-name&quot;</span>
+    <span class="k">return</span>        <span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">full</span>
+}
+<span class="o">|&gt;</span> <span class="i">interpreter2</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Output:</p>
+<table class="pre"><tr><td><pre><code>Set first-name 'John'
+Set last-name 'Smith'
+Get first-name -&gt; 'John'
+Get last-name -&gt; 'Smith'
+Set full-name 'John Smith'
+Get full-name -&gt; 'John Smith'
+return "Hello John Smith"
+map
+  [("first-name", "John"); ("full-name", "John Smith"); ("last-name", "Smith")]</code></pre></td></tr></table>
+<p>Return value:</p>
+<table class="pre"><tr><td><pre><code>"Hello John Smith"</code></pre></td></tr></table>
+<p>Trying to replicate this last example without the computational expression
+requires explicitly nesting some of the calls.</p>
+<p>It would look like this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">set</span> <span class="s">&quot;first-name&quot;</span> <span class="s">&quot;John&quot;</span> 
+<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;last-name&quot;</span>  <span class="s">&quot;Smith&quot;</span>            
+<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;first-name&quot;</span>                    
+<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">first</span> <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;last-name&quot;</span> 
+                 <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">last</span> <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;full-name&quot;</span> (<span class="i">first</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>  <span class="o">+</span> <span class="i">last</span>)
+<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;full-name&quot;</span>
+<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">full</span>  <span class="k">-&gt;</span> <span class="i">Return</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">full</span>)
+<span class="o">|&gt;</span> <span class="i">interpreter2</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Output:</p>
+<table class="pre"><tr><td><pre><code>Set first-name 'John'
+Set last-name 'Smith'
+Get first-name -&gt; 'John'
+Get last-name -&gt; 'Smith'
+Set full-name 'John Smith'
+Get full-name -&gt; 'John Smith'
+return "Hello John Smith"
+map
+  [("first-name", "John"); ("full-name", "John Smith"); ("last-name", "Smith")]</code></pre></td></tr></table>
+<p>Return value:</p>
+<table class="pre"><tr><td><pre><code>"Hello John Smith"</code></pre></td></tr></table>
+<h2>Two in one</h2>
+<p>So, do we really need two types, the Free Monad and the DSL?</p>
+<p>I do not think it is necessary, the free monad helps in binding the elements of the DSL.
+The same can be achieved just by adding the <code>Return</code> option to the DSL.</p>
+<p>Here is the same implementation with just the DSL type:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">DSL2</span> <span class="o">=</span>
+    <span class="k">type</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span>
+        | <span class="i">Set</span> <span class="k">of</span> <span class="i">key</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span> <span class="i">value</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span>  <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>
+        | <span class="i">Get</span> <span class="k">of</span> <span class="i">key</span><span class="o">:</span> <span class="i">string</span> <span class="o">*</span>       (<span class="i">string</span> <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>)
+        | <span class="i">Return</span> <span class="k">of</span> <span class="o">&#39;</span><span class="i">a</span>
+    
+    <span class="k">let</span> <span class="i">set</span> <span class="i">key</span> <span class="i">value</span> <span class="o">=</span> <span class="i">Set</span> (<span class="i">key</span>, <span class="i">value</span>,          <span class="i">Return</span> ())
+    <span class="k">let</span> <span class="i">get</span> <span class="i">key</span>       <span class="o">=</span> <span class="i">Get</span> (<span class="i">key</span>,        <span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">Return</span> <span class="i">v</span> )
+    
+    <span class="k">let</span> <span class="i">bind</span><span class="o">:</span> (<span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">b</span><span class="o">&gt;</span>) <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">b</span><span class="o">&gt;</span> <span class="o">=</span>
+        <span class="k">fun</span>   <span class="i">fChain</span>             <span class="i">chainTo</span> <span class="k">-&gt;</span>
+           <span class="k">let</span> <span class="k">rec</span> <span class="i">appendTo</span> <span class="i">chain</span> <span class="o">=</span>
+               <span class="k">match</span> <span class="i">chain</span> <span class="k">with</span>
+               | <span class="i">Set</span> (<span class="i">k</span>, <span class="i">v</span>,  <span class="i">next</span>) <span class="k">-&gt;</span> <span class="i">Set</span> (<span class="i">k</span>, <span class="i">v</span>,  <span class="i">next</span> <span class="o">|&gt;</span> <span class="i">appendTo</span>)
+               | <span class="i">Get</span> (<span class="i">k</span>,    <span class="i">fNext</span>) <span class="k">-&gt;</span> <span class="i">Get</span> (<span class="i">k</span>,    <span class="i">fNext</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span class="i">appendTo</span>)
+               | <span class="i">Return</span>  <span class="i">v</span>         <span class="k">-&gt;</span> <span class="i">fChain</span> <span class="i">v</span>
+           <span class="i">appendTo</span> <span class="i">chainTo</span>
+
+    <span class="k">let</span> (<span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span>) <span class="i">v</span> <span class="i">f</span> <span class="o">=</span> <span class="i">bind</span> <span class="i">f</span> <span class="i">v</span>
+
+    <span class="k">let</span> <span class="i">interpreter2</span> <span class="i">dsl</span> <span class="o">=</span>
+        <span class="k">let</span> <span class="k">rec</span> <span class="i">interpreter2r</span><span class="o">:</span> <span class="i">Map</span><span class="o">&lt;</span><span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="i">DSL</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">a</span> <span class="o">=</span>
+            <span class="k">fun</span>                <span class="i">dataStore</span>              <span class="i">dslR</span>    <span class="k">-&gt;</span>
+                <span class="k">match</span> <span class="i">dslR</span> <span class="k">with</span>
+                | <span class="i">Return</span> <span class="i">v</span>               <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;return %A\n%A&quot;</span> <span class="i">v</span> <span class="i">dataStore</span>
+                                            <span class="i">v</span>
+                | <span class="i">Get</span>(<span class="i">key</span>,        <span class="i">nextF</span>) <span class="k">-&gt;</span> <span class="i">dataStore</span> 
+                                            <span class="o">|&gt;</span> <span class="i">Map</span><span class="o">.</span><span class="i">find</span> <span class="i">key</span> 
+                                            <span class="o">|&gt;</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Get %s -&gt; &#39;%s&#39;&quot;</span> <span class="i">key</span> <span class="i">v</span> ; <span class="i">v</span> )
+                                            <span class="o">|&gt;</span> <span class="i">nextF</span>
+                                            <span class="o">|&gt;</span> <span class="i">interpreter2r</span> <span class="i">dataStore</span>
+                | <span class="i">Set</span>(<span class="i">key</span>, <span class="i">value</span>, <span class="i">next</span> ) <span class="k">-&gt;</span> <span class="i">printfn</span> <span class="s">&quot;Set %s &#39;%s&#39;&quot;</span> <span class="i">key</span> <span class="i">value</span>
+                                            <span class="i">next</span>
+                                            <span class="o">|&gt;</span> <span class="i">interpreter2r</span> (<span class="i">dataStore</span> <span class="o">|&gt;</span> <span class="i">Map</span><span class="o">.</span><span class="i">add</span> <span class="i">key</span> <span class="i">value</span>)
+        <span class="i">interpreter2r</span> (<span class="i">Map</span><span class="o">.</span><span class="i">ofList</span> []) <span class="i">dsl</span>
+</code></pre></td>
+</tr>
+</table>
+<p>There you have it the DSL definition, helper functions, the bind function and the interpreter.
+Here is the last example again.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="i">set</span> <span class="s">&quot;first-name&quot;</span> <span class="s">&quot;John&quot;</span> 
+    <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;last-name&quot;</span>  <span class="s">&quot;Smith&quot;</span>            
+    <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;first-name&quot;</span>                    
+    <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">first</span> <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;last-name&quot;</span> 
+                     <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">last</span> <span class="k">-&gt;</span> <span class="i">set</span> <span class="s">&quot;full-name&quot;</span> (<span class="i">first</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>  <span class="o">+</span> <span class="i">last</span>)
+    <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> _     <span class="k">-&gt;</span> <span class="i">get</span> <span class="s">&quot;full-name&quot;</span>
+    <span class="o">&gt;</span><span class="o">&gt;</span><span class="o">=</span> <span class="k">fun</span> <span class="i">full</span>  <span class="k">-&gt;</span> <span class="i">Return</span> (<span class="i">sprintf</span> <span class="s">&quot;Hello %s&quot;</span> <span class="i">full</span>)
+    <span class="o">|&gt;</span> <span class="i">interpreter2</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Output:</p>
+<table class="pre"><tr><td><pre><code>Set first-name 'John'
+Set last-name 'Smith'
+Get first-name -&gt; 'John'
+Get last-name -&gt; 'Smith'
+Set full-name 'John Smith'
+Get full-name -&gt; 'John Smith'
+return "Hello John Smith"
+map
+  [("first-name", "John"); ("full-name", "John Smith"); ("last-name", "Smith")]</code></pre></td></tr></table>
+<p>Return value:</p>
+<table class="pre"><tr><td><pre><code>"Hello John Smith"</code></pre></td></tr></table>
+
+
+          
+        </div>
+        <div class="span1"></div>
+      </div>
+      <hr style="margin-top:50px;"/>
+      <footer class="footer" style="text-align:center">
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  //this.page.url = "http://Free Monad - Interpreter pattern in F#.html";  // Replace PAGE_URL with your page's canonical URL variable
+                  this.page.identifier = "Free Monad - Interpreter pattern in F#"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+              };
+              (function () { // DON'T EDIT BELOW THIS LINE
+                  var d = document, s = d.createElement('script');
+                  s.src = 'https://amieresgithub.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </div>
+  </body>
+</html>
