@@ -23,10 +23,10 @@ namespace OpenGarage
     #nowarn "51" // address-of operator can occur in the code
     #nowarn "1183" // unused 'this' reference
     
-    exception ReturnExceptioneee012e71e3549d78dfb312df501ffb2 of obj
-    exception ReturnNoneExceptioneee012e71e3549d78dfb312df501ffb2
+    exception ReturnException596e15ca5be045f4a0f65a77b4b1adb0 of obj
+    exception ReturnNoneException596e15ca5be045f4a0f65a77b4b1adb0
     [<AutoOpen>]
-    module FuncConvertFinalOverloadeee012e71e3549d78dfb312df501ffb2 =
+    module FuncConvertFinalOverload596e15ca5be045f4a0f65a77b4b1adb0 =
       // This extension member adds to the FuncConvert type and is the last resort member in the method overloading rules. 
       type global.Microsoft.FSharp.Core.FuncConvert with
           /// A utility function to convert function values from tupled to curried form

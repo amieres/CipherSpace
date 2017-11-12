@@ -18,20 +18,21 @@ namespace OpenGarage3
             //Set our view from the "main" layout resource
             SetContentView (Resource.Layout.Main);
             Button button = this.FindViewById<Button>(Resource.Id.OpenGarage);
-            button.Click += OpenGarage_Click;
+            button.Click += OpenGarage_ClickAsync;
         }
 
         private async Task OpenGarageTask(Button button) {
             AmazonLambdaClient client = new AmazonLambdaClient("AKIAJ4WYXXKL3OVIPSGQ", "pPgQGryEOC+nGZvbyqx4LwFv/6i/oRwG/8vbFeom", RegionEndpoint.USEast1);
-            InvokeRequest request     = new InvokeRequest();
-            request.FunctionName      = "activateGarageDoor";
+            InvokeRequest request = new InvokeRequest {
+                FunctionName = "activateGarageDoor"
+            };
             InvokeResponse response   = await client.InvokeAsync(request);
             count++;
             button.Text = "Status: " + response.StatusCode.ToString() + " - " + count.ToString();
         }
 
-        private void OpenGarage_Click(object sender, System.EventArgs e) {
-            OpenGarageTask((Button)sender);
+        private async void OpenGarage_ClickAsync(object sender, System.EventArgs e) {
+            await OpenGarageTask((Button)sender);
         }
     }
 }

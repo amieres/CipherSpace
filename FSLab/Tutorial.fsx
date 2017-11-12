@@ -1,4 +1,5 @@
 (*** hide ***)
+#nowarn "211"
 #load "packages/FsLab/Themes/DefaultWhite.fsx"
 #load "packages/FsLab/FsLab.fsx"
 (**
